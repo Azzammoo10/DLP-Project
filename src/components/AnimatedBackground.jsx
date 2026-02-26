@@ -22,37 +22,20 @@ export default function AnimatedBackground() {
     window.addEventListener("resize", resize);
 
     // Create particles
-    const PARTICLE_COUNT = 60;
+    const PARTICLE_COUNT = 25;
     for (let i = 0; i < PARTICLE_COUNT; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        vx: (Math.random() - 0.5) * 0.4,
-        vy: (Math.random() - 0.5) * 0.4,
-        r: Math.random() * 2 + 0.5,
-        opacity: Math.random() * 0.5 + 0.1,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        r: Math.random() * 1.5 + 0.5,
+        opacity: Math.random() * 0.4 + 0.1,
       });
     }
 
     const draw = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Draw grid
-      ctx.strokeStyle = "rgba(59, 130, 246, 0.03)";
-      ctx.lineWidth = 0.5;
-      const gridSize = 60;
-      for (let x = 0; x < canvas.width; x += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, canvas.height);
-        ctx.stroke();
-      }
-      for (let y = 0; y < canvas.height; y += gridSize) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(canvas.width, y);
-        ctx.stroke();
-      }
 
       // Update & draw particles
       particles.forEach((p) => {
@@ -69,17 +52,17 @@ export default function AnimatedBackground() {
         ctx.fill();
       });
 
-      // Draw connections
+      // Draw connections (reduced distance)
       for (let i = 0; i < particles.length; i++) {
         for (let j = i + 1; j < particles.length; j++) {
           const dx = particles[i].x - particles[j].x;
           const dy = particles[i].y - particles[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 150) {
+          const dist = dx * dx + dy * dy;
+          if (dist < 10000) {
             ctx.beginPath();
             ctx.moveTo(particles[i].x, particles[i].y);
             ctx.lineTo(particles[j].x, particles[j].y);
-            ctx.strokeStyle = `rgba(59, 130, 246, ${0.06 * (1 - dist / 150)})`;
+            ctx.strokeStyle = `rgba(59, 130, 246, ${0.05 * (1 - Math.sqrt(dist) / 100)})`;
             ctx.lineWidth = 0.5;
             ctx.stroke();
           }

@@ -74,3 +74,26 @@ body {
   opacity: 1;
   transform: translateY(0);
 }
+
+/* ─── GPU-accelerated CSS animations (replacing JS repeat:Infinity) ─── */
+@keyframes pulse-soft {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+@keyframes pulse-fast {
+  0%, 100% { opacity: 0.3; }
+  50% { opacity: 0.9; }
+}
+@keyframes dash-flow {
+  to { stroke-dashoffset: -16; }
+}
+@keyframes dash-flow-slow {
+  to { stroke-dashoffset: -14; }
+}
+.anim-pulse { animation: pulse-soft 2s ease-in-out infinite; }
+.anim-pulse-fast { animation: pulse-fast 1.5s ease-in-out infinite; }
+.anim-pulse-d1 { animation: pulse-soft 2s ease-in-out infinite 0.3s; }
+.anim-pulse-d2 { animation: pulse-soft 2s ease-in-out infinite 0.6s; }
+.anim-pulse-d3 { animation: pulse-soft 2s ease-in-out infinite 0.9s; }
+.anim-dash { animation: dash-flow 1s linear infinite; }
+.anim-dash-slow { animation: dash-flow-slow 1.5s linear infinite; }

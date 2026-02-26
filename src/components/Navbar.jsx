@@ -4,12 +4,14 @@ import axaLogo from "../assets/axa.png";
 const NAV_LINKS = [
   { label: "Overview", href: "#overview" },
   { label: "Architecture", href: "#architecture" },
+  { label: "Classification", href: "#classification" },
   { label: "Correlation", href: "#correlation" },
+  { label: "Event Flow", href: "#flow" },
   { label: "Governance", href: "#governance" },
+  { label: "Scenario", href: "#scenario" },
   { label: "Validation", href: "#validation" },
   { label: "Zero Trust", href: "#zerotrust" },
   { label: "Roadmap", href: "#roadmap" },
-  { label: "KPIs", href: "#kpis" },
   { label: "Value", href: "#value" },
 ];
 

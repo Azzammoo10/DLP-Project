@@ -29,14 +29,7 @@ export default function CorrelationModel() {
         </ScrollReveal>
 
         {/* Risk formula visualization */}
-        <ScrollReveal delay={0.15}>
-          <div className="rounded-xl border border-accent/20 bg-accent/5 p-6 md:p-10">
-            <h3 className="mb-6 text-center text-lg font-semibold text-white">
-              Composite Risk Scoring Model
-            </h3>
-            <RiskFormulaDiagram />
-          </div>
-        </ScrollReveal>
+        
       </div>
     </section>
   );

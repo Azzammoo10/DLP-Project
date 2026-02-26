@@ -1,15 +1,21 @@
+import { lazy, Suspense } from "react";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import ExecutiveOverview from "./components/ExecutiveOverview";
-import Architecture from "./components/Architecture";
-import CorrelationModel from "./components/CorrelationModel";
-import GovernanceWorkflow from "./components/GovernanceWorkflow";
-import OffensiveValidation from "./components/OffensiveValidation";
-import ZeroTrust from "./components/ZeroTrust";
-import EvolutionRoadmap from "./components/EvolutionRoadmap";
-import KpiMaturity from "./components/KpiMaturity";
-import BusinessValue from "./components/BusinessValue";
-import Footer from "./components/Footer";
+
+/* Lazy-load sections below the fold for faster initial paint */
+const Architecture = lazy(() => import("./components/Architecture"));
+const DlpServer = lazy(() => import("./components/DlpServer"));
+const DlpAgent = lazy(() => import("./components/DlpAgent"));
+const DataClassification = lazy(() => import("./components/DataClassification"));
+const CorrelationModel = lazy(() => import("./components/CorrelationModel"));
+const CorrelationFlow = lazy(() => import("./components/CorrelationFlow"));
+const GovernanceWorkflow = lazy(() => import("./components/GovernanceWorkflow"));
+const RiskScenario = lazy(() => import("./components/RiskScenario"));
+const OffensiveValidation = lazy(() => import("./components/OffensiveValidation"));
+const ZeroTrust = lazy(() => import("./components/ZeroTrust"));
+const EvolutionRoadmap = lazy(() => import("./components/EvolutionRoadmap"));
+const Footer = lazy(() => import("./components/Footer"));
 
 function App() {
   return (
@@ -18,16 +24,23 @@ function App() {
       <main>
         <Hero />
         <ExecutiveOverview />
-        <Architecture />
-        <CorrelationModel />
-        <GovernanceWorkflow />
-        <OffensiveValidation />
-        <ZeroTrust />
-        <EvolutionRoadmap />
-        <KpiMaturity />
-        <BusinessValue />
+        <Suspense fallback={<div className="h-screen" />}>
+          <Architecture />
+          <DlpServer />
+          <DlpAgent />
+          <DataClassification />
+          <CorrelationModel />
+          <CorrelationFlow />
+          <GovernanceWorkflow />
+          <RiskScenario />
+          <OffensiveValidation />
+          <ZeroTrust />
+          <EvolutionRoadmap />
+        </Suspense>
       </main>
-      <Footer />
+      <Suspense fallback={null}>
+        <Footer />
+      </Suspense>
     </>
   );
 }
