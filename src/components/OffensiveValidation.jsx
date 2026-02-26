@@ -3,9 +3,9 @@ import ScrollReveal from "./ScrollReveal";
 import AttackFlowDiagram from "./AttackFlowDiagram";
 
 const FINDINGS = [
-  { label: "New Snort Signatures", value: "12", color: "#ef4444" },
-  { label: "Wazuh Correlation Rules", value: "8", color: "#f59e0b" },
-  { label: "DLP Policy Refinements", value: "3", color: "#3b82f6" },
+  { label: "Validated Attack Scenarios", value: "3", color: "#ef4444" },
+  { label: "New Correlation Rules", value: "8", color: "#f59e0b" },
+  { label: "DLP Policy Improvements", value: "3", color: "#3b82f6" },
   { label: "Detection Coverage Gain", value: "+18%", color: "#10b981" },
 ];
 
@@ -20,7 +20,7 @@ export default function OffensiveValidation() {
           <SectionHeading
             label="Security Validation"
             title="Controlled Offensive Validation"
-            subtitle="Adversarial simulations that stress-test defensive controls and generate evidence-based tuning recommendations."
+            subtitle="Realistic pentest simulation in a controlled lab: emulate attacker behavior, validate detections, and generate remediation actions before Zero Trust rollout."
           />
         </ScrollReveal>
 
@@ -28,7 +28,7 @@ export default function OffensiveValidation() {
         <ScrollReveal delay={0.1}>
           <div className="mb-12 rounded-xl border border-navy-700 bg-navy-950/50 p-6 md:p-10">
             <h3 className="mb-6 text-center font-mono text-xs tracking-widest text-gray-500 uppercase">
-              Attack Simulation &rarr; Detection Validation
+              Live Pentest Scenario &rarr; SOC Detection Response
             </h3>
             <AttackFlowDiagram />
           </div>
@@ -50,7 +50,7 @@ export default function OffensiveValidation() {
         <ScrollReveal delay={0.3}>
           <div className="mt-8 card-static border-accent/20 bg-accent/5 text-center">
             <p className="text-sm font-medium text-gray-300">
-              All exercises conducted in a controlled lab under documented authorization — aligned with enterprise penetration testing governance.
+              Findings are validated, documented, and converted into hardening actions for the next Zero Trust implementation phase.
             </p>
           </div>
         </ScrollReveal>

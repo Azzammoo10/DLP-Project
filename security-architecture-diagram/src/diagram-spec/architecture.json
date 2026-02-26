@@ -1,0 +1,47 @@
+{
+  "architecture": "Layered Defense",
+  "style": "3d-text",
+  "nodes": [
+    {
+      "id": "ubuntu-central",
+      "name": "Ubuntu Server Central",
+      "layer": "core",
+      "services": ["Wazuh", "DLP", "Snort IDS"]
+    },
+    {
+      "id": "win-finance",
+      "name": "Win-Finance",
+      "layer": "left",
+      "services": ["DLP Agent"]
+    },
+    {
+      "id": "win-rh",
+      "name": "Win-RH",
+      "layer": "right",
+      "services": ["DLP Agent"]
+    },
+    {
+      "id": "kali-linux",
+      "name": "Kali Linux",
+      "layer": "back",
+      "services": ["Pentest"]
+    }
+  ],
+  "links": [
+    {
+      "from": "win-finance",
+      "to": "ubuntu-central",
+      "type": "agent-telemetry"
+    },
+    {
+      "from": "win-rh",
+      "to": "ubuntu-central",
+      "type": "agent-telemetry"
+    },
+    {
+      "from": "kali-linux",
+      "to": "ubuntu-central",
+      "type": "test-traffic"
+    }
+  ]
+}

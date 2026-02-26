@@ -4,7 +4,7 @@ import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
 import AgentAnimation from "./AgentAnimation";
 
-/* ── Detailed monitoring layer descriptions shown on hover ── */
+/* ── Concise monitoring layer details ── */
 const LAYER_DETAILS = {
   file: {
     name: "File Access Monitoring",
@@ -16,14 +16,13 @@ const LAYER_DETAILS = {
       </svg>
     ),
     description:
-      "Hooks into Windows file system APIs (NtCreateFile, NtReadFile, NtWriteFile) via minifilter driver to intercept every file operation in real-time. Captures read, write, copy, rename, and delete events on classified files. Content fingerprinting is applied at access time — generating SHA-256 hashes matched against a central fingerprint index to detect sensitive document movement.",
+      "Monitors sensitive file operations in real time and blocks unauthorized data movement.",
     specs: [
-      "Hook method: Windows Minifilter Driver (FltMgr)",
-      "Operations: CreateFile, ReadFile, WriteFile, Rename, Delete",
-      "Fingerprinting: SHA-256 hash matched against central index",
-      "Detection: Classified file copy to USB, cloud sync, or email attachment",
+      "Engine: Windows Minifilter Driver",
+      "Coverage: read, write, copy, rename, delete",
+      "Output: alert + block for classified files",
     ],
-    detection: "USB copy of CONFIDENTIAL-tagged Excel → immediate block + alert to Wazuh",
+    detection: "Example: classified file copied to USB → blocked + alert",
   },
   process: {
     name: "Process Execution Tracking",
@@ -35,14 +34,13 @@ const LAYER_DETAILS = {
       </svg>
     ),
     description:
-      "Monitors process creation events via Event Tracing for Windows (ETW) at kernel level. Captures parent-child process relationships, command-line arguments, and module loads. Detects unauthorized applications accessing classified content — archiving tools (7-Zip, WinRAR), cloud sync clients (Dropbox, OneDrive personal), steganography tools, and encoding utilities often used for data exfiltration.",
+      "Tracks suspicious process activity around sensitive data access.",
     specs: [
-      "Source: ETW Provider — Microsoft-Windows-Kernel-Process",
-      "Tracked: Process creation, termination, module load, thread injection",
-      "Blocklist: 47 unauthorized applications (archival, stego, P2P)",
-      "Context: Parent PID, command-line args, user SID, integrity level",
+      "Source: ETW kernel process events",
+      "Tracked: process create/stop and command line",
+      "Output: blocked tool + risk alert",
     ],
-    detection: "winrar.exe compressing CONFIDENTIAL folder → block + risk score elevation",
+    detection: "Example: archive tool on sensitive folder → blocked + alert",
   },
   network: {
     name: "Network Connection Monitoring",
@@ -54,14 +52,13 @@ const LAYER_DETAILS = {
       </svg>
     ),
     description:
-      "Captures all outbound TCP/UDP connections from user-space processes using Windows Filtering Platform (WFP) callout drivers. Maps each connection to its originating process and user session. Detects data transfer to external endpoints, unauthorized protocols (FTP, TFTP, IRC), DNS tunneling patterns, and anomalous payload sizes indicating bulk data exfiltration attempts.",
+      "Observes outbound connections and flags exfiltration behavior.",
     specs: [
-      "Engine: Windows Filtering Platform (WFP) callout driver",
-      "Protocols: TCP, UDP, DNS, HTTP/S, FTP, SMTP, custom ports",
-      "Mapping: Connection → Process → User SID → Classification level",
-      "Thresholds: Payload size anomaly (>100MB/session), frequency spike",
+      "Engine: Windows Filtering Platform",
+      "Coverage: TCP/UDP/DNS/HTTP(S)",
+      "Output: network alert to central correlation",
     ],
-    detection: "curl.exe uploading 200MB to external IP via HTTPS → alert + network log to Snort correlation",
+    detection: "Example: large outbound transfer → alert + correlation",
   },
   content: {
     name: "Content Pattern Detection",
@@ -73,41 +70,17 @@ const LAYER_DETAILS = {
       </svg>
     ),
     description:
-      "Applies multi-technique content scanning in real-time before data leaves the endpoint. Combines regex patterns (IBAN, SSN, credit card), keyword dictionaries (GDPR categories), and document fingerprints (exact & partial match) to detect sensitive content across all data channels — clipboard, email drafts, file saves, and print operations. Supports 15+ document formats including PDF, DOCX, XLSX, and compressed archives.",
+      "Scans content patterns and fingerprints before data leaves the endpoint.",
     specs: [
-      "Patterns: 120+ regex rules (PII, financial, health, proprietary)",
-      "Dictionaries: GDPR keyword categories, industry-specific terms",
-      "Fingerprints: SHA-256 exact match + MinHash partial similarity",
-      "Formats: PDF, DOCX, XLSX, PPTX, ZIP, 7Z, TXT, CSV, JSON, XML",
+      "Rules: regex + keywords + fingerprints",
+      "Channels: clipboard, file, email, print",
+      "Output: immediate DLP policy decision",
     ],
-    detection: "Paste of 50+ IBAN numbers into webmail compose → immediate block + critical alert",
+    detection: "Example: sensitive pattern in webmail → blocked + critical alert",
   },
 };
 
 const LAYER_IDS = ["file", "process", "network", "content"];
-
-const COMPARISON = [
-  {
-    aspect: "Detection Scope",
-    local: "Single endpoint — file, process, local network",
-    central: "Cross-endpoint correlation — patterns across users, departments, time",
-  },
-  {
-    aspect: "Response Time",
-    local: "Immediate — block/quarantine at source",
-    central: "Seconds — after log ingestion and rule evaluation",
-  },
-  {
-    aspect: "Context Depth",
-    local: "Limited to local user session and file metadata",
-    central: "Full context: identity, network, history, classification, peer behavior",
-  },
-  {
-    aspect: "Evasion Resistance",
-    local: "Vulnerable to local bypass (process injection, encoding)",
-    central: "Multi-layer correlation detects patterns even if individual layer is evaded",
-  },
-];
 
 export default function DlpAgent() {
   const [activeTool, setActiveTool] = useState(null);
@@ -120,7 +93,7 @@ export default function DlpAgent() {
           <SectionHeading
             label="Endpoint Agent"
             title="Endpoint DLP Agent Architecture"
-            subtitle="Lightweight agent deployed on Windows endpoints providing real-time content inspection, behavioral monitoring, and local enforcement — the first detection layer in the architecture."
+            subtitle="Windows endpoint agent with 4 core controls: file, process, network, and content detection."
           />
         </ScrollReveal>
 
@@ -128,10 +101,10 @@ export default function DlpAgent() {
         <ScrollReveal delay={0.1}>
           <div className="mb-10 rounded-xl border border-navy-700 bg-navy-950/60 p-4 md:p-8">
             <h3 className="mb-2 text-center font-mono text-xs tracking-widest text-gray-500 uppercase">
-              Interactive Agent — Hover each monitoring layer
+              Endpoint Architecture Overview
             </h3>
             <p className="mb-6 text-center text-xs text-gray-600">
-              Each layer represents a real-time monitoring capability running inside dlp-agent.exe
+              Hover each layer to see key points
             </p>
 
             <div className="grid gap-6 lg:grid-cols-2 items-start">
@@ -177,7 +150,7 @@ export default function DlpAgent() {
                       {/* Technical specs */}
                       <div className="rounded-lg border border-navy-700 bg-navy-900/60 p-3 mb-4">
                         <p className="mb-2 font-mono text-[10px] tracking-widest text-gray-500 uppercase">
-                          Technical Specifications
+                          Key Technical Points
                         </p>
                         <ul className="space-y-1.5">
                           {detail.specs.map((spec) => (
@@ -195,7 +168,7 @@ export default function DlpAgent() {
                       {/* Example detection */}
                       <div className="rounded-lg border border-navy-700 bg-navy-900/40 p-3">
                         <p className="mb-1.5 font-mono text-[10px] tracking-widest text-gray-500 uppercase">
-                          Example Detection
+                          Important Example
                         </p>
                         <p className="text-xs font-mono leading-relaxed" style={{ color: detail.color }}>
                           {detail.detection}
@@ -215,7 +188,7 @@ export default function DlpAgent() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                         </svg>
                         <p className="text-sm text-gray-500 font-medium">Hover a monitoring layer</p>
-                        <p className="mt-1 text-xs text-gray-600">to explore its technical details</p>
+                        <p className="mt-1 text-xs text-gray-600">to view important details</p>
                       </div>
                     </motion.div>
                   )}
@@ -228,7 +201,7 @@ export default function DlpAgent() {
         {/* ── Monitoring Layer Quick-Reference Grid ── */}
         <ScrollReveal delay={0.15}>
           <h3 className="mb-5 text-center font-mono text-xs tracking-widest text-gray-500 uppercase">
-            Monitoring Capabilities Overview
+            Endpoint Monitoring Capabilities
           </h3>
         </ScrollReveal>
 
@@ -266,7 +239,7 @@ export default function DlpAgent() {
         <ScrollReveal delay={0.22}>
           <div className="mt-8 rounded-xl border border-navy-700 bg-navy-950/60 p-5">
             <h3 className="mb-3 font-mono text-[10px] tracking-widest text-gray-500 uppercase">
-              Agent Configuration
+              Endpoint Agent Configuration
             </h3>
             <div className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
               {[

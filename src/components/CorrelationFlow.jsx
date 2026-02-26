@@ -6,7 +6,7 @@ const STEPS = [
   {
     step: "01",
     title: "User Action",
-    detail: "An employee performs a data-related operation: file copy to USB, email attachment, cloud upload, print, or screen capture. The action originates on a managed Windows endpoint.",
+    detail: "A user performs a sensitive action on a managed endpoint (copy, email, upload, or print).",
     layer: "User",
     color: "#94a3b8",
     arrow: true,
@@ -14,7 +14,7 @@ const STEPS = [
   {
     step: "02",
     title: "Local Detection — DLP Agent",
-    detail: "Endpoint agent intercepts the operation in real-time. Content inspection engine applies pattern matching (regex, fingerprint, keyword). If sensitive content is detected, a local DLP event is generated with classification level, content hash, user SID, process name, and timestamp. Event forwarded to central server via encrypted syslog.",
+    detail: "DLP agent inspects content in real time and sends classified events to the central server.",
     layer: "Endpoint",
     color: "#3b82f6",
     arrow: true,
@@ -22,7 +22,7 @@ const STEPS = [
   {
     step: "03",
     title: "Network Detection — Snort IDS",
-    detail: "Simultaneously, Snort sensors on the network segment analyze the traffic. Signature-based and protocol analysis rules evaluate the connection. If anomalous patterns are detected (unusual destination, payload size, protocol misuse), a network alert is generated with source/destination IP, matched rule SID, packet metadata, and connection state.",
+    detail: "Snort analyzes traffic and raises alerts for suspicious network behavior.",
     layer: "Network",
     color: "#ef4444",
     arrow: true,
@@ -30,7 +30,7 @@ const STEPS = [
   {
     step: "04",
     title: "Log Ingestion — Wazuh SIEM",
-    detail: "Wazuh manager ingests events from both the DLP agent and Snort IDS in near-real-time. Event normalization standardizes field formats across sources. Decoders extract structured fields for correlation rule evaluation. Events are indexed and available for cross-source pattern matching.",
+    detail: "Wazuh ingests and normalizes DLP and Snort events for unified analysis.",
     layer: "SOC",
     color: "#a855f7",
     arrow: true,
@@ -38,7 +38,7 @@ const STEPS = [
   {
     step: "05",
     title: "Risk Scoring — Composite Calculation",
-    detail: "The correlation engine evaluates the normalized event stream against 200+ rules. When multi-source correlation triggers (DLP + IDS from same source within time window), the risk scoring engine calculates: Content(25%) + Context(20%) + Behavior(25%) + Network(15%) + Identity(15%). The composite score determines severity classification.",
+    detail: "Correlation engine links multi-source events and computes one risk score to set severity.",
     layer: "Engine",
     color: "#f59e0b",
     arrow: true,
@@ -46,7 +46,7 @@ const STEPS = [
   {
     step: "06",
     title: "Governance Escalation",
-    detail: "If score ≥ critical threshold (75) and occurrence count ≥ 5 within 24h: automated incident creation, manager notification via structured template, forensic evidence package generation, and audit trail preservation. The incident enters the investigation lifecycle: Triage → Analysis → Containment → Remediation → Post-Incident Review.",
+    detail: "Critical events trigger automatic escalation, notification, and incident workflow.",
     layer: "Governance",
     color: "#10b981",
     arrow: false,
@@ -61,7 +61,7 @@ export default function CorrelationFlow() {
           <SectionHeading
             label="Event Processing"
             title="End-to-End Event Processing Flow"
-            subtitle="Step-by-step technical walkthrough of how a user action traverses the detection, correlation, scoring, and governance layers."
+            subtitle="Essential flow from user action to detection, correlation, risk scoring, and escalation."
           />
         </ScrollReveal>
 
@@ -124,9 +124,9 @@ export default function CorrelationFlow() {
         <ScrollReveal delay={0.35}>
           <div className="mt-10 rounded-xl border border-navy-700 bg-navy-950/60 p-5 text-center">
             <p className="text-sm text-gray-400">
-              Total processing latency from user action to governance escalation: 
-              <span className="ml-1 font-mono font-bold text-accent-light">&lt; 15 seconds</span>.
-              All events are preserved in append-only storage for forensic reconstruction and regulatory audit.
+              End-to-end response time: 
+              <span className="ml-1 font-mono font-bold text-accent-light">&lt; 15 seconds</span>
+              , with full event retention for audit.
             </p>
           </div>
         </ScrollReveal>

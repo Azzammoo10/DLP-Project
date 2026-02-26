@@ -1,0 +1,1 @@
+<!-- This file contains the 3D architecture diagram representing the layered defense architecture with the Ubuntu server as the central component for Wazuh, DLP, and Snort IDS, along with Windows Finance and Windows RH as DLP agents, and Kali Linux for penetration testing. -->

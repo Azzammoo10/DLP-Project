@@ -14,6 +14,13 @@ const RINGS = [
   { label: "Continuous Evaluation", sub: "Risk Scoring", r: 230, color: "#10b981", fillOpacity: 0.03 },
 ];
 
+const ACCESS_NODES = [
+  { label: "User", x: 300, y: 22, color: "#94a3b8" },
+  { label: "Device", x: 530, y: 190, color: "#06b6d4" },
+  { label: "Application", x: 300, y: 438, color: "#3b82f6" },
+  { label: "Workload", x: 70, y: 190, color: "#a855f7" },
+];
+
 export default function ZeroTrustDiagram() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -35,6 +42,58 @@ export default function ZeroTrustDiagram() {
             </feMerge>
           </filter>
         </defs>
+
+        {/* Access nodes + trust links */}
+        {ACCESS_NODES.map((node, idx) => (
+          <motion.g
+            key={node.label}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : {}}
+            transition={{ delay: 0.25 + idx * 0.12 }}
+          >
+            <motion.line
+              x1={node.x}
+              y1={node.y}
+              x2={cx}
+              y2={cy}
+              stroke={node.color}
+              strokeWidth="1.2"
+              strokeDasharray="6 6"
+              strokeOpacity="0.5"
+              initial={{ pathLength: 0, opacity: 0 }}
+              animate={isInView ? { pathLength: 1, opacity: 0.5 } : {}}
+              transition={{ duration: 0.8, delay: 0.5 + idx * 0.1 }}
+            />
+            <motion.circle
+              r="3"
+              fill={node.color}
+              initial={{ opacity: 0 }}
+              animate={
+                isInView
+                  ? {
+                      cx: [node.x, cx],
+                      cy: [node.y, cy],
+                      opacity: [0, 1, 1, 0],
+                    }
+                  : {}
+              }
+              transition={{ duration: 1.7, delay: 1 + idx * 0.25, repeat: Infinity, repeatDelay: 1.5, ease: "linear" }}
+            />
+
+            <circle cx={node.x} cy={node.y} r="22" fill="#0a0e1a" stroke={node.color} strokeWidth="1.2" opacity="0.9" />
+            <text
+              x={node.x}
+              y={node.y + 4}
+              fill={node.color}
+              fontSize="9"
+              fontWeight="600"
+              textAnchor="middle"
+              fontFamily="Inter, sans-serif"
+            >
+              {node.label}
+            </text>
+          </motion.g>
+        ))}
 
         {/* Rings — from outer to inner so inner overlaps */}
         {[...RINGS].reverse().map((ring, i) => {
@@ -164,7 +223,7 @@ export default function ZeroTrustDiagram() {
             />
           ))}
 
-        {/* "Never Trust, Always Verify" */}
+        {/* Footer caption */}
         <motion.text
           x={cx}
           y={svgH - 16}
@@ -178,7 +237,7 @@ export default function ZeroTrustDiagram() {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 1.5 }}
         >
-          NEVER TRUST — ALWAYS VERIFY
+          ZERO TRUST — CONTINUOUS VERIFICATION
         </motion.text>
       </svg>
     </div>

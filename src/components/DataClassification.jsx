@@ -9,6 +9,33 @@ const LEVELS = [
   { level: "Secret",       badge: "L3", color: "#ef4444", risk: "Critical", score: "+40", policy: "Block all + immediate escalation", examples: "M&A docs, keys, board strategy" },
 ];
 
+const MACHINE_COVERAGE = [
+  {
+    machine: "Win-Finance",
+    role: "Endpoint (DLP Agent)",
+    scope: "Applies L0-L3 classification on local files, clipboard, email and print actions.",
+    color: "#06b6d4",
+  },
+  {
+    machine: "Win-RH",
+    role: "Endpoint (DLP Agent)",
+    scope: "Applies L0-L3 classification on HR datasets and user operations in real time.",
+    color: "#3b82f6",
+  },
+  {
+    machine: "Ubuntu Server Central",
+    role: "Wazuh + DLP + Snort",
+    scope: "Stores and correlates classification events from all machines for alerting and response.",
+    color: "#10b981",
+  },
+  {
+    machine: "Kali Linux",
+    role: "Pentest Validation",
+    scope: "Validates that L2/L3 controls are enforced during authorized attack simulations.",
+    color: "#f43f5e",
+  },
+];
+
 export default function DataClassification() {
   return (
     <section id="classification" className="section-padding">
@@ -17,7 +44,7 @@ export default function DataClassification() {
           <SectionHeading
             label="Data Classification"
             title="Enterprise Data Classification Framework"
-            subtitle="Four-tier model governing DLP enforcement, risk scoring weight, and escalation behavior."
+            subtitle="Professional 4-level model (L0-L3) governing DLP enforcement, risk scoring, and incident escalation across all machines."
           />
         </ScrollReveal>
 
@@ -67,6 +94,31 @@ export default function DataClassification() {
                 ))}
               </tbody>
             </table>
+          </div>
+        </ScrollReveal>
+
+        <ScrollReveal delay={0.16}>
+          <div className="mt-8 rounded-xl border border-navy-700 bg-navy-950/60 p-4 md:p-6">
+            <h3 className="mb-4 text-center font-mono text-xs tracking-widest text-gray-500 uppercase">
+              Classification Coverage by Machine
+            </h3>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              {MACHINE_COVERAGE.map((item) => (
+                <motion.div
+                  key={item.machine}
+                  whileHover={{ y: -2, boxShadow: `0 8px 24px ${item.color}18` }}
+                  className="rounded-lg border border-navy-700 bg-navy-900/50 p-4"
+                >
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                    <p className="text-sm font-semibold text-white">{item.machine}</p>
+                  </div>
+                  <p className="mb-1 text-[11px] font-mono" style={{ color: item.color }}>{item.role}</p>
+                  <p className="text-xs leading-relaxed text-gray-400">{item.scope}</p>
+                </motion.div>
+              ))}
+            </div>
           </div>
         </ScrollReveal>
       </div>

@@ -3,12 +3,12 @@ import ScrollReveal from "./ScrollReveal";
 import RoadmapTimeline from "./RoadmapTimeline";
 
 const PHASE_DETAILS = [
-  { phase: "Phase 1", title: "Foundational DLP", items: ["Symantec DLP", "Classification policies", "Endpoint agents"] },
-  { phase: "Phase 2", title: "SOC Integration", items: ["Wazuh SIEM", "Log onboarding", "Correlation rules"] },
-  { phase: "Phase 3", title: "IDS Layer", items: ["Snort IDS", "Network sensors", "Custom signatures"] },
-  { phase: "Phase 4", title: "Governance", items: ["Escalation workflows", "Threshold triggers", "Manager alerts"] },
-  { phase: "Phase 5", title: "Zero Trust", items: ["Entra ID", "MFA enforcement", "Conditional access"] },
-  { phase: "Phase 6", title: "Purview", items: ["Cloud DLP", "AI classification", "Enterprise governance"] },
+  { phase: "Phase 1", title: "Foundational DLP", items: ["DLP baseline", "Endpoint agents"] },
+  { phase: "Phase 2", title: "SOC Integration", items: ["Wazuh SIEM", "Correlation rules"] },
+  { phase: "Phase 3", title: "IDS Layer", items: ["Snort IDS", "Network visibility"] },
+  { phase: "Phase 4", title: "Governance", items: ["Escalation flow", "Manager alerts"] },
+  { phase: "Phase 5", title: "Zero Trust", items: ["Entra ID", "MFA + Conditional Access"] },
+  { phase: "Phase 6", title: "Purview", items: ["Cloud DLP", "Unified governance"] },
 ];
 
 const statusColors = ["#10b981", "#10b981", "#10b981", "#10b981", "#3b82f6", "#6b7280"];
@@ -24,7 +24,7 @@ export default function EvolutionRoadmap() {
           <SectionHeading
             label="Roadmap"
             title="Architecture Evolution Roadmap"
-            subtitle="Phased maturity — from foundational DLP to enterprise-grade, identity-centric data governance."
+            subtitle="Short phased plan from DLP foundation to Zero Trust and Purview."
           />
         </ScrollReveal>
 
