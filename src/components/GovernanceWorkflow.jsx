@@ -3,7 +3,7 @@ import ScrollReveal from "./ScrollReveal";
 import GovernanceDiagram from "./GovernanceDiagram";
 
 const DETAILS = [
-  { title: "≥5 Occurrence Threshold", desc: "Filters transient anomalies from persistent violations. Reduces alert fatigue by 80%.", color: "#06b6d4" },
+  { title: "Alert Filtering", desc: "Filters transient anomalies from persistent violations to reduce alert fatigue.", color: "#06b6d4" },
   { title: "D+1 Escalation Model", desc: "Validated incidents escalated within one business day. Critical events bypass for immediate routing.", color: "#f59e0b" },
   { title: "Automated Manager Notification", desc: "Structured summaries with severity, data categories, user context, and containment recommendations.", color: "#a855f7" },
   { title: "Investigation Lifecycle", desc: "Triage → Analysis → Containment → Remediation → Post-Incident Review with full audit trail.", color: "#10b981" },

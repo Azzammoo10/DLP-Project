@@ -1,7 +1,5 @@
-import axaLogo from "../assets/axa.png";
-
 /**
- * Footer — AXA branding, author info, and social links.
+ * Footer — Author info and social links.
  */
 export default function Footer() {
   return (
@@ -10,7 +8,9 @@ export default function Footer() {
         <div className="flex flex-col items-center gap-8 md:flex-row md:justify-between">
           {/* Left — Logo + Project */}
           <div className="flex items-center gap-4">
-            <img src={axaLogo} alt="AXA" className="h-10 w-auto opacity-80" />
+            <svg className="h-8 w-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+            </svg>
             <div className="h-8 w-px bg-navy-700" />
             <div>
               <div className="text-sm font-semibold text-white">

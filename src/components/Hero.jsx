@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import axaLogo from "../assets/axa.png";
 import AnimatedBackground from "./AnimatedBackground";
 
 const PORTFOLIO_URL = "https://azzammo.com";
@@ -7,7 +6,7 @@ const PORTFOLIO_URL = "https://azzammo.com";
 
 
 /**
- * Hero Section — Animated particle background, title, AXA branding, CTA buttons.
+ * Hero Section — Animated particle background, title, CTA buttons.
  */
 export default function Hero() {
   return (
@@ -26,15 +25,13 @@ export default function Hero() {
 
       <div className="section-container relative z-10 pt-24 pb-16">
         <div className="max-w-4xl">
-          {/* AXA badge */}
+          {/* Badge */}
           <motion.div
-            className="mb-8 flex items-center gap-3"
+            className="mb-8"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
           >
-            <img src={axaLogo} alt="AXA" className="h-10 w-auto opacity-90" />
-            <div className="h-6 w-px bg-navy-600" />
             <span className="font-mono text-xs tracking-widest text-gray-500 uppercase">
               Cybersecurity Architecture
             </span>

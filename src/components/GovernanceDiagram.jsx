@@ -25,8 +25,8 @@ const STEPS = [
   },
   {
     id: "threshold",
-    label: "Threshold ≥5",
-    sub: "Occurrence filtering",
+    label: "Alert Filter",
+    sub: "Noise reduction",
     color: "#06b6d4",
   },
   {
