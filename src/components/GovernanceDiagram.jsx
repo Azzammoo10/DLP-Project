@@ -6,47 +6,51 @@ import { useRef } from "react";
  * visual pipeline from detection through investigation.
  */
 
+/* SVG icon paths rendered inside each node */
+const ICON_PATHS = {
+  detect: "M13 10V3L4 14h7v7l9-11h-7z", // bolt
+  threshold: "M3 3v18h18M9 17V9m4 8V5m4 12v-4", // bar chart
+  escalate: "M5 15l7-7 7 7", // chevron up
+  notify: "M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6 6 0 10-12 0v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0a3 3 0 11-6 0", // bell
+  investigate: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z", // search
+  resolve: "M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z", // check circle
+};
+
 const STEPS = [
   {
     id: "detect",
     label: "Detection",
     sub: "Multi-source correlation triggers",
-    icon: "⚡",
     color: "#3b82f6",
   },
   {
     id: "threshold",
     label: "Threshold ≥5",
     sub: "Occurrence filtering",
-    icon: "📊",
     color: "#06b6d4",
   },
   {
     id: "escalate",
     label: "D+1 Escalation",
     sub: "Business-day routing",
-    icon: "⬆️",
     color: "#f59e0b",
   },
   {
     id: "notify",
     label: "Manager Alert",
     sub: "Automated notification",
-    icon: "🔔",
     color: "#a855f7",
   },
   {
     id: "investigate",
     label: "Investigation",
     sub: "Formal lifecycle",
-    icon: "🔍",
     color: "#10b981",
   },
   {
     id: "resolve",
     label: "Resolution",
     sub: "Closure & audit trail",
-    icon: "✅",
     color: "#f43f5e",
   },
 ];
@@ -136,15 +140,17 @@ export default function GovernanceDiagram() {
                 stroke={step.color}
                 strokeWidth="1.5"
               />
-              <text
-                x={x + nodeW / 2}
-                y={cy - 12}
-                fill="white"
-                fontSize="18"
-                textAnchor="middle"
-              >
-                {step.icon}
-              </text>
+              <g transform={`translate(${x + nodeW / 2 - 9}, ${cy - 26})`}>
+                <path
+                  d={ICON_PATHS[step.id]}
+                  fill="none"
+                  stroke={step.color}
+                  strokeWidth="1.8"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  transform="scale(0.75)"
+                />
+              </g>
               <text
                 x={x + nodeW / 2}
                 y={cy + 8}

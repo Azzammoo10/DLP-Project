@@ -2,17 +2,12 @@ import { useState, useEffect } from "react";
 import axaLogo from "../assets/axa.png";
 
 const NAV_LINKS = [
-  { label: "Overview", href: "#overview" },
   { label: "Architecture", href: "#architecture" },
-  { label: "Classification", href: "#classification" },
-  { label: "Correlation", href: "#correlation" },
-  { label: "Event Flow", href: "#flow" },
-  { label: "Governance", href: "#governance" },
   { label: "Scenario", href: "#scenario" },
   { label: "Validation", href: "#validation" },
   { label: "Zero Trust", href: "#zerotrust" },
+  { label: "Governance", href: "#governance" },
   { label: "Roadmap", href: "#roadmap" },
-  { label: "Value", href: "#value" },
 ];
 
 export default function Navbar() {
@@ -53,6 +48,16 @@ export default function Navbar() {
               {link.label}
             </a>
           ))}
+          <a
+            href="/DLP-project.pdf"
+            download
+            className="inline-flex items-center gap-1.5 rounded-md bg-accent px-3 py-1.5 text-xs font-semibold text-white shadow-sm shadow-accent/20 transition-all hover:bg-accent-light hover:scale-105"
+          >
+            <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a2 2 0 002 2h14a2 2 0 002-2v-3" />
+            </svg>
+            Download PDF
+          </a>
         </div>
 
         {/* Mobile toggle */}
@@ -85,6 +90,17 @@ export default function Navbar() {
                 {link.label}
               </a>
             ))}
+            <a
+              href="/DLP-project.pdf"
+              download
+              onClick={() => setOpen(false)}
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-accent px-4 py-2 text-sm font-semibold text-white transition-all hover:bg-accent-light"
+            >
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a2 2 0 002 2h14a2 2 0 002-2v-3" />
+              </svg>
+              Download PDF
+            </a>
           </div>
         </div>
       )}

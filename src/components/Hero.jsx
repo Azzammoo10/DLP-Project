@@ -2,6 +2,10 @@ import { motion } from "framer-motion";
 import axaLogo from "../assets/axa.png";
 import AnimatedBackground from "./AnimatedBackground";
 
+const PORTFOLIO_URL = "https://azzammo.com";
+
+
+
 /**
  * Hero Section — Animated particle background, title, AXA branding, CTA buttons.
  */
@@ -70,6 +74,21 @@ export default function Hero() {
             protection and regulatory alignment.
           </motion.p>
 
+          <motion.div
+            className="mt-8 flex items-center gap-4 rounded-lg border border-navy-700/60 bg-navy-900/40 px-5 py-3"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.9 }}
+          >
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-accent/15 ring-1 ring-accent/30">
+              <span className="text-sm font-bold text-accent-light">MA</span>
+            </div>
+            <div>
+              <p className="text-sm font-semibold text-white">Mohamed Azzam</p>
+              <p className="text-xs text-gray-500">DLP Analyst · Security Architecture & Offensive Validation</p>
+            </div>
+          </motion.div>
+
           {/* CTA Buttons */}
           <motion.div
             className="mt-10 flex flex-wrap gap-4"
@@ -81,22 +100,31 @@ export default function Hero() {
               href="#architecture"
               className="inline-flex items-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-accent/25 transition-all hover:bg-accent-light hover:shadow-accent/40 hover:scale-105"
             >
-              View Architecture
+              Explore Architecture
               <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </a>
             <a
-              href="#governance"
-              className="inline-flex items-center gap-2 rounded-lg border border-navy-600 bg-navy-800/50 px-6 py-3 text-sm font-semibold text-gray-300 transition-all hover:border-accent/40 hover:text-white hover:scale-105"
+              href={PORTFOLIO_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-lg border border-accent/40 bg-accent/10 px-6 py-3 text-sm font-semibold text-accent-light transition-all hover:bg-accent/20 hover:text-white hover:scale-105"
             >
-              Governance Model
+              azzammo.com
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 3h7m0 0v7m0-7L10 14" />
+              </svg>
             </a>
             <a
-              href="#validation"
+              href="/DLP-project.pdf"
+              download
               className="inline-flex items-center gap-2 rounded-lg border border-navy-600 bg-navy-800/50 px-6 py-3 text-sm font-semibold text-gray-300 transition-all hover:border-accent/40 hover:text-white hover:scale-105"
             >
-              Security Validation
+              <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3M3 17v3a2 2 0 002 2h14a2 2 0 002-2v-3" />
+              </svg>
+              Download Report
             </a>
           </motion.div>
 
@@ -110,8 +138,7 @@ export default function Hero() {
             {[
               { value: "6", label: "Security Layers" },
               { value: "94%", label: "Detection Coverage" },
-              { value: "<15m", label: "Mean Time to Detect" },
-              { value: "5", label: "Correlation Sources" },
+              { value: "<15s", label: "Detection SLA" },
             ].map((stat) => (
               <div key={stat.label} className="text-center">
                 <div className="font-mono text-2xl font-bold text-accent-light">{stat.value}</div>
