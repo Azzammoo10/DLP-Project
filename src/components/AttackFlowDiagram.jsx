@@ -227,7 +227,7 @@ function Terminal({ lines, label, active, stepColor }) {
         )}
       </div>
       {/* Output */}
-      <div ref={scrollRef} className="h-[280px] overflow-y-auto px-4 py-3 font-mono text-[11px] leading-[1.75] scrollbar-thin"
+      <div ref={scrollRef} className="h-[200px] sm:h-[280px] overflow-y-auto px-3 sm:px-4 py-3 font-mono text-[10px] sm:text-[11px] leading-[1.75] scrollbar-thin"
         style={{ fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace" }}>
         {typed.map((line, i) => (
           <div key={i} className={colorLine(line)}>
@@ -308,7 +308,7 @@ function NetworkMap({ activeStep }) {
   };
 
   return (
-    <div ref={ref} className="rounded-xl border border-navy-700/40 bg-[#060a14] p-3 overflow-hidden">
+    <div ref={ref} className="rounded-xl border border-navy-700/40 bg-[#060a14] p-2 sm:p-3 overflow-x-auto">
       {/* Zone labels */}
       <div className="mb-1 flex justify-between px-2">
         {[
@@ -321,7 +321,7 @@ function NetworkMap({ activeStep }) {
         ))}
       </div>
 
-      <svg viewBox="0 0 730 210" className="w-full" style={{ minHeight: 140 }}>
+      <svg viewBox="0 0 730 210" className="w-full" style={{ minWidth: 500, minHeight: 140 }}>
         <defs>
           {/* Glow filters */}
           <filter id="glow-red" x="-50%" y="-50%" width="200%" height="200%">
@@ -620,7 +620,7 @@ function AttackMetrics({ activeStep, done }) {
   ];
 
   return (
-    <div className="grid grid-cols-3 md:grid-cols-6 gap-2">
+    <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-6">
       {metrics.map((m) => (
         <motion.div key={m.label}
           className="rounded-lg border border-navy-700/40 bg-[#060a14] px-3 py-2 text-center"
@@ -694,7 +694,7 @@ export default function AttackFlowDiagram() {
           </motion.div>
           <div>
             <p className="text-sm font-bold text-white">Pentest Simulation</p>
-            <p className="text-[10px] text-gray-500">Controlled lab environment — authorized red team exercise</p>
+            <p className="hidden sm:block text-[10px] text-gray-500">Controlled lab environment — authorized red team exercise</p>
           </div>
         </div>
         <button onClick={replay}
@@ -708,7 +708,7 @@ export default function AttackFlowDiagram() {
       </div>
 
       {/* ─── Attack Phase Timeline ─── */}
-      <div className="flex items-stretch gap-1.5">
+      <div className="grid grid-cols-2 gap-1.5 sm:flex sm:items-stretch">
         {STEPS.map((step, i) => {
           const isActive = active === i;
           const isDone = active > i || done;
@@ -762,7 +762,7 @@ export default function AttackFlowDiagram() {
                 )}
               </motion.button>
               {i < STEPS.length - 1 && (
-                <motion.div className="mx-1 flex items-center" animate={{ opacity: active > i ? 1 : 0.15 }}>
+                <motion.div className="mx-1 hidden sm:flex items-center" animate={{ opacity: active > i ? 1 : 0.15 }}>
                   <svg className="h-3 w-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 20 12">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M1 6h18m-5-5l5 5-5 5" />
                   </svg>
@@ -794,7 +794,7 @@ export default function AttackFlowDiagram() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
-            className="flex items-center gap-4 rounded-xl border border-red-500/25 bg-gradient-to-r from-red-500/[0.06] to-transparent px-5 py-4"
+            className="flex items-center gap-3 sm:gap-4 rounded-xl border border-red-500/25 bg-gradient-to-r from-red-500/[0.06] to-transparent px-3 sm:px-5 py-3 sm:py-4"
           >
             <motion.div
               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-500/15 ring-2 ring-red-500/25"

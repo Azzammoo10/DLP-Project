@@ -69,7 +69,7 @@ export default function ArchitectureDiagramSVG() {
       <svg
         viewBox="0 0 900 380"
         className="w-full"
-        style={{ minWidth: 620 }}
+        style={{ minWidth: 560 }}
       >
         <defs>
           <pattern id="techGrid" width="28" height="28" patternUnits="userSpaceOnUse">

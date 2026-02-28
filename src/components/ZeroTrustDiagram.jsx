@@ -350,7 +350,7 @@ export default function ZeroTrustDiagram() {
       <div className="flex items-center justify-center gap-1">
         <button
           onClick={() => setView("before")}
-          className={`rounded-l-lg border px-5 py-2 font-mono text-xs font-semibold transition-all ${
+          className={`rounded-l-lg border px-3 sm:px-5 py-2 font-mono text-[10px] sm:text-xs font-semibold transition-all ${
             view === "before"
               ? "border-red-500/40 bg-red-500/10 text-red-400"
               : "border-navy-700 bg-navy-900/40 text-gray-500 hover:text-gray-300"
@@ -361,7 +361,7 @@ export default function ZeroTrustDiagram() {
         </button>
         <button
           onClick={() => setView("after")}
-          className={`rounded-r-lg border px-5 py-2 font-mono text-xs font-semibold transition-all ${
+          className={`rounded-r-lg border px-3 sm:px-5 py-2 font-mono text-[10px] sm:text-xs font-semibold transition-all ${
             view === "after"
               ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
               : "border-navy-700 bg-navy-900/40 text-gray-500 hover:text-gray-300"
@@ -387,7 +387,7 @@ export default function ZeroTrustDiagram() {
 
       {/* Comparison Table */}
       <div className="overflow-hidden rounded-lg border border-navy-700">
-        <div className="grid grid-cols-3 border-b border-navy-700/60 bg-navy-900/60 px-4 py-2">
+        <div className="grid grid-cols-3 border-b border-navy-700/60 bg-navy-900/60 px-2 sm:px-4 py-2">
           <span className="text-[10px] font-semibold tracking-wide text-gray-500 uppercase">Metric</span>
           <span className="text-center text-[10px] font-semibold tracking-wide text-red-400/70 uppercase">Before</span>
           <span className="text-center text-[10px] font-semibold tracking-wide text-emerald-400/70 uppercase">After</span>
@@ -395,14 +395,14 @@ export default function ZeroTrustDiagram() {
         {COMPARISON.map((c, i) => (
           <motion.div
             key={c.metric}
-            className="grid grid-cols-3 border-b border-navy-700/30 px-4 py-2.5 last:border-0"
+            className="grid grid-cols-3 border-b border-navy-700/30 px-2 sm:px-4 py-2.5 last:border-0"
             initial={{ opacity: 0, x: -10 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ delay: 0.3 + i * 0.08 }}
           >
-            <span className="text-xs font-medium text-white">{c.metric}</span>
-            <span className="text-center text-xs text-red-400/80">{c.before}</span>
-            <span className="text-center text-xs font-medium text-emerald-400">{c.after}</span>
+            <span className="text-[10px] sm:text-xs font-medium text-white">{c.metric}</span>
+            <span className="text-center text-[10px] sm:text-xs text-red-400/80">{c.before}</span>
+            <span className="text-center text-[10px] sm:text-xs font-medium text-emerald-400">{c.after}</span>
           </motion.div>
         ))}
       </div>

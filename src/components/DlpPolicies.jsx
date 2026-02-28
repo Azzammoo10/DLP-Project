@@ -46,13 +46,13 @@ function PolicyDiagram() {
   const cat = CATEGORIES.find((c) => c.id === activeCat);
 
   return (
-    <div ref={ref} className="rounded-2xl border border-navy-700/60 bg-[#060a14] p-5 md:p-8 overflow-hidden">
+    <div ref={ref} className="rounded-2xl border border-navy-700/60 bg-[#060a14] p-3 sm:p-5 md:p-8 overflow-hidden">
       {/* Toggle tabs */}
-      <div className="mb-6 flex justify-center gap-3">
+      <div className="mb-6 flex flex-wrap justify-center gap-2 sm:gap-3">
         {CATEGORIES.map((c) => (
           <motion.button key={c.id}
             onClick={() => setActiveCat(c.id)}
-            className="relative rounded-full px-5 py-2 text-xs font-semibold transition-colors"
+            className="relative rounded-full px-3 sm:px-5 py-1.5 sm:py-2 text-[10px] sm:text-xs font-semibold transition-colors"
             style={{
               color: activeCat === c.id ? "#fff" : "#94a3b8",
               borderWidth: 1,

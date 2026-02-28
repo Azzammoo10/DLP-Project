@@ -140,7 +140,7 @@ export default function Hero() {
 
           {/* Animated stats strip */}
           <motion.div
-            className="mt-14 flex flex-wrap gap-8 border-t border-navy-700/50 pt-8"
+            className="mt-14 flex flex-wrap justify-center gap-4 sm:gap-8 border-t border-navy-700/50 pt-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1.3 }}

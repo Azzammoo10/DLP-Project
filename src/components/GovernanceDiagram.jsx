@@ -69,7 +69,7 @@ export default function GovernanceDiagram() {
 
   return (
     <div ref={ref} className="w-full overflow-x-auto">
-      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ minWidth: 700 }}>
+      <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full" style={{ minWidth: 600 }}>
         {/* Connector lines */}
         {STEPS.map((step, i) => {
           if (i === 0) return null;

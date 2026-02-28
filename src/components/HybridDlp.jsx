@@ -38,8 +38,8 @@ function HybridDiagram() {
   });
 
   return (
-    <div ref={ref} className="rounded-2xl border border-navy-700/60 bg-[#060a14] p-5 md:p-8">
-      <svg viewBox="0 0 700 340" className="w-full" style={{ minHeight: 220 }}>
+    <div ref={ref} className="rounded-2xl border border-navy-700/60 bg-[#060a14] p-3 sm:p-5 md:p-8 overflow-x-auto">
+      <svg viewBox="0 0 700 340" className="w-full" style={{ minWidth: 500, minHeight: 220 }}>
         {/* ── Cloud side (Purview) ── */}
         <motion.g {...fade(0.1)}>
           {/* Cloud box */}
