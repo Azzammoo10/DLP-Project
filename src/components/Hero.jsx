@@ -5,6 +5,8 @@ const PORTFOLIO_URL = "https://azzammo.com";
 
 
 
+import axaLogo from "../assets/axa.png";
+
 /**
  * Hero Section — Animated particle background, title, CTA buttons.
  */
@@ -33,7 +35,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
           >
             <span className="font-mono text-xs tracking-widest text-gray-500 uppercase">
-              Cybersecurity Architecture
+              Final Year Internship Project
             </span>
           </motion.div>
 
@@ -47,6 +49,17 @@ export default function Hero() {
             Hybrid Enterprise{" "}
             <span className="gradient-text">DLP Architecture</span>
           </motion.h1>
+
+          {/* AXA context badge */}
+          <motion.div
+            className="mt-3 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-1.5"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.55 }}
+          >
+            <img src={axaLogo} alt="AXA" className="h-4 w-auto object-contain" />
+            <span className="text-xs font-medium text-blue-400/80">GBS Morocco — Final Year Internship</span>
+          </motion.div>
 
           {/* Subtitle */}
           <motion.p
@@ -82,7 +95,7 @@ export default function Hero() {
             </div>
             <div>
               <p className="text-sm font-semibold text-white">Mohamed Azzam</p>
-              <p className="text-xs text-gray-500">DLP Analyst · Security Architecture & Offensive Validation</p>
+              <p className="text-xs text-gray-500">DLP Analyst Intern · AXA GBS Morocco · Security Architecture & Offensive Validation</p>
             </div>
           </motion.div>
 

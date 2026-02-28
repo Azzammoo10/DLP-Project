@@ -2,21 +2,29 @@ import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
 import ZeroTrustDiagram from "./ZeroTrustDiagram";
 
-const ZT_PRINCIPLES = [
-  { title: "Verify Explicitly", desc: "Identity, device, and context checked for every request." },
-  { title: "Least Privilege", desc: "Access is minimized by role, risk, and session." },
-  { title: "Assume Breach", desc: "Continuous monitoring and fast containment by design." },
-];
-
-const ZT_PILLARS = [
-  { title: "Microsoft Entra ID", desc: "Identity authority for authentication and authorization.", color: "#3b82f6" },
-  { title: "Multi-Factor Authentication", desc: "Strong sign-in validation for all sensitive access.", color: "#a855f7" },
-  { title: "Conditional Access", desc: "Policy decisions based on context and device posture.", color: "#06b6d4" },
-  { title: "Identity Risk Enrichment", desc: "Risk signals integrated into DLP and SOC decisions.", color: "#10b981" },
+const WHY_REASONS = [
+  {
+    icon: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z",
+    title: "Lateral Movement in VMware",
+    desc: "On the flat VMnet (NAT), the Kali VM moved freely to Win-Finance and Ubuntu Server — all VMs shared the same network segment with zero identity checks.",
+    color: "#ef4444",
+  },
+  {
+    icon: "M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z",
+    title: "No Identity Provider",
+    desc: "Without Microsoft Entra ID, any VM on the VMnet was implicitly trusted — SMB shares, databases, and services were accessible without authentication or MFA.",
+    color: "#f59e0b",
+  },
+  {
+    icon: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+    title: "Entra ID + Conditional Access",
+    desc: "With Azure Student subscription, Entra ID enforces MFA, Conditional Access policies, and device compliance — each VM access request is verified before granting entry.",
+    color: "#10b981",
+  },
 ];
 
 /**
- * Zero Trust Integration — Identity-centric architecture with concentric diagram.
+ * Zero Trust — Before vs After architecture comparison with rationale.
  */
 export default function ZeroTrust() {
   return (
@@ -26,47 +34,35 @@ export default function ZeroTrust() {
           <SectionHeading
             label="Zero Trust"
             title="Zero Trust Access Architecture"
-            subtitle="Step 2 (post-pentest): implement identity-first controls to close validated gaps and strengthen access security."
+            subtitle="VMware pentest revealed critical gaps in the flat VMnet model. With Microsoft Entra ID (Azure Student), the architecture evolved to enforce identity-first access on every VM."
           />
         </ScrollReveal>
 
-        <ScrollReveal delay={0.04}>
-          <div className="mb-6 rounded-lg border border-navy-700 bg-navy-900/40 p-3 text-center">
-            <p className="text-xs text-gray-300">
-              Sequence: <span className="font-semibold text-white">Pentesting</span> → <span className="font-semibold text-white">Findings</span> → <span className="font-semibold text-white">Zero Trust Implementation</span>.
-            </p>
-          </div>
-        </ScrollReveal>
-
-        <div className="mb-8 grid gap-3 md:grid-cols-3">
-          {ZT_PRINCIPLES.map((item, i) => (
-            <ScrollReveal key={item.title} delay={i * 0.06}>
-              <div className="rounded-lg border border-navy-700 bg-navy-900/50 p-4">
-                <p className="mb-1 text-xs font-semibold tracking-wide text-white uppercase">{item.title}</p>
-                <p className="text-xs leading-relaxed text-gray-400">{item.desc}</p>
-              </div>
-            </ScrollReveal>
-          ))}
-        </div>
-
-        {/* Concentric rings diagram */}
-        <ScrollReveal delay={0.1}>
-          <div className="mb-12 rounded-xl border border-navy-700 bg-navy-950/50 p-6 md:p-10">
-            <h3 className="mb-4 text-center font-mono text-xs tracking-widest text-gray-500 uppercase">
-              Continuous Verification Model
-            </h3>
+        {/* Before vs After Diagram */}
+        <ScrollReveal delay={0.08}>
+          <div className="mb-10 rounded-xl border border-navy-700 bg-navy-950/50 p-4 md:p-8">
             <ZeroTrustDiagram />
           </div>
         </ScrollReveal>
 
-        {/* Pillar cards */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {ZT_PILLARS.map((p, i) => (
-            <ScrollReveal key={p.title} delay={i * 0.08}>
-              <div className="card h-full text-center">
-                <div className="mx-auto mb-3 h-2 w-12 rounded-full" style={{ background: p.color }} />
-                <h3 className="mb-1 text-sm font-semibold text-white">{p.title}</h3>
-                <p className="text-xs leading-relaxed text-gray-400">{p.desc}</p>
+        {/* Why Zero Trust? */}
+        <ScrollReveal delay={0.15}>
+          <h3 className="mb-4 text-center font-mono text-xs tracking-widest text-gray-500 uppercase">
+            Why Zero Trust Was Implemented
+          </h3>
+        </ScrollReveal>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {WHY_REASONS.map((r, i) => (
+            <ScrollReveal key={r.title} delay={0.18 + i * 0.06}>
+              <div className="card h-full">
+                <div className="mb-3 flex h-9 w-9 items-center justify-center rounded-lg" style={{ backgroundColor: r.color + "15" }}>
+                  <svg className="h-5 w-5" style={{ color: r.color }} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d={r.icon} />
+                  </svg>
+                </div>
+                <h4 className="mb-1.5 text-sm font-semibold text-white">{r.title}</h4>
+                <p className="text-xs leading-relaxed text-gray-400">{r.desc}</p>
               </div>
             </ScrollReveal>
           ))}

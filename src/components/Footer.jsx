@@ -1,23 +1,23 @@
 /**
  * Footer — Author info and social links.
  */
+import axaLogo from "../assets/axa.png";
+
 export default function Footer() {
   return (
-    <footer className="border-t border-navy-700 bg-navy-950">
+    <footer className="border-t border-navy-700 bg-navy-950 pb-10">
       <div className="section-container py-12">
         <div className="flex flex-col items-center gap-8 md:flex-row md:justify-between">
           {/* Left — Logo + Project */}
           <div className="flex items-center gap-4">
-            <svg className="h-8 w-8 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
-            </svg>
+            <img src={axaLogo} alt="AXA" className="h-8 w-auto object-contain" />
             <div className="h-8 w-px bg-navy-700" />
             <div>
               <div className="text-sm font-semibold text-white">
                 Hybrid Enterprise DLP Architecture
               </div>
               <div className="text-xs text-gray-500">
-                DLP &bull; SOC &bull; IDS &bull; Zero Trust
+                AXA GBS Morocco &bull; Final Year Internship Project
               </div>
             </div>
           </div>
@@ -26,7 +26,7 @@ export default function Footer() {
           <div className="text-center">
             <div className="text-base font-semibold text-white">Mohamed AZZAM</div>
             <div className="mt-1 text-sm text-gray-400">
-              DLP Analyst &bull; Security Architecture Enthusiast
+              DLP Analyst Intern &bull; AXA GBS Morocco
             </div>
           </div>
 
@@ -82,8 +82,8 @@ export default function Footer() {
         {/* Bottom */}
         <div className="mt-8 border-t border-navy-700 pt-6 text-center">
           <p className="text-xs text-gray-600">
-            &copy; {new Date().getFullYear()} Mohamed AZZAM — Hybrid Enterprise DLP Architecture Case Study.
-            All rights reserved.
+            &copy; {new Date().getFullYear()} Mohamed AZZAM — AXA GBS Morocco — Hybrid Enterprise DLP Architecture.
+            All rights reserved. All information is confidential — no internal AXA data or tools were used.
           </p>
         </div>
       </div>

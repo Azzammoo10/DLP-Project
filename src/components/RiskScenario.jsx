@@ -9,7 +9,7 @@ const STEPS = [
     id: 0,
     time: "T+0 s",
     actor: "Finance Analyst",
-    action: "Attaches confidential budget file (IBAN, forecasts) to outbound email",
+    action: "Attaches sensitive budget file (IBAN, forecasts) to outbound email",
     layer: "Endpoint",
     color: "#ef4444",
     risk: 15,
@@ -18,7 +18,7 @@ const STEPS = [
     id: 1,
     time: "T+2 s",
     actor: "DLP Agent",
-    action: "Intercepts file access — IBAN regex + fingerprint match — classified Confidential",
+    action: "Intercepts file access — IBAN regex + fingerprint match — classified Sensitive",
     layer: "DLP",
     color: "#f59e0b",
     risk: 40,
@@ -280,7 +280,7 @@ export default function RiskScenario() {
               </svg>
             </div>
             <p className="flex-1 text-sm text-gray-400">
-              <span className="font-medium text-white">Scenario:</span> Finance analyst sends confidential budget file (IBAN, forecasts) to personal email — classified <span className="font-semibold text-cyber-amber">Confidential</span>.
+              <span className="font-medium text-white">Scenario:</span> Finance analyst sends sensitive budget file (IBAN, forecasts) to personal email — classified <span className="font-semibold text-cyber-amber">Sensitive</span>.
             </p>
             <button
               onClick={handleReplay}

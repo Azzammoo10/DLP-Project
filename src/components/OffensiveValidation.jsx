@@ -1,17 +1,15 @@
+import { motion } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
 import AttackFlowDiagram from "./AttackFlowDiagram";
 
-const FINDINGS = [
-  { label: "Validated Attack Scenarios", value: "3", color: "#ef4444" },
-  { label: "New Correlation Rules", value: "8", color: "#f59e0b" },
-  { label: "DLP Policy Improvements", value: "3", color: "#3b82f6" },
-  { label: "Detection Coverage Gain", value: "+18%", color: "#10b981" },
+const FIXES = [
+  { gap: "No DLP policy",          fix: "DLP Engine with L1–L3 classification",   color: "#3b82f6" },
+  { gap: "No SIEM correlation",    fix: "Wazuh SIEM + 8 correlation rules",       color: "#f59e0b" },
+  { gap: "Unpatched CVE-2021-4034",fix: "Patch applied + Snort IDS signature",    color: "#06b6d4" },
+  { gap: "Open outbound traffic",  fix: "Egress filtering + transfer monitoring", color: "#10b981" },
 ];
 
-/**
- * Offensive Validation — Attack flow diagram + outcome metrics.
- */
 export default function OffensiveValidation() {
   return (
     <section id="validation" className="section-padding">
@@ -20,40 +18,43 @@ export default function OffensiveValidation() {
           <SectionHeading
             label="Security Validation"
             title="Controlled Offensive Validation"
-            subtitle="Realistic pentest simulation in a controlled lab: emulate attacker behavior, validate detections, and generate remediation actions before Zero Trust rollout."
+            subtitle="Pentest simulation: the attack succeeds, proving the gaps. Improvements are applied afterward."
           />
         </ScrollReveal>
 
-        {/* Attack Flow Diagram */}
-        <ScrollReveal delay={0.1}>
-          <div className="mb-12 rounded-xl border border-navy-700 bg-navy-950/50 p-6 md:p-10">
-            <h3 className="mb-6 text-center font-mono text-xs tracking-widest text-gray-500 uppercase">
-              Live Pentest Scenario &rarr; SOC Detection Response
-            </h3>
+        {/* Pentest Simulation */}
+        <ScrollReveal delay={0.08}>
+          <div className="mb-10 rounded-2xl border border-navy-700/80 bg-navy-950/50 p-4 md:p-6">
             <AttackFlowDiagram />
           </div>
         </ScrollReveal>
 
-        {/* Tuning Outcomes */}
-        <ScrollReveal delay={0.2}>
-          <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
-            {FINDINGS.map((f) => (
-              <div key={f.label} className="card text-center">
-                <p className="text-3xl font-bold" style={{ color: f.color }}>{f.value}</p>
-                <p className="mt-1 text-xs text-gray-400">{f.label}</p>
-              </div>
-            ))}
-          </div>
+        {/* What We Fixed */}
+        <ScrollReveal delay={0.12}>
+          <p className="mb-4 text-xs font-bold text-emerald-400 uppercase tracking-wider">
+            Improvements Applied After Pentest
+          </p>
         </ScrollReveal>
 
-        {/* Note */}
-        <ScrollReveal delay={0.3}>
-          <div className="mt-8 card-static border-accent/20 bg-accent/5 text-center">
-            <p className="text-sm font-medium text-gray-300">
-              Findings are validated, documented, and converted into hardening actions for the next Zero Trust implementation phase.
-            </p>
-          </div>
-        </ScrollReveal>
+        <div className="grid gap-2.5 sm:grid-cols-2 lg:grid-cols-4">
+          {FIXES.map((f, i) => (
+            <ScrollReveal key={f.gap} delay={0.15 + i * 0.05}>
+              <motion.div
+                className="rounded-xl border border-navy-700/60 bg-navy-900/30 p-4"
+                whileHover={{ y: -2, borderColor: f.color + "40" }}
+              >
+                {/* Gap */}
+                <p className="text-[10px] text-red-400/80 line-through">{f.gap}</p>
+                {/* Arrow */}
+                <svg className="my-1.5 h-3 w-3 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
+                </svg>
+                {/* Fix */}
+                <p className="text-xs font-medium" style={{ color: f.color }}>{f.fix}</p>
+              </motion.div>
+            </ScrollReveal>
+          ))}
+        </div>
       </div>
     </section>
   );

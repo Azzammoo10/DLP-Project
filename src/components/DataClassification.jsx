@@ -3,17 +3,17 @@ import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
 
 const LEVELS = [
-  { level: "Public",       badge: "L0", color: "#10b981", risk: "None",     score: "+0",  policy: "Monitor only", examples: "Marketing, press releases" },
-  { level: "Internal",     badge: "L1", color: "#3b82f6", risk: "Low",      score: "+10", policy: "Block external without approval", examples: "Memos, org charts, timelines" },
-  { level: "Confidential", badge: "L2", color: "#f59e0b", risk: "High",     score: "+25", policy: "Block external + encrypt + alert", examples: "PII, IBAN, contracts, HR data" },
-  { level: "Secret",       badge: "L3", color: "#ef4444", risk: "Critical", score: "+40", policy: "Block all + immediate escalation", examples: "M&A docs, keys, board strategy" },
+  { level: "Open",         badge: "L0", color: "#10b981", risk: "None",     score: "+0",  policy: "Monitor only", examples: "Marketing, press releases" },
+  { level: "Limited",      badge: "L1", color: "#3b82f6", risk: "Low",      score: "+10", policy: "Block external without approval", examples: "Memos, org charts, timelines" },
+  { level: "Sensitive",    badge: "L2", color: "#f59e0b", risk: "High",     score: "+25", policy: "Block external + encrypt + alert", examples: "PII, IBAN, contracts, HR data" },
+  { level: "Critical",     badge: "L3", color: "#ef4444", risk: "Critical", score: "+40", policy: "Block all + immediate escalation", examples: "M&A docs, keys, board strategy" },
 ];
 
 const MACHINE_COVERAGE = [
   {
     machine: "Win-Finance",
     role: "Endpoint (DLP Agent)",
-    scope: "Applies L0-L3 classification on local files, clipboard, email and print actions.",
+    scope: "Applies L0–L3 classification on local files, clipboard, email and print actions.",
     color: "#06b6d4",
   },
   {
@@ -43,8 +43,8 @@ export default function DataClassification() {
         <ScrollReveal>
           <SectionHeading
             label="Data Classification"
-            title="Enterprise Data Classification Framework"
-            subtitle="Professional 4-level model (L0-L3) governing DLP enforcement, risk scoring, and incident escalation across all machines."
+            title="Data Sensitivity Classification Model"
+            subtitle="4-level model (L0-L3) governing DLP enforcement, risk scoring, and incident escalation across all machines."
           />
         </ScrollReveal>
 
