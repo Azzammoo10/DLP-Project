@@ -274,10 +274,10 @@ function NetworkMap({ activeStep }) {
   ];
 
   const edges = [
-    { from: 0, to: 1 },
-    { from: 1, to: 2 },
-    { from: 1, to: 3 },
-    { from: 2, to: 4 },
+    { from: 0, to: 1, proto: "TCP" },
+    { from: 1, to: 2, proto: "SMB:445" },
+    { from: 1, to: 3, proto: "RDP:3389" },
+    { from: 2, to: 4, proto: "HTTPS:443" },
   ];
 
   const activeEdges = [
@@ -308,22 +308,9 @@ function NetworkMap({ activeStep }) {
   };
 
   return (
-    <div ref={ref} className="rounded-xl border border-navy-700/40 bg-[#060a14] p-2 sm:p-3 overflow-x-auto">
-      {/* Zone labels */}
-      <div className="mb-1 flex justify-between px-2">
-        {[
-          { label: "ATTACKER", color: "#ef4444", x: "8%" },
-          { label: "INTERNAL LAN", color: "#3b82f6", x: "45%" },
-          { label: "INTERNET", color: "#6272a4", x: "87%" },
-        ].map((z) => (
-          <span key={z.label} className="font-mono text-[7px] font-bold tracking-[0.15em]"
-            style={{ color: z.color + "80" }}>{z.label}</span>
-        ))}
-      </div>
-
-      <svg viewBox="0 0 730 210" className="w-full" style={{ minWidth: 500, minHeight: 140 }}>
+    <div ref={ref} className="rounded-xl border border-navy-700/40 bg-[#060a14] overflow-x-auto">
+      <svg viewBox="0 0 730 230" className="w-full" style={{ minWidth: 500, minHeight: 150 }}>
         <defs>
-          {/* Glow filters */}
           <filter id="glow-red" x="-50%" y="-50%" width="200%" height="200%">
             <feGaussianBlur stdDeviation="3" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
@@ -332,19 +319,38 @@ function NetworkMap({ activeStep }) {
             <feGaussianBlur stdDeviation="2.5" result="blur" />
             <feComposite in="SourceGraphic" in2="blur" operator="over" />
           </filter>
-          {/* Grid pattern */}
+          {/* Arrow markers */}
+          <marker id="arrow-active" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0.5 L7,3 L0,5.5" fill="#ef4444" opacity="0.7" />
+          </marker>
+          <marker id="arrow-idle" markerWidth="6" markerHeight="5" refX="5" refY="2.5" orient="auto" markerUnits="userSpaceOnUse">
+            <path d="M0,0.5 L5,2.5 L0,4.5" fill="#1e293b" opacity="0.5" />
+          </marker>
           <pattern id="grid" width="20" height="20" patternUnits="userSpaceOnUse">
             <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#0f172a" strokeWidth="0.3" />
           </pattern>
+          <pattern id="scanlines" width="730" height="2" patternUnits="userSpaceOnUse">
+            <line x1="0" y1="0" x2="730" y2="0" stroke="#ffffff" strokeWidth="0.15" opacity="0.015" />
+          </pattern>
         </defs>
 
-        {/* Background grid */}
-        <rect width="730" height="210" fill="url(#grid)" opacity="0.5" />
+        {/* Background */}
+        <rect width="730" height="230" fill="#060a14" />
+        <rect width="730" height="230" fill="url(#grid)" opacity="0.35" />
+        <rect width="730" height="230" fill="url(#scanlines)" />
 
-        {/* Zone separators */}
-        {[190, 560].map((x) => (
-          <line key={x} x1={x} y1={5} x2={x} y2={205} stroke="#1e293b" strokeWidth={0.5} strokeDasharray="3 6" />
-        ))}
+        {/* ── Zone Containers ── */}
+        <rect x="15" y="10" width="170" height="212" rx="10" fill="#ef444404" stroke="#ef444418" strokeWidth="0.7" />
+        <rect x="42" y="4" width="116" height="13" rx="4" fill="#060a14" />
+        <text x="100" y="13" fill="#ef444455" fontSize="6" fontWeight="700" textAnchor="middle" fontFamily="JetBrains Mono, monospace" letterSpacing="0.12em">ATTACKER</text>
+
+        <rect x="195" y="10" width="355" height="212" rx="10" fill="#3b82f604" stroke="#3b82f618" strokeWidth="0.7" />
+        <rect x="298" y="4" width="149" height="13" rx="4" fill="#060a14" />
+        <text x="372" y="13" fill="#3b82f655" fontSize="6" fontWeight="700" textAnchor="middle" fontFamily="JetBrains Mono, monospace" letterSpacing="0.12em">INTERNAL LAN</text>
+
+        <rect x="560" y="10" width="160" height="212" rx="10" fill="#6272a404" stroke="#6272a418" strokeWidth="0.7" />
+        <rect x="598" y="4" width="84" height="13" rx="4" fill="#060a14" />
+        <text x="640" y="13" fill="#6272a455" fontSize="6" fontWeight="700" textAnchor="middle" fontFamily="JetBrains Mono, monospace" letterSpacing="0.12em">INTERNET</text>
 
         {/* ── Edges ── */}
         {edges.map((e, i) => {
@@ -352,40 +358,31 @@ function NetworkMap({ activeStep }) {
           const on = lit.includes(i);
           const ax = a.x + a.w / 2, ay = a.y + a.h / 2;
           const bx = b.x + b.w / 2, by = b.y + b.h / 2;
+          const mx = (ax + bx) / 2, my = (ay + by) / 2;
           return (
             <g key={`e${i}`}>
-              {/* Cable */}
+              {/* Connection line with arrowhead */}
               <line x1={ax} y1={ay} x2={bx} y2={by}
-                stroke={on ? "#ef444460" : "#1e293b50"} strokeWidth={on ? 2 : 0.8}
-                strokeDasharray={on ? "0" : "4 4"} />
+                stroke={on ? "#ef444450" : "#1e293b40"} strokeWidth={on ? 1.8 : 0.7}
+                strokeDasharray={on ? "0" : "4 4"}
+                markerEnd={on ? "url(#arrow-active)" : "url(#arrow-idle)"} />
 
-              {/* Connection speed label */}
-              {on && (
-                <motion.text
-                  x={(ax + bx) / 2} y={(ay + by) / 2 - 8}
-                  fill="#ef444460" fontSize="5.5" textAnchor="middle"
-                  fontFamily="JetBrains Mono, monospace"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
-                  {i === 3 ? "HTTPS:443" : "TCP"}
-                </motion.text>
-              )}
+              {/* Protocol badge */}
+              <rect x={mx - 17} y={my - 14} width={34} height={11} rx={3}
+                fill={on ? "#ef444410" : "#060a14"} stroke={on ? "#ef444430" : "#1e293b30"} strokeWidth={0.5} />
+              <text x={mx} y={my - 6} fill={on ? "#ef444490" : "#33415580"} fontSize="4.5" fontWeight="600"
+                textAnchor="middle" fontFamily="JetBrains Mono, monospace">{e.proto}</text>
 
-              {/* Animated packet (pulsing dot + trail) */}
+              {/* Animated data packet */}
               {on && (
                 <>
-                  {/* Trail */}
-                  <motion.circle r={6} fill="none" stroke="#ef4444" strokeWidth={0.4}
-                    animate={{ cx: [ax, bx], cy: [ay, by], opacity: [0, 0.3, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.6, delay: i * 0.2 }}
-                  />
-                  {/* Main packet */}
-                  <motion.circle r={3} fill="#ef4444"
+                  <motion.circle r={2.5} fill="#ef4444"
                     animate={{ cx: [ax, bx], cy: [ay, by], opacity: [0, 1, 1, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.6, delay: i * 0.2 }}
-                    filter="url(#glow-red)"
-                  />
+                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.5, delay: i * 0.15 }}
+                    filter="url(#glow-red)" />
+                  <motion.circle r={5} fill="none" stroke="#ef4444" strokeWidth={0.3}
+                    animate={{ cx: [ax, bx], cy: [ay, by], opacity: [0, 0.15, 0] }}
+                    transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.5, delay: i * 0.15 }} />
                 </>
               )}
             </g>
@@ -421,24 +418,39 @@ function NetworkMap({ activeStep }) {
 
               {/* ── Machine-specific illustration ── */}
               {n.id === "kali" && (
-                /* Kali: Laptop with screen content */
+                /* Kali Linux — Laptop with dragon logo */
                 <g>
-                  {/* Laptop body */}
-                  <rect x={n.x + 16} y={n.y + 8} width={36} height={22} rx={2}
-                    fill="#0d1117" stroke={on ? "#50fa7b" : "#334155"} strokeWidth={1} />
-                  {/* Screen lines (code) */}
-                  {[0, 4, 8, 12].map((dy) => (
-                    <line key={dy} x1={n.x + 20} y1={n.y + 13 + dy} x2={n.x + 20 + 12 + (dy % 8) * 2} y2={n.y + 13 + dy}
-                      stroke={on ? "#50fa7b" : "#1e293b"} strokeWidth={0.8} />
+                  {/* ── Kali Dragon Logo Badge ── */}
+                  <g transform={`translate(${n.x + 1}, ${n.y + 4})`}>
+                    <rect width="16" height="16" rx="3.5"
+                      fill={on ? "#50fa7b08" : "#0d1117"} stroke={on ? "#50fa7b40" : "#1e293b"} strokeWidth="0.6" />
+                    <g transform="translate(1.5, 1) scale(0.72)">
+                      <path d="M12,2 C10,0.5 7,1 5.5,3 L4,1 L5.5,4.5 C3.5,5.5 3,7.5 4,9.5 L2,11 L5,10 C6,12 8.5,13 11,12 C13,13 15,11.5 15,9 L17.5,10 L15.5,7.5 C16,5.5 15,3.5 13,3 L14.5,1 L12,2.5 Z"
+                        fill={on ? "#50fa7b" : "#334155"} opacity={on ? 0.85 : 0.4} />
+                      <circle cx="10.5" cy="6" r="0.8" fill="#0d1117" />
+                    </g>
+                  </g>
+                  {/* Laptop screen */}
+                  <rect x={n.x + 19} y={n.y + 5} width={46} height={28} rx={2.5}
+                    fill="#0d1117" stroke={on ? "#50fa7b" : "#334155"} strokeWidth={0.8} />
+                  {/* Terminal prompt */}
+                  <text x={n.x + 22} y={n.y + 12.5} fill={on ? "#50fa7b" : "#1e293b"} fontSize="3.5"
+                    fontFamily="JetBrains Mono, monospace" fontWeight="600">root@kali:~#</text>
+                  {/* Terminal output lines */}
+                  {[0, 5, 10].map((dy) => (
+                    <line key={dy} x1={n.x + 22} y1={n.y + 17 + dy} x2={n.x + 22 + 16 + (dy % 10) * 1.5} y2={n.y + 17 + dy}
+                      stroke={on ? "#50fa7b" : "#1e293b"} strokeWidth={0.6} opacity={0.5} />
                   ))}
-                  {/* Keyboard base */}
-                  <line x1={n.x + 13} y1={n.y + 33} x2={n.x + 55} y2={n.y + 33}
-                    stroke={on ? "#50fa7b60" : "#1e293b"} strokeWidth={1.5} strokeLinecap="round" />
-                  {/* OS badge */}
-                  <rect x={n.x + 4} y={n.y + 6} width={12} height={10} rx={2}
-                    fill={on ? "#50fa7b15" : "transparent"} stroke={on ? "#50fa7b50" : "#1e293b"} strokeWidth={0.6} />
-                  <text x={n.x + 10} y={n.y + 13.5} fill={on ? "#50fa7b" : "#334155"} fontSize="5"
-                    fontWeight="900" textAnchor="middle" fontFamily="monospace">K</text>
+                  {/* Blinking cursor */}
+                  {on && (
+                    <motion.rect x={n.x + 22} y={n.y + 29} width={4} height={1.5} rx={0.3} fill="#50fa7b"
+                      animate={{ opacity: [1, 0] }} transition={{ duration: 0.53, repeat: Infinity }} />
+                  )}
+                  {/* Laptop base */}
+                  <line x1={n.x + 16} y1={n.y + 35} x2={n.x + 66} y2={n.y + 35}
+                    stroke={on ? "#50fa7b40" : "#1e293b"} strokeWidth={1.5} strokeLinecap="round" />
+                  <line x1={n.x + 22} y1={n.y + 37} x2={n.x + 60} y2={n.y + 37}
+                    stroke={on ? "#50fa7b20" : "#0f172a"} strokeWidth={0.5} />
                 </g>
               )}
 

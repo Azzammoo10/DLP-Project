@@ -32,7 +32,7 @@ function Icon({ d, color = "#fff", size = 16 }) {
 }
 
 /* ── Node component ── */
-function NetNode({ x, y, label, sublabel, icon, color, status, delay = 0, isInView }) {
+function NetNode({ x, y, label, sublabel, icon, color, status, delay = 0, isInView, noCircle }) {
   return (
     <motion.g
       initial={{ opacity: 0, scale: 0.7 }}
@@ -42,41 +42,41 @@ function NetNode({ x, y, label, sublabel, icon, color, status, delay = 0, isInVi
       {/* Glow for active */}
       {status === "secure" && (
         <motion.circle
-          cx={x} cy={y} r={28}
+          cx={x} cy={y} r={22}
           fill="none" stroke={color} strokeWidth={0.8}
-          animate={{ r: [26, 32], opacity: [0.4, 0] }}
+          animate={{ r: [20, 26], opacity: [0.4, 0] }}
           transition={{ duration: 2, repeat: Infinity }}
         />
       )}
 
       {/* Node background */}
-      <circle cx={x} cy={y} r={24} fill="#0a0e1a" stroke={color} strokeWidth={status === "breach" ? 2 : 1.4} />
+      {!noCircle && <circle cx={x} cy={y} r={18} fill="#0a0e1a" stroke={color} strokeWidth={status === "breach" ? 2 : 1.4} />}
       
       {/* Icon */}
-      <foreignObject x={x - 8} y={y - 14} width={16} height={16}>
-        <Icon d={ICONS[icon]} color={color} size={16} />
+      <foreignObject x={x - 7} y={y - 11} width={14} height={14}>
+        <Icon d={ICONS[icon]} color={color} size={14} />
       </foreignObject>
 
       {/* Label */}
-      <text x={x} y={y + 10} fill="white" fontSize="7" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif">{label}</text>
+      <text x={x} y={y + 8} fill="white" fontSize="6.5" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif">{label}</text>
       {sublabel && (
-        <text x={x} y={y + 19} fill={color} fontSize="5.5" textAnchor="middle" fontFamily="Inter, sans-serif" opacity={0.8}>{sublabel}</text>
+        <text x={x} y={y + 16} fill={color} fontSize="5" textAnchor="middle" fontFamily="Inter, sans-serif" opacity={0.8}>{sublabel}</text>
       )}
 
       {/* Status badge */}
       {status === "breach" && (
         <motion.g animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 1, repeat: Infinity }}>
-          <circle cx={x + 18} cy={y - 18} r={6} fill="#ef4444" />
-          <foreignObject x={x + 14} y={y - 22} width={8} height={8}>
-            <Icon d={ICONS.warn} color="#fff" size={8} />
+          <circle cx={x + 14} cy={y - 14} r={5} fill="#ef4444" />
+          <foreignObject x={x + 11} y={y - 17} width={6} height={6}>
+            <Icon d={ICONS.warn} color="#fff" size={6} />
           </foreignObject>
         </motion.g>
       )}
       {status === "secure" && (
         <motion.g initial={{ scale: 0 }} animate={isInView ? { scale: 1 } : {}} transition={{ delay: delay + 0.3, type: "spring" }}>
-          <circle cx={x + 18} cy={y - 18} r={6} fill="#10b981" />
-          <foreignObject x={x + 14} y={y - 22} width={8} height={8}>
-            <Icon d={ICONS.check} color="#fff" size={8} />
+          <circle cx={x + 14} cy={y - 14} r={5} fill="#10b981" />
+          <foreignObject x={x + 11} y={y - 17} width={6} height={6}>
+            <Icon d={ICONS.check} color="#fff" size={6} />
           </foreignObject>
         </motion.g>
       )}
@@ -128,8 +128,8 @@ function BeforeArchitecture({ isInView }) {
       transition={{ duration: 0.4 }}
     >
       {/* VMware host box */}
-      <rect x={40} y={24} width={520} height={240} rx={12} fill="#1a0a0a" fillOpacity={0.3} stroke="#ef444440" strokeWidth={1} strokeDasharray="6 4" />
-      <text x={300} y={42} fill="#ef4444" fontSize="8" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif" opacity={0.6}>VMware Workstation — FLAT VMnet (NAT)</text>
+      <rect x={40} y={20} width={520} height={270} rx={12} fill="#1a0a0a" fillOpacity={0.3} stroke="#ef444440" strokeWidth={1} strokeDasharray="6 4" />
+      <text x={300} y={38} fill="#ef4444" fontSize="8" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif" opacity={0.6}>VMware Workstation — FLAT VMnet (NAT)</text>
 
       {/* vSwitch at center */}
       <motion.g
@@ -137,44 +137,44 @@ function BeforeArchitecture({ isInView }) {
         animate={isInView ? { opacity: 1, scale: 1 } : {}}
         transition={{ delay: 0.2 }}
       >
-        <rect x={260} y={115} width={80} height={40} rx={6} fill="#0a0e1a" stroke="#64748b" strokeWidth={1.2} />
-        <foreignObject x={273} y={120} width={14} height={14}>
+        <rect x={260} y={128} width={80} height={40} rx={6} fill="#0a0e1a" stroke="#64748b" strokeWidth={1.2} />
+        <foreignObject x={273} y={133} width={14} height={14}>
           <Icon d={ICONS.server} color="#64748b" size={14} />
         </foreignObject>
-        <text x={300} y={132} fill="#94a3b8" fontSize="7" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif">vSwitch</text>
-        <text x={300} y={143} fill="#475569" fontSize="5" textAnchor="middle" fontFamily="monospace">VMnet8 (NAT)</text>
-        <text x={300} y={152} fill="#475569" fontSize="4.5" textAnchor="middle" fontFamily="monospace">No segmentation</text>
+        <text x={300} y={145} fill="#94a3b8" fontSize="7" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif">vSwitch</text>
+        <text x={300} y={156} fill="#475569" fontSize="5" textAnchor="middle" fontFamily="monospace">VMnet8 (NAT)</text>
+        <text x={300} y={165} fill="#475569" fontSize="4.5" textAnchor="middle" fontFamily="monospace">No segmentation</text>
       </motion.g>
 
       {/* VM Nodes — all on same VMnet, no isolation */}
-      <NetNode x={120} y={80} label="Kali Linux" sublabel="Attacker VM" icon="pc" color="#ef4444" status="breach" delay={0.3} isInView={isInView} />
-      <NetNode x={480} y={80} label="Win-Finance" sublabel="192.168.126.x" icon="pc" color="#ef4444" status="breach" delay={0.4} isInView={isInView} />
-      <NetNode x={120} y={200} label="Ubuntu Server" sublabel="Wazuh + DLP" icon="server" color="#ef4444" status="breach" delay={0.45} isInView={isInView} />
-      <NetNode x={480} y={200} label="File Share" sublabel="SMB open" icon="server" color="#ef4444" status="breach" delay={0.5} isInView={isInView} />
+      <NetNode x={120} y={90} label="Kali Linux" sublabel="Attacker VM" icon="pc" color="#ef4444" status="breach" delay={0.3} isInView={isInView} noCircle />
+      <NetNode x={480} y={90} label="Win-Finance" sublabel="192.168.126.x" icon="pc" color="#ef4444" status="breach" delay={0.4} isInView={isInView} noCircle />
+      <NetNode x={120} y={210} label="Ubuntu Server" sublabel="Wazuh + DLP" icon="server" color="#ef4444" status="breach" delay={0.45} isInView={isInView} noCircle />
+      <NetNode x={480} y={210} label="File Share" sublabel="SMB open" icon="server" color="#ef4444" status="breach" delay={0.5} isInView={isInView} noCircle />
 
       {/* All VMs connect through vSwitch — flat */}
-      <Connection x1={144} y1={88} x2={260} y2={130} color="#ef444470" dashed delay={0.4} isInView={isInView} attackPulse />
-      <Connection x1={456} y1={88} x2={340} y2={130} color="#ef444470" dashed delay={0.45} isInView={isInView} attackPulse />
-      <Connection x1={144} y1={192} x2={260} y2={140} color="#ef444470" dashed delay={0.5} isInView={isInView} attackPulse />
-      <Connection x1={456} y1={192} x2={340} y2={140} color="#ef444470" dashed delay={0.55} isInView={isInView} attackPulse />
+      <Connection x1={138} y1={95} x2={260} y2={143} color="#ef444470" dashed delay={0.4} isInView={isInView} attackPulse />
+      <Connection x1={462} y1={95} x2={340} y2={143} color="#ef444470" dashed delay={0.45} isInView={isInView} attackPulse />
+      <Connection x1={138} y1={205} x2={260} y2={153} color="#ef444470" dashed delay={0.5} isInView={isInView} attackPulse />
+      <Connection x1={462} y1={205} x2={340} y2={153} color="#ef444470" dashed delay={0.55} isInView={isInView} attackPulse />
 
       {/* Cross connections — lateral movement */}
-      <Connection x1={144} y1={92} x2={456} y2={92} color="#ef444430" dashed delay={0.6} isInView={isInView} attackPulse />
-      <Connection x1={144} y1={195} x2={456} y2={195} color="#ef444430" dashed delay={0.65} isInView={isInView} />
+      <Connection x1={138} y1={98} x2={462} y2={98} color="#ef444430" dashed delay={0.6} isInView={isInView} attackPulse />
+      <Connection x1={138} y1={205} x2={462} y2={205} color="#ef444430" dashed delay={0.65} isInView={isInView} />
 
-      {/* Vulnerability annotations */}
+      {/* Vulnerability annotations — pushed away from nodes */}
       {[
-        { x: 120, y: 55, text: "No identity check" },
-        { x: 480, y: 55, text: "Lateral movement" },
-        { x: 120, y: 235, text: "All VMs same subnet" },
-        { x: 480, y: 235, text: "No MFA / No Entra" },
+        { x: 120, y: 48, text: "No identity check" },
+        { x: 480, y: 48, text: "Lateral movement" },
+        { x: 120, y: 252, text: "All VMs same subnet" },
+        { x: 480, y: 252, text: "No MFA / No Entra" },
       ].map((a, i) => (
         <motion.g key={i}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.8 + i * 0.1 }}
         >
-          <rect x={a.x - 42} y={a.y - 8} width={84} height={16} rx={4} fill="#ef444418" stroke="#ef444440" strokeWidth={0.8} />
+          <rect x={a.x - 45} y={a.y - 8} width={90} height={16} rx={4} fill="#ef444418" stroke="#ef444440" strokeWidth={0.8} />
           <text x={a.x} y={a.y + 3} fill="#ef4444" fontSize="5.5" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif">{a.text}</text>
         </motion.g>
       ))}
@@ -194,7 +194,6 @@ function AfterArchitecture({ isInView }) {
       {/* Azure / Entra ID cloud layer — top */}
       <motion.g initial={{ opacity: 0, y: -8 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.15 }}>
         <rect x={60} y={8} width={480} height={52} rx={10} fill="#3b82f60a" stroke="#3b82f640" strokeWidth={1} />
-        {/* Azure cloud badge */}
         <rect x={68} y={13} width={100} height={18} rx={4} fill="#3b82f618" stroke="#3b82f640" strokeWidth={0.6} />
         <foreignObject x={72} y={15} width={14} height={14}>
           <Icon d={ICONS.shield} color="#3b82f6" size={14} />
@@ -202,25 +201,37 @@ function AfterArchitecture({ isInView }) {
         <text x={100} y={26} fill="#3b82f6" fontSize="6.5" fontWeight="700" fontFamily="Inter, sans-serif">Azure AD</text>
         <text x={180} y={22} fill="#60a5fa" fontSize="8" fontWeight="700" fontFamily="Inter, sans-serif">Microsoft Entra ID</text>
         <text x={180} y={33} fill="#64748b" fontSize="5.5" fontFamily="Inter, sans-serif">Azure Student Subscription — Identity Authority</text>
-        {/* MFA badge */}
         <foreignObject x={380} y={14} width={14} height={14}>
           <Icon d={ICONS.key} color="#a855f7" size={14} />
         </foreignObject>
         <text x={400} y={25} fill="#a855f7" fontSize="6.5" fontWeight="600" fontFamily="Inter, sans-serif">MFA</text>
-        {/* Conditional Access badge */}
         <foreignObject x={430} y={14} width={14} height={14}>
           <Icon d={ICONS.eye} color="#06b6d4" size={14} />
         </foreignObject>
         <text x={450} y={25} fill="#06b6d4" fontSize="5.5" fontWeight="600" fontFamily="Inter, sans-serif">Cond. Access</text>
-        {/* Verify explicitly label */}
         <text x={440} y={50} fill="#475569" fontSize="4.5" textAnchor="middle" fontFamily="monospace">Verify Explicitly · Least Privilege · Assume Breach</text>
+      </motion.g>
+
+      {/* Blocked attacker — Kali rejected at the identity gate */}
+      <motion.g
+        initial={{ opacity: 0, x: -10 }}
+        animate={isInView ? { opacity: 1, x: 0 } : {}}
+        transition={{ delay: 0.35 }}
+      >
+        <NetNode x={40} y={84} label="Kali Linux" sublabel="Attacker" icon="pc" color="#ef4444" status="breach" delay={0.35} isInView={isInView} noCircle />
+        <line x1={58} y1={84} x2={125} y2={84} stroke="#ef4444" strokeWidth={1.2} strokeDasharray="4 3" opacity={0.5} />
+        <foreignObject x={88} y={76} width={14} height={14}>
+          <Icon d={ICONS.x} color="#ef4444" size={14} />
+        </foreignObject>
+        <rect x={14} y={106} width={52} height={13} rx={3} fill="#ef444420" stroke="#ef444440" strokeWidth={0.6} />
+        <text x={40} y={115} fill="#ef4444" fontSize="4.5" fontWeight="700" textAnchor="middle" fontFamily="Inter, sans-serif">ACCESS DENIED</text>
       </motion.g>
 
       {/* Verification gates */}
       {[
-        { x: 120, y: 72, label: "Identity\nCheck" },
-        { x: 300, y: 72, label: "Device\nCompliance" },
-        { x: 480, y: 72, label: "Risk\nScoring" },
+        { x: 160, y: 72, label: "Identity\nCheck" },
+        { x: 310, y: 72, label: "Device\nCompliance" },
+        { x: 460, y: 72, label: "Risk\nScoring" },
       ].map((g, i) => (
         <motion.g key={i}
           initial={{ opacity: 0, scale: 0.8 }}
@@ -240,15 +251,15 @@ function AfterArchitecture({ isInView }) {
 
       {/* VMware host box */}
       <motion.g initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.3 }}>
-        <rect x={50} y={108} width={500} height={105} rx={10} fill="#0d111b" stroke="#1e293b" strokeWidth={0.8} />
-        <text x={300} y={120} fill="#475569" fontSize="5.5" fontWeight="600" textAnchor="middle" fontFamily="monospace">VMware Workstation — Segmented VMnets</text>
+        <rect x={80} y={110} width={460} height={130} rx={10} fill="#0d111b" stroke="#1e293b" strokeWidth={0.8} />
+        <text x={310} y={122} fill="#475569" fontSize="5.5" fontWeight="600" textAnchor="middle" fontFamily="monospace">VMware Workstation — Segmented VMnets</text>
       </motion.g>
 
       {/* Micro-segments (isolated VMnets) */}
       {[
-        { x: 60, y: 125, w: 155, h: 80, label: "VMnet1 — Security", color: "#06b6d4" },
-        { x: 225, y: 125, w: 150, h: 80, label: "VMnet2 — Finance", color: "#3b82f6" },
-        { x: 385, y: 125, w: 155, h: 80, label: "VMnet3 — Monitoring", color: "#a855f7" },
+        { x: 90, y: 128, w: 140, h: 105, label: "VMnet1 — Security", color: "#06b6d4" },
+        { x: 240, y: 128, w: 140, h: 105, label: "VMnet2 — Finance", color: "#3b82f6" },
+        { x: 390, y: 128, w: 140, h: 105, label: "VMnet3 — Monitoring", color: "#a855f7" },
       ].map((seg, i) => (
         <motion.g key={i}
           initial={{ opacity: 0, scale: 0.9 }}
@@ -262,49 +273,49 @@ function AfterArchitecture({ isInView }) {
       ))}
 
       {/* Nodes inside segments */}
-      <NetNode x={138} y={172} label="Ubuntu Server" sublabel="Wazuh + DLP" icon="server" color="#06b6d4" status="secure" delay={0.48} isInView={isInView} />
-      <NetNode x={300} y={172} label="Win-Finance" sublabel="Entra joined" icon="pc" color="#3b82f6" status="secure" delay={0.55} isInView={isInView} />
-      <NetNode x={462} y={172} label="Snort IDS" sublabel="Monitoring" icon="shield" color="#a855f7" status="secure" delay={0.6} isInView={isInView} />
+      <NetNode x={160} y={192} label="Ubuntu Server" sublabel="Wazuh + DLP" icon="server" color="#06b6d4" status="secure" delay={0.48} isInView={isInView} noCircle />
+      <NetNode x={310} y={192} label="Win-Finance" sublabel="Entra joined" icon="pc" color="#3b82f6" status="secure" delay={0.55} isInView={isInView} noCircle />
+      <NetNode x={460} y={192} label="Snort IDS" sublabel="Monitoring" icon="shield" color="#a855f7" status="secure" delay={0.6} isInView={isInView} noCircle />
 
       {/* Identity-controlled connections from gates down to VMs */}
-      <Connection x1={120} y1={96} x2={138} y2={148} color="#10b981" animated delay={0.5} isInView={isInView} />
-      <Connection x1={300} y1={96} x2={300} y2={148} color="#10b981" animated delay={0.55} isInView={isInView} />
-      <Connection x1={480} y1={96} x2={462} y2={148} color="#10b981" animated delay={0.6} isInView={isInView} />
+      <Connection x1={160} y1={106} x2={160} y2={174} color="#10b981" animated delay={0.5} isInView={isInView} />
+      <Connection x1={310} y1={106} x2={310} y2={174} color="#10b981" animated delay={0.55} isInView={isInView} />
+      <Connection x1={460} y1={106} x2={460} y2={174} color="#10b981" animated delay={0.6} isInView={isInView} />
 
       {/* Inter-segment — blocked by default */}
       <motion.g initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.7 }}>
-        <line x1={215} y1={168} x2={225} y2={168} stroke="#ef444450" strokeWidth={1.2} strokeDasharray="3 3" />
-        <foreignObject x={216} y={160} width={10} height={10}>
+        <line x1={230} y1={188} x2={240} y2={188} stroke="#ef444450" strokeWidth={1.2} strokeDasharray="3 3" />
+        <foreignObject x={231} y={180} width={10} height={10}>
           <Icon d={ICONS.x} color="#ef4444" size={10} />
         </foreignObject>
       </motion.g>
       <motion.g initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.75 }}>
-        <line x1={375} y1={168} x2={385} y2={168} stroke="#ef444450" strokeWidth={1.2} strokeDasharray="3 3" />
-        <foreignObject x={376} y={160} width={10} height={10}>
+        <line x1={380} y1={188} x2={390} y2={188} stroke="#ef444450" strokeWidth={1.2} strokeDasharray="3 3" />
+        <foreignObject x={381} y={180} width={10} height={10}>
           <Icon d={ICONS.x} color="#ef4444" size={10} />
         </foreignObject>
       </motion.g>
 
       {/* Continuous monitoring layer — bottom */}
       <motion.g initial={{ opacity: 0, y: 8 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ delay: 0.8 }}>
-        <rect x={50} y={224} width={500} height={36} rx={8} fill="#10b98108" stroke="#10b98130" strokeWidth={1} />
-        <foreignObject x={70} y={232} width={16} height={16}>
+        <rect x={80} y={250} width={460} height={36} rx={8} fill="#10b98108" stroke="#10b98130" strokeWidth={1} />
+        <foreignObject x={100} y={258} width={16} height={16}>
           <Icon d={ICONS.eye} color="#10b981" size={16} />
         </foreignObject>
-        <text x={95} y={242} fill="#10b981" fontSize="7" fontWeight="600" fontFamily="Inter, sans-serif">Continuous Evaluation</text>
-        <text x={95} y={252} fill="#64748b" fontSize="5" fontFamily="Inter, sans-serif">Wazuh SIEM + Entra sign-in risk + adaptive access revocation</text>
+        <text x={125} y={268} fill="#10b981" fontSize="7" fontWeight="600" fontFamily="Inter, sans-serif">Continuous Evaluation</text>
+        <text x={125} y={278} fill="#64748b" fontSize="5" fontFamily="Inter, sans-serif">Wazuh SIEM + Entra sign-in risk + adaptive access revocation</text>
 
         {/* Monitoring connections */}
-        {[138, 300, 462].map((nx, i) => (
-          <Connection key={i} x1={nx} y1={196} x2={nx} y2={224} color="#10b98140" dashed delay={0.85 + i * 0.05} isInView={isInView} />
+        {[160, 310, 460].map((nx, i) => (
+          <Connection key={i} x1={nx} y1={210} x2={nx} y2={250} color="#10b98140" dashed delay={0.85 + i * 0.05} isInView={isInView} />
         ))}
       </motion.g>
 
       {/* Security annotations */}
       {[
-        { x: 138, y: 140, text: "Least privilege" },
-        { x: 300, y: 140, text: "Entra MFA" },
-        { x: 462, y: 140, text: "VM isolated" },
+        { x: 160, y: 150, text: "Least privilege" },
+        { x: 310, y: 150, text: "Entra MFA" },
+        { x: 460, y: 150, text: "VM isolated" },
       ].map((a, i) => (
         <motion.g key={i}
           initial={{ opacity: 0 }}
@@ -319,9 +330,9 @@ function AfterArchitecture({ isInView }) {
       {/* Rotating verification pulse */}
       {isInView && [0, 1, 2].map((i) => (
         <motion.circle
-          key={i} cx={300} cy={170} fill="none" stroke="#10b981" strokeWidth={0.6}
+          key={i} cx={310} cy={192} fill="none" stroke="#10b981" strokeWidth={0.6}
           initial={{ r: 30, opacity: 0.3 }}
-          animate={{ r: 160, opacity: 0 }}
+          animate={{ r: 180, opacity: 0 }}
           transition={{ duration: 4, delay: 1.5 + i * 1.3, repeat: Infinity }}
         />
       ))}
@@ -374,7 +385,7 @@ export default function ZeroTrustDiagram() {
 
       {/* Architecture SVG */}
       <div className="rounded-lg border border-navy-700/50 bg-[#060a14] p-2">
-        <svg viewBox="0 0 600 270" className="w-full">
+        <svg viewBox="0 0 600 300" className="w-full">
           <AnimatePresence mode="wait">
             {view === "before" ? (
               <BeforeArchitecture key="before" isInView={isInView} />

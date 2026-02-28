@@ -39,20 +39,21 @@ export default function EvolutionRoadmap() {
         </ScrollReveal>
 
         {/* Phase detail grid */}
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {PHASE_DETAILS.map((p, i) => (
             <ScrollReveal key={p.phase} delay={i * 0.06}>
-              <div className="card h-full border-t-2" style={{ borderTopColor: statusColors[i] }}>
-                <span className="font-mono text-[10px] tracking-wider text-gray-600 uppercase">{p.phase}</span>
-                <h3 className="mt-1 mb-2 text-sm font-semibold text-white">{p.title}</h3>
-                <ul className="space-y-1">
-                  {p.items.map((item) => (
-                    <li key={item} className="flex items-center gap-2 text-xs text-gray-400">
-                      <span className="h-1 w-1 rounded-full" style={{ background: statusColors[i] }} />
+              <div className="card h-full border-t-2 p-3" style={{ borderTopColor: statusColors[i] }}>
+                <span className="font-mono text-[9px] tracking-wider text-gray-600 uppercase">{p.phase}</span>
+                <h3 className="mt-0.5 mb-1 text-xs font-semibold text-white">{p.title}</h3>
+                <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5">
+                  {p.items.map((item, j) => (
+                    <span key={item} className="flex items-center gap-1 text-[10px] text-gray-400">
+                      <span className="h-0.5 w-0.5 rounded-full" style={{ background: statusColors[i] }} />
                       {item}
-                    </li>
+                      {j < p.items.length - 1 && <span className="ml-1 text-navy-700">|</span>}
+                    </span>
                   ))}
-                </ul>
+                </div>
               </div>
             </ScrollReveal>
           ))}
