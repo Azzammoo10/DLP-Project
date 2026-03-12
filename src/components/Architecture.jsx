@@ -4,23 +4,23 @@ import ArchitectureDiagramSVG from "./ArchitectureDiagramSVG";
 
 const NODES = [
   {
-    label: "Ubuntu Server (Central)",
-    desc: "Wazuh, DLP, Snort IDS",
+    label: "SOC Server (192.168.100.10)",
+    desc: "DLP Manager, Wazuh, Snort IDS",
     color: "bg-emerald-400",
   },
   {
-    label: "Win-Finance",
-    desc: "DLP Agent",
+    label: "AXA AMS (192.168.100.20)",
+    desc: "DLP Agent + Wazuh Agent",
     color: "bg-cyan-400",
   },
   {
-    label: "Win-RH",
-    desc: "DLP Agent",
+    label: "AXA GO (192.168.100.30)",
+    desc: "DLP Agent + Wazuh Agent",
     color: "bg-blue-400",
   },
   {
-    label: "Kali Linux",
-    desc: "Pentest",
+    label: "Kali Linux (192.168.100.50)",
+    desc: "Pentest — Phase 4",
     color: "bg-rose-400",
   },
 ];
@@ -28,19 +28,19 @@ const NODES = [
 const FLOW = [
   {
     step: "Collect",
-    detail: "Win-Finance and Win-RH DLP agents capture and forward endpoint security events.",
+    detail: "AXA GO and AXA AMS endpoints forward DLP events and Wazuh agent telemetry to the SOC server.",
   },
   {
     step: "Detect",
-    detail: "Snort IDS analyzes traffic while Wazuh correlates host and network telemetry.",
+    detail: "Snort IDS analyzes network traffic while Wazuh Manager correlates host and network telemetry.",
   },
   {
     step: "Validate",
-    detail: "Kali Linux performs controlled pentest scenarios to validate detection coverage.",
+    detail: "Kali Linux (Phase 4) executes controlled pentest scenarios to validate detection coverage across DLP, Wazuh, and Snort.",
   },
   {
     step: "Respond",
-    detail: "The Ubuntu central stack orchestrates triage, policy enforcement, and incident response.",
+    detail: "The SOC server orchestrates triage, DLP policy enforcement, and incident response with Zero Trust access governance.",
   },
 ];
 
@@ -71,20 +71,20 @@ export default function Architecture() {
             <div className="mt-6 grid gap-4 lg:grid-cols-3">
               <div className="rounded-lg border border-navy-800 bg-navy-900/60 p-4">
                 <p className="mb-2 text-xs font-semibold tracking-wider text-emerald-300 uppercase">Central Security Platform</p>
-                <h4 className="text-sm font-semibold text-white">Ubuntu Server Central</h4>
-                <p className="mt-2 text-sm text-gray-400">Hosts Wazuh, DLP, and Snort IDS as the unified analysis and control plane.</p>
+                <h4 className="text-sm font-semibold text-white">SOC Server — 192.168.100.10</h4>
+                <p className="mt-2 text-sm text-gray-400">Hosts DLP Manager, Wazuh Manager, and Snort IDS as the unified analysis and control plane.</p>
               </div>
 
               <div className="rounded-lg border border-navy-800 bg-navy-900/60 p-4">
                 <p className="mb-2 text-xs font-semibold tracking-wider text-cyan-300 uppercase">Endpoint Protection Layer</p>
-                <h4 className="text-sm font-semibold text-white">Win-Finance + Win-RH</h4>
-                <p className="mt-2 text-sm text-gray-400">Both endpoints run DLP agents to enforce policy and send telemetry to the central server.</p>
+                <h4 className="text-sm font-semibold text-white">AXA AMS + AXA GO</h4>
+                <p className="mt-2 text-sm text-gray-400">Both endpoints run DLP Agent + Wazuh Agent to enforce policy and forward telemetry to the SOC server.</p>
               </div>
 
               <div className="rounded-lg border border-navy-800 bg-navy-900/60 p-4">
-                <p className="mb-2 text-xs font-semibold tracking-wider text-rose-300 uppercase">Validation Layer</p>
-                <h4 className="text-sm font-semibold text-white">Kali Linux</h4>
-                <p className="mt-2 text-sm text-gray-400">Executes authorized pentest simulations to validate detections and response workflows.</p>
+                <p className="mb-2 text-xs font-semibold tracking-wider text-rose-300 uppercase">Validation Layer — Phase 4</p>
+                <h4 className="text-sm font-semibold text-white">Kali Linux — 192.168.100.50</h4>
+                <p className="mt-2 text-sm text-gray-400">Executes authorized pentest simulations to validate detections across DLP, Wazuh, and Snort.</p>
               </div>
             </div>
           </div>

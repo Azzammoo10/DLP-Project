@@ -8,8 +8,8 @@ import { useRef } from "react";
 
 const NODES = {
   finance: {
-    label: "Win-Finance",
-    sub: "DLP Agent",
+    label: "AXA AMS",
+    sub: "DLP Agent + Wazuh Agent",
     color: "#06b6d4",
     x: 20,
     y: 220,
@@ -17,8 +17,8 @@ const NODES = {
     h: 72,
   },
   central: {
-    label: "Ubuntu Server Central",
-    sub: "Wazuh • DLP • Snort IDS",
+    label: "SOC Server",
+    sub: "DLP Mgr • Wazuh • Snort IDS",
     color: "#10b981",
     x: 265,
     y: 185,
@@ -26,8 +26,8 @@ const NODES = {
     h: 120,
   },
   rh: {
-    label: "Win-RH",
-    sub: "DLP Agent",
+    label: "AXA GO",
+    sub: "DLP Agent + Wazuh Agent",
     color: "#3b82f6",
     x: 590,
     y: 220,
@@ -36,7 +36,7 @@ const NODES = {
   },
   kali: {
     label: "Kali Linux",
-    sub: "Pentest",
+    sub: "Pentest (Phase 4)",
     color: "#f43f5e",
     x: 300,
     y: 55,

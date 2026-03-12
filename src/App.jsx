@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState, useCallback } from "react";
+import { lazy, Suspense, useState, useCallback, Component } from "react";
 import SplashScreen from "./components/SplashScreen";
 import ConfidentialityBanner from "./components/ConfidentialityBanner";
 import Navbar from "./components/Navbar";
@@ -22,6 +22,45 @@ const ZeroTrust = lazy(() => import("./components/ZeroTrust"));
 const EvolutionRoadmap = lazy(() => import("./components/EvolutionRoadmap"));
 const Footer = lazy(() => import("./components/Footer"));
 
+/* Error boundary to catch chunk-loading failures and prevent garbled renders */
+class ChunkErrorBoundary extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+  componentDidCatch(error) {
+    // Auto-reload on chunk load failure (stale deployment)
+    if (
+      error?.name === "ChunkLoadError" ||
+      error?.message?.includes("Loading chunk") ||
+      error?.message?.includes("Failed to fetch dynamically imported module")
+    ) {
+      window.location.reload();
+    }
+  }
+  render() {
+    if (this.state.hasError) {
+      return (
+        <div className="flex min-h-[40vh] items-center justify-center">
+          <div className="text-center">
+            <p className="text-sm text-gray-400">Something went wrong.</p>
+            <button
+              onClick={() => window.location.reload()}
+              className="mt-3 rounded-lg bg-accent px-4 py-2 text-sm font-semibold text-white transition hover:bg-accent-light"
+            >
+              Reload Page
+            </button>
+          </div>
+        </div>
+      );
+    }
+    return this.props.children;
+  }
+}
+
 function App() {
   const [loading, setLoading] = useState(true);
   const handleSplashDone = useCallback(() => setLoading(false), []);
@@ -30,11 +69,12 @@ function App() {
     <>
       {loading && <SplashScreen onFinish={handleSplashDone} />}
       {!loading && (
-        <>
+        <div className="animate-fade-in">
           <Navbar />
           <main>
             <Hero />
             <ExecutiveOverview />
+        <ChunkErrorBoundary>
         <Suspense fallback={<div className="h-screen" />}>
           {/* 1. Strategy — 2-phase approach (Linux lab → Purview trial) */}
           <HybridDlp />
@@ -57,12 +97,15 @@ function App() {
           <ZeroTrust />
           <EvolutionRoadmap />
         </Suspense>
+        </ChunkErrorBoundary>
       </main>
+      <ChunkErrorBoundary>
       <Suspense fallback={null}>
         <Footer />
       </Suspense>
+      </ChunkErrorBoundary>
       <ConfidentialityBanner />
-        </>
+        </div>
       )}
     </>
   );

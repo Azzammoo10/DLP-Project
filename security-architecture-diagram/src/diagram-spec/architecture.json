@@ -1,47 +1,99 @@
 {
-  "architecture": "Layered Defense",
+  "architecture": "Hybrid Enterprise Security — Progressive Deployment",
   "style": "3d-text",
+  "network": {
+    "type": "VMware Host-Only",
+    "subnet": "192.168.100.0/24",
+    "gateway": "192.168.100.1"
+  },
+  "deploymentPhases": [
+    "Phase 1 — DLP Layer",
+    "Phase 2 — DLP Validation",
+    "Phase 3 — SOC Integration",
+    "Phase 4 — Pentesting Validation",
+    "Phase 5 — Zero Trust Integration"
+  ],
   "nodes": [
     {
-      "id": "ubuntu-central",
-      "name": "Ubuntu Server Central",
+      "id": "ubuntu-dlp-server",
+      "name": "SOC Server",
+      "hostname": "ubuntu-dlp-server",
+      "ip": "192.168.100.10",
+      "os": "Ubuntu Server 22.04 LTS",
       "layer": "core",
-      "services": ["Wazuh", "DLP", "Snort IDS"]
+      "services": ["DLP Manager", "Wazuh Manager", "Snort IDS", "Correlation Engine"],
+      "phase": 1
     },
     {
-      "id": "win-finance",
-      "name": "Win-Finance",
+      "id": "win-axa-go",
+      "name": "AXA GO",
+      "hostname": "win-win-axa-go",
+      "ip": "192.168.100.30",
+      "os": "Windows 10 Enterprise LTSC",
+      "role": "Corporate workstation",
       "layer": "left",
-      "services": ["DLP Agent"]
+      "services": ["DLP Agent", "Wazuh Agent"],
+      "phase": 1
     },
     {
-      "id": "win-rh",
-      "name": "Win-RH",
+      "id": "win-axa-ams",
+      "name": "AXA AMS",
+      "hostname": "win-win-axa-ams",
+      "ip": "192.168.100.20",
+      "os": "Windows 10 Enterprise LTSC",
+      "role": "Finance workstation",
       "layer": "right",
-      "services": ["DLP Agent"]
+      "services": ["DLP Agent", "Wazuh Agent"],
+      "phase": 1
     },
     {
       "id": "kali-linux",
       "name": "Kali Linux",
+      "hostname": "kali",
+      "ip": "192.168.100.50",
+      "os": "Kali Linux 2023.1+",
+      "role": "Pentesting machine",
       "layer": "back",
-      "services": ["Pentest"]
+      "services": ["Nmap", "Metasploit", "Burp Suite"],
+      "phase": 4
     }
   ],
   "links": [
     {
-      "from": "win-finance",
-      "to": "ubuntu-central",
-      "type": "agent-telemetry"
+      "from": "win-axa-go",
+      "to": "ubuntu-dlp-server",
+      "type": "agent-telemetry",
+      "protocols": ["Syslog TCP/UDP 514", "Wazuh API"]
     },
     {
-      "from": "win-rh",
-      "to": "ubuntu-central",
-      "type": "agent-telemetry"
+      "from": "win-axa-ams",
+      "to": "ubuntu-dlp-server",
+      "type": "agent-telemetry",
+      "protocols": ["Syslog TCP/UDP 514", "Wazuh API"]
     },
     {
       "from": "kali-linux",
-      "to": "ubuntu-central",
-      "type": "test-traffic"
+      "to": "ubuntu-dlp-server",
+      "type": "controlled-pentest-traffic",
+      "phase": 4
+    },
+    {
+      "from": "kali-linux",
+      "to": "win-axa-go",
+      "type": "controlled-pentest-traffic",
+      "phase": 4
+    },
+    {
+      "from": "kali-linux",
+      "to": "win-axa-ams",
+      "type": "controlled-pentest-traffic",
+      "phase": 4
     }
-  ]
+  ],
+  "zeroTrustLayer": {
+    "provider": "Microsoft Entra ID",
+    "subscription": "Azure Student",
+    "controls": ["MFA", "Conditional Access", "Device Compliance", "Network Micro-segmentation"],
+    "phase": 5
+  }
 }

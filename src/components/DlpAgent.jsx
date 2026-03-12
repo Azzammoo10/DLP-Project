@@ -243,12 +243,12 @@ export default function DlpAgent() {
             </h3>
             <div className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { key: "Platform", value: "Windows 10 / 11 Enterprise" },
-                { key: "Service", value: "dlp-agent.exe (auto-start)" },
+                { key: "Platform", value: "Windows 10 Enterprise LTSC" },
+                { key: "Service", value: "dlp-agent.exe + wazuh-agent (auto-start)" },
                 { key: "Deployment", value: "GPO / SCCM / Intune" },
                 { key: "Footprint", value: "< 50 MB RAM, < 2% CPU" },
-                { key: "Reporting", value: "Syslog TCP 514 → DLP-CENTRAL" },
-                { key: "Update", value: "Central policy push (hourly sync)" },
+                { key: "Reporting", value: "Syslog TCP 514 → UBUNTU-DLP-SERVER" },
+                { key: "Endpoints", value: "AXA GO (56.21), AXA AMS (56.22)" },
               ].map((s) => (
                 <div key={s.key} className="flex items-baseline gap-2 text-sm">
                   <span className="font-mono text-[11px] text-gray-500">{s.key}:</span>

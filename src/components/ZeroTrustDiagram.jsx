@@ -129,7 +129,7 @@ function BeforeArchitecture({ isInView }) {
     >
       {/* VMware host box */}
       <rect x={40} y={20} width={520} height={270} rx={12} fill="#1a0a0a" fillOpacity={0.3} stroke="#ef444440" strokeWidth={1} strokeDasharray="6 4" />
-      <text x={300} y={38} fill="#ef4444" fontSize="8" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif" opacity={0.6}>VMware Workstation — FLAT VMnet (NAT)</text>
+      <text x={300} y={38} fill="#ef4444" fontSize="8" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif" opacity={0.6}>VMware Workstation — FLAT VMnet (Host-Only) 192.168.100.0/24</text>
 
       {/* vSwitch at center */}
       <motion.g
@@ -142,15 +142,15 @@ function BeforeArchitecture({ isInView }) {
           <Icon d={ICONS.server} color="#64748b" size={14} />
         </foreignObject>
         <text x={300} y={145} fill="#94a3b8" fontSize="7" fontWeight="600" textAnchor="middle" fontFamily="Inter, sans-serif">vSwitch</text>
-        <text x={300} y={156} fill="#475569" fontSize="5" textAnchor="middle" fontFamily="monospace">VMnet8 (NAT)</text>
+        <text x={300} y={156} fill="#475569" fontSize="5" textAnchor="middle" fontFamily="monospace">Host-Only Network</text>
         <text x={300} y={165} fill="#475569" fontSize="4.5" textAnchor="middle" fontFamily="monospace">No segmentation</text>
       </motion.g>
 
       {/* VM Nodes — all on same VMnet, no isolation */}
-      <NetNode x={120} y={90} label="Kali Linux" sublabel="Attacker VM" icon="pc" color="#ef4444" status="breach" delay={0.3} isInView={isInView} noCircle />
-      <NetNode x={480} y={90} label="Win-Finance" sublabel="192.168.126.x" icon="pc" color="#ef4444" status="breach" delay={0.4} isInView={isInView} noCircle />
-      <NetNode x={120} y={210} label="Ubuntu Server" sublabel="Wazuh + DLP" icon="server" color="#ef4444" status="breach" delay={0.45} isInView={isInView} noCircle />
-      <NetNode x={480} y={210} label="File Share" sublabel="SMB open" icon="server" color="#ef4444" status="breach" delay={0.5} isInView={isInView} noCircle />
+      <NetNode x={120} y={90} label="Kali Linux" sublabel="192.168.100.50" icon="pc" color="#ef4444" status="breach" delay={0.3} isInView={isInView} noCircle />
+      <NetNode x={480} y={90} label="AXA AMS" sublabel="192.168.100.20" icon="pc" color="#ef4444" status="breach" delay={0.4} isInView={isInView} noCircle />
+      <NetNode x={120} y={210} label="SOC Server" sublabel="192.168.100.10" icon="server" color="#ef4444" status="breach" delay={0.45} isInView={isInView} noCircle />
+      <NetNode x={480} y={210} label="AXA GO" sublabel="192.168.100.30" icon="pc" color="#ef4444" status="breach" delay={0.5} isInView={isInView} noCircle />
 
       {/* All VMs connect through vSwitch — flat */}
       <Connection x1={138} y1={95} x2={260} y2={143} color="#ef444470" dashed delay={0.4} isInView={isInView} attackPulse />
@@ -273,8 +273,8 @@ function AfterArchitecture({ isInView }) {
       ))}
 
       {/* Nodes inside segments */}
-      <NetNode x={160} y={192} label="Ubuntu Server" sublabel="Wazuh + DLP" icon="server" color="#06b6d4" status="secure" delay={0.48} isInView={isInView} noCircle />
-      <NetNode x={310} y={192} label="Win-Finance" sublabel="Entra joined" icon="pc" color="#3b82f6" status="secure" delay={0.55} isInView={isInView} noCircle />
+      <NetNode x={160} y={192} label="SOC Server" sublabel="Wazuh + DLP Mgr" icon="server" color="#06b6d4" status="secure" delay={0.48} isInView={isInView} noCircle />
+      <NetNode x={310} y={192} label="AXA AMS" sublabel="Entra joined" icon="pc" color="#3b82f6" status="secure" delay={0.55} isInView={isInView} noCircle />
       <NetNode x={460} y={192} label="Snort IDS" sublabel="Monitoring" icon="shield" color="#a855f7" status="secure" delay={0.6} isInView={isInView} noCircle />
 
       {/* Identity-controlled connections from gates down to VMs */}
@@ -343,7 +343,7 @@ function AfterArchitecture({ isInView }) {
 /* ── Comparison stats ── */
 const COMPARISON = [
   { metric: "Authentication", before: "None (implicit)", after: "Entra ID + MFA (Azure Student)", color: "#3b82f6" },
-  { metric: "Network Model", before: "Flat VMnet (NAT)", after: "Segmented VMnets", color: "#06b6d4" },
+  { metric: "Network Model", before: "Flat VMnet (Host-Only)", after: "Segmented VMnets (56.0/24)", color: "#06b6d4" },
   { metric: "Lateral Movement", before: "Unrestricted across VMs", after: "Blocked between VMnets", color: "#ef4444" },
   { metric: "Access Policy", before: "IP-based", after: "Entra Conditional Access + Risk", color: "#10b981" },
   { metric: "Identity Provider", before: "None", after: "Microsoft Entra ID", color: "#a855f7" },

@@ -1,1 +1,7 @@
-<!-- This file contains the 3D architecture diagram representing the layered defense architecture with the Ubuntu server as the central component for Wazuh, DLP, and Snort IDS, along with Windows Finance and Windows RH as DLP agents, and Kali Linux for penetration testing. -->
+<!-- This file contains the 3D architecture diagram representing the progressive security architecture:
+     SOC Server (192.168.100.10) — DLP Manager, Wazuh Manager, Snort IDS
+     AXA GO (192.168.100.30)    — Corporate endpoint — DLP Agent + Wazuh Agent
+     AXA AMS (192.168.100.20)   — Finance endpoint   — DLP Agent + Wazuh Agent
+     Kali Linux (192.168.100.50) — Pentesting machine (Phase 4)
+     Network: VMware Host-Only — 192.168.100.0/24 — Gateway: 192.168.100.1
+-->

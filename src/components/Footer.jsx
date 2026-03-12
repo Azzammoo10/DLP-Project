@@ -24,14 +24,23 @@ export default function Footer() {
             </div>
             {/* TryHackMe Badge */}
             <div className="mt-3">
-              <iframe
-                src="https://tryhackme.com/api/v2/badges/public-profile?userPublicId=5975839"
-                width="400"
-                height="86"
-                scrolling="no"
-                style={{ border: "none", overflow: "hidden" }}
-                title="TryHackMe Badge"
-              />
+              <a
+                href="https://tryhackme.com/r/p/5975839"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 rounded-lg border border-navy-700 px-4 py-2 text-sm text-gray-400 transition-all hover:border-accent/40 hover:text-accent-light"
+              >
+                <img
+                  src="https://assets.tryhackme.com/img/favicon.png"
+                  alt="TryHackMe"
+                  width="20"
+                  height="20"
+                  className="rounded"
+                  loading="lazy"
+                  referrerPolicy="no-referrer"
+                />
+                TryHackMe Profile
+              </a>
             </div>
           </div>
 

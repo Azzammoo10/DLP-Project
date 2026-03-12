@@ -11,26 +11,26 @@ const LEVELS = [
 
 const MACHINE_COVERAGE = [
   {
-    machine: "Win-Finance",
-    role: "Endpoint (DLP Agent)",
+    machine: "AXA AMS (192.168.100.20)",
+    role: "Finance Endpoint — DLP Agent + Wazuh Agent",
     scope: "Applies L0–L3 classification on local files, clipboard, email and print actions.",
     color: "#06b6d4",
   },
   {
-    machine: "Win-RH",
-    role: "Endpoint (DLP Agent)",
-    scope: "Applies L0-L3 classification on HR datasets and user operations in real time.",
+    machine: "AXA GO (192.168.100.30)",
+    role: "Corporate Endpoint — DLP Agent + Wazuh Agent",
+    scope: "Applies L0–L3 classification on HR datasets and user operations in real time.",
     color: "#3b82f6",
   },
   {
-    machine: "Ubuntu Server Central",
-    role: "Wazuh + DLP + Snort",
+    machine: "SOC Server (192.168.100.10)",
+    role: "DLP Manager + Wazuh + Snort IDS",
     scope: "Stores and correlates classification events from all machines for alerting and response.",
     color: "#10b981",
   },
   {
-    machine: "Kali Linux",
-    role: "Pentest Validation",
+    machine: "Kali Linux (192.168.100.50)",
+    role: "Pentest Validation — Phase 4",
     scope: "Validates that L2/L3 controls are enforced during authorized attack simulations.",
     color: "#f43f5e",
   },

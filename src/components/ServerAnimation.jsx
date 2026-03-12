@@ -62,7 +62,7 @@ export default function ServerAnimation({ activeTool, onToolHover }) {
       <rect x="334" y="82" width="4" height="228" rx="1" fill="#0b1220" />
 
       <text x="218" y="98" textAnchor="middle" fill="#64748b" fontSize="8" fontFamily="monospace">
-        UBUNTU SERVER 22.04 LTS — DLP-CENTRAL-01
+        UBUNTU SERVER 22.04 LTS — UBUNTU-DLP-SERVER
       </text>
 
       <rect x="118" y="114" width="190" height="16" rx="4" fill="#0d1728" stroke="#243246" strokeWidth="1" />

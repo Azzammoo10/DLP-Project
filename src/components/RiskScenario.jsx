@@ -164,7 +164,9 @@ function SceneVisualization({ activeStep }) {
                 <motion.circle
                   r="4"
                   fill={nodes[i - 1].color}
+                  cx={x1}
                   cy={50}
+                  initial={{ cx: x1, opacity: 0 }}
                   animate={{ cx: [x1, x2], opacity: [0, 1, 1, 0] }}
                   transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 2, delay: i * 0.3 }}
                   style={{ filter: `drop-shadow(0 0 4px ${nodes[i - 1].color})` }}

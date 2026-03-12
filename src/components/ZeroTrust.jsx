@@ -6,7 +6,7 @@ const WHY_REASONS = [
   {
     icon: "M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z",
     title: "Lateral Movement in VMware",
-    desc: "On the flat VMnet (NAT), the Kali VM moved freely to Win-Finance and Ubuntu Server — all VMs shared the same network segment with zero identity checks.",
+    desc: "On the flat Host-Only VMnet (192.168.100.0/24), the Kali VM moved freely to AXA AMS and the SOC Server — all VMs shared the same network segment with zero identity checks.",
     color: "#ef4444",
   },
   {

@@ -212,11 +212,11 @@ export default function DlpServer() {
             <div className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 { key: "OS", value: "Ubuntu Server 22.04 LTS" },
-                { key: "Role", value: "Central DLP Security Node" },
-                { key: "Ingestion", value: "Syslog TCP/UDP 514 + API" },
-                { key: "Storage", value: "Encrypted local storage" },
-                { key: "Services", value: "4 core components" },
-                { key: "Network", value: "Management VLAN, isolated segment" },
+                { key: "Hostname", value: "UBUNTU-DLP-SERVER (192.168.100.10)" },
+                { key: "Role", value: "SOC Platform — DLP + SIEM + IDS" },
+                { key: "Ingestion", value: "Syslog TCP/UDP 514 + Wazuh API" },
+                { key: "Services", value: "DLP Manager, Wazuh, Snort, Correlation" },
+                { key: "Network", value: "Host-Only — 192.168.100.0/24" },
               ].map((s) => (
                 <div key={s.key} className="flex items-baseline gap-2 text-sm">
                   <span className="font-mono text-[11px] text-gray-500">{s.key}:</span>

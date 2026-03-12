@@ -6,12 +6,12 @@ import { useRef } from "react";
  */
 
 const PHASES = [
-  { label: "DLP Foundation", color: "#3b82f6", status: "done" },
-  { label: "SOC Integration", color: "#06b6d4", status: "done" },
-  { label: "IDS Integration", color: "#10b981", status: "done" },
-  { label: "Governance", color: "#f59e0b", status: "done" },
+  { label: "DLP Layer", color: "#3b82f6", status: "done" },
+  { label: "DLP Validation", color: "#06b6d4", status: "done" },
+  { label: "SOC Integration", color: "#10b981", status: "done" },
+  { label: "Pentesting", color: "#f59e0b", status: "done" },
   { label: "Zero Trust", color: "#a855f7", status: "active" },
-  { label: "Purview Enterprise", color: "#f43f5e", status: "planned" },
+  { label: "Purview", color: "#f43f5e", status: "planned" },
 ];
 
 export default function RoadmapTimeline() {

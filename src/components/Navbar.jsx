@@ -3,10 +3,10 @@ import axaLogo from "../assets/axa.png";
 
 const NAV_LINKS = [
   { label: "Architecture", href: "#architecture" },
+  { label: "Governance", href: "#governance" },
   { label: "Scenario", href: "#scenario" },
   { label: "Validation", href: "#validation" },
   { label: "Zero Trust", href: "#zerotrust" },
-  { label: "Governance", href: "#governance" },
   { label: "Roadmap", href: "#roadmap" },
 ];
 

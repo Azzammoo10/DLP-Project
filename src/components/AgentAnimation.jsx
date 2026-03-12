@@ -46,8 +46,8 @@ export default function AgentAnimation({ activeTool, onToolHover }) {
         <rect x="0" y="12" width="10" height="10" rx="1" fill="#3b82f6" opacity="0.4" />
         <rect x="12" y="12" width="10" height="10" rx="1" fill="#3b82f6" opacity="0.3" />
       </g>
-      <text x="120" y="110" textAnchor="middle" className="text-[7px]" fill="#475569" fontFamily="monospace">WINDOWS 10 / 11</text>
-      <text x="120" y="120" textAnchor="middle" className="text-[6px]" fill="#334155" fontFamily="monospace">DLP-AGENT-01</text>
+      <text x="120" y="110" textAnchor="middle" className="text-[7px]" fill="#475569" fontFamily="monospace">WIN 10 ENT LTSC</text>
+      <text x="120" y="120" textAnchor="middle" className="text-[6px]" fill="#334155" fontFamily="monospace">DLP + WAZUH AGENT</text>
 
       {/* ── Laptop keyboard/base ── */}
       <path d="M30,160 L45,145 L195,145 L210,160 Z" fill="#1e293b" stroke="#334155" strokeWidth="1" />
@@ -163,7 +163,7 @@ export default function AgentAnimation({ activeTool, onToolHover }) {
 
         <rect x="60" y="308" width="120" height="18" rx="4" fill="#0f172a" stroke="#1e293b" strokeWidth="0.8" />
         <text x="120" y="320" textAnchor="middle" className="text-[6.5px]" fill="#64748b" fontFamily="monospace">
-          SYSLOG → DLP-CENTRAL-01
+          SYSLOG → UBUNTU-DLP-SERVER
         </text>
 
         <g className="anim-pulse">

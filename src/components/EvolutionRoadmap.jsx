@@ -3,11 +3,11 @@ import ScrollReveal from "./ScrollReveal";
 import RoadmapTimeline from "./RoadmapTimeline";
 
 const PHASE_DETAILS = [
-  { phase: "Phase 1", title: "Foundational DLP", items: ["DLP baseline", "Endpoint agents"] },
-  { phase: "Phase 2", title: "SOC Integration", items: ["Wazuh SIEM", "Correlation rules"] },
-  { phase: "Phase 3", title: "IDS Layer", items: ["Snort IDS", "Network visibility"] },
-  { phase: "Phase 4", title: "Governance", items: ["Escalation flow", "Manager alerts"] },
-  { phase: "Phase 5", title: "Zero Trust", items: ["Entra ID", "MFA + Conditional Access"] },
+  { phase: "Phase 1", title: "DLP Layer", items: ["DLP Manager on SOC Server", "DLP Agents on AXA GO + AXA AMS"] },
+  { phase: "Phase 2", title: "DLP Validation", items: ["Test file: finance_report.pdf", "Verify DLP alert triggered"] },
+  { phase: "Phase 3", title: "SOC Integration", items: ["Wazuh Manager + Agents", "Snort IDS + correlation rules"] },
+  { phase: "Phase 4", title: "Pentesting Validation", items: ["Kali Linux (192.168.100.50)", "Correlated DLP + Wazuh + Snort alerts"] },
+  { phase: "Phase 5", title: "Zero Trust", items: ["Microsoft Entra ID", "MFA + Conditional Access + micro-segmentation"] },
   { phase: "Phase 6", title: "Purview", items: ["Cloud DLP", "Unified governance"] },
 ];
 
