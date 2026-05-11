@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
 import ServerAnimation from "./ServerAnimation";
+import ApiDashboardOverlay from "./ApiDashboardOverlay";
 
 /* ── Detailed tool descriptions shown on hover/click ── */
 const TOOL_DETAILS = {
@@ -73,6 +74,7 @@ const TOOL_IDS = ["manager", "alertlogger", "dlpaddon", "rules", "dlpemailsender
 
 export default function DlpServer() {
   const [activeTool, setActiveTool] = useState(null);
+  const [showDashboard, setShowDashboard] = useState(false);
   const detail = activeTool ? TOOL_DETAILS[activeTool] : null;
 
   return (
@@ -95,6 +97,21 @@ export default function DlpServer() {
             <p className="mb-6 text-center text-xs text-gray-600">
               Each rack unit is one core service
             </p>
+
+            <div className="flex justify-center mb-8">
+              <motion.button
+                whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(59, 130, 246, 0.4)" }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowDashboard(true)}
+                className="group relative flex items-center gap-2 overflow-hidden rounded-full bg-blue-600/20 px-6 py-2.5 text-xs font-bold tracking-widest text-blue-400 uppercase transition-all hover:bg-blue-600 hover:text-white border border-blue-500/30"
+              >
+                <div className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover:animate-shine" />
+                <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                <span>View Live API Dashboard</span>
+              </motion.button>
+            </div>
 
             <div className="grid gap-6 lg:grid-cols-2 items-start">
               {/* Left — Animated server SVG */}
@@ -235,6 +252,11 @@ export default function DlpServer() {
             </div>
           </div>
         </ScrollReveal>
+        {/* ── Dashboard Overlay ── */}
+        <ApiDashboardOverlay 
+          isOpen={showDashboard} 
+          onClose={() => setShowDashboard(false)} 
+        />
       </div>
     </section>
   );

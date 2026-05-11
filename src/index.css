@@ -105,3 +105,11 @@ body {
 .anim-pulse-d3 { animation: pulse-soft 2s ease-in-out infinite 0.9s; }
 .anim-dash { animation: dash-flow 1s linear infinite; }
 .anim-dash-slow { animation: dash-flow-slow 1.5s linear infinite; }
+
+@keyframes shine {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+.animate-shine {
+  animation: shine 2s infinite;
+}
