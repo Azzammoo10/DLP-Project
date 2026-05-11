@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion as Motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 /**
@@ -90,7 +90,7 @@ export default function ArchitectureDiagramSVG() {
         <rect x="1" y="1" width="898" height="378" rx="16" fill="#0b1220" stroke="#1e293b" strokeWidth="1" />
         <rect x="8" y="8" width="884" height="364" rx="12" fill="url(#techGrid)" opacity="0.35" />
 
-        <motion.rect
+        <Motion.rect
           x={NODES.central.x - 12}
           y={NODES.central.y - 12}
           width={NODES.central.w + 24}
@@ -104,7 +104,7 @@ export default function ArchitectureDiagramSVG() {
           transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}
         />
 
-        <motion.line
+        <Motion.line
           x1={financeEdgeX}
           y1={financeEdgeY}
           x2={centralLeftX}
@@ -118,7 +118,7 @@ export default function ArchitectureDiagramSVG() {
           transition={{ duration: 0.7, delay: 0.2 }}
         />
 
-        <motion.line
+        <Motion.line
           x1={rhEdgeX}
           y1={rhEdgeY}
           x2={centralRightX}
@@ -132,7 +132,7 @@ export default function ArchitectureDiagramSVG() {
           transition={{ duration: 0.7, delay: 0.35 }}
         />
 
-        <motion.line
+        <Motion.line
           x1={kaliEdgeX}
           y1={kaliEdgeY}
           x2={centralTopX}
@@ -146,7 +146,9 @@ export default function ArchitectureDiagramSVG() {
           transition={{ duration: 0.7, delay: 0.5 }}
         />
 
-        <motion.circle
+        <Motion.circle
+          cx={financeEdgeX}
+          cy={financeEdgeY}
           r="3.5"
           fill="#67e8f9"
           initial={{ opacity: 0 }}
@@ -162,7 +164,9 @@ export default function ArchitectureDiagramSVG() {
           transition={{ duration: 1.6, repeat: Infinity, repeatDelay: 0.8, ease: "linear" }}
         />
 
-        <motion.circle
+        <Motion.circle
+          cx={rhEdgeX}
+          cy={rhEdgeY}
           r="3.5"
           fill="#93c5fd"
           initial={{ opacity: 0 }}
@@ -178,7 +182,9 @@ export default function ArchitectureDiagramSVG() {
           transition={{ duration: 1.6, delay: 0.35, repeat: Infinity, repeatDelay: 0.8, ease: "linear" }}
         />
 
-        <motion.circle
+        <Motion.circle
+          cx={kaliEdgeX}
+          cy={kaliEdgeY}
           r="3.5"
           fill="#fda4af"
           initial={{ opacity: 0 }}
@@ -194,18 +200,18 @@ export default function ArchitectureDiagramSVG() {
           transition={{ duration: 1.7, delay: 0.5, repeat: Infinity, repeatDelay: 1, ease: "linear" }}
         />
 
-        <motion.text x={financeEdgeX + (centralLeftX - financeEdgeX) * 0.45} y={financeEdgeY + 12} fill="#67e8f9" fontSize="10" fontFamily="JetBrains Mono, monospace" initial={{ opacity: 0 }} animate={isInView ? { opacity: 0.7 } : {}} transition={{ delay: 0.9 }}>
+        <Motion.text x={financeEdgeX + (centralLeftX - financeEdgeX) * 0.45} y={financeEdgeY + 12} fill="#67e8f9" fontSize="10" fontFamily="JetBrains Mono, monospace" initial={{ opacity: 0 }} animate={isInView ? { opacity: 0.7 } : {}} transition={{ delay: 0.9 }}>
           telemetry + policy events
-        </motion.text>
-        <motion.text x={centralRightX + (rhEdgeX - centralRightX) * 0.2} y={rhEdgeY + 12} fill="#93c5fd" fontSize="10" fontFamily="JetBrains Mono, monospace" initial={{ opacity: 0 }} animate={isInView ? { opacity: 0.7 } : {}} transition={{ delay: 1 }}>
+        </Motion.text>
+        <Motion.text x={centralRightX + (rhEdgeX - centralRightX) * 0.2} y={rhEdgeY + 12} fill="#93c5fd" fontSize="10" fontFamily="JetBrains Mono, monospace" initial={{ opacity: 0 }} animate={isInView ? { opacity: 0.7 } : {}} transition={{ delay: 1 }}>
           telemetry + policy events
-        </motion.text>
-        <motion.text x="345" y="170" fill="#fda4af" fontSize="10" fontFamily="JetBrains Mono, monospace" initial={{ opacity: 0 }} animate={isInView ? { opacity: 0.8 } : {}} transition={{ delay: 1.1 }}>
+        </Motion.text>
+        <Motion.text x="345" y="170" fill="#fda4af" fontSize="10" fontFamily="JetBrains Mono, monospace" initial={{ opacity: 0 }} animate={isInView ? { opacity: 0.8 } : {}} transition={{ delay: 1.1 }}>
           controlled pentest traffic
-        </motion.text>
+        </Motion.text>
 
         {Object.entries(NODES).map(([id, node], index) => (
-          <motion.g
+          <Motion.g
             key={id}
             initial={{ opacity: 0, y: 10 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -242,7 +248,7 @@ export default function ArchitectureDiagramSVG() {
                 <rect x={node.x + node.w - 71} y={node.y + 30} width="42" height="10" rx="2" fill="#1f2937" stroke="#4b5563" strokeWidth="0.5" />
                 <rect x={node.x + node.w - 71} y={node.y + 45} width="42" height="10" rx="2" fill="#1f2937" stroke="#4b5563" strokeWidth="0.5" />
                 <rect x={node.x + node.w - 71} y={node.y + 60} width="42" height="10" rx="2" fill="#1f2937" stroke="#4b5563" strokeWidth="0.5" />
-                <motion.circle
+                <Motion.circle
                   cx={node.x + node.w - 35}
                   cy={node.y + 87}
                   r="2.3"
@@ -289,7 +295,7 @@ export default function ArchitectureDiagramSVG() {
             >
               {node.sub}
             </text>
-          </motion.g>
+          </Motion.g>
         ))}
       </svg>
     </div>

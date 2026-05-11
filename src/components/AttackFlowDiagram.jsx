@@ -601,6 +601,8 @@ function NetworkMap({ activeStep }) {
               {/* Multiple data particles */}
               {[0, 0.5, 1].map((delay) => (
                 <motion.rect key={delay} width={8} height={4} rx={1} fill="#ef4444"
+                  x={nodes[2].x + 68}
+                  y={nodes[2].y + 26}
                   animate={{
                     x: [nodes[2].x + 68, nodes[4].x + 30],
                     y: [nodes[2].y + 26, nodes[4].y + 26],

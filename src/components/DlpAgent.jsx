@@ -1,3 +1,4 @@
+// Updated: Sprint 1 & Sprint 2 — v2.0
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeading from "./SectionHeading";
@@ -6,81 +7,87 @@ import AgentAnimation from "./AgentAnimation";
 
 /* ── Concise monitoring layer details ── */
 const LAYER_DETAILS = {
-  file: {
-    name: "File Access Monitoring",
-    role: "File System API Hooks",
+  filescanner: {
+    name: "filescanner.py",
+    role: "Vecteur FILE",
     color: "#3b82f6",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
       </svg>
     ),
-    description:
-      "Monitors sensitive file operations in real time and blocks unauthorized data movement.",
-    specs: [
-      "Engine: Windows Minifilter Driver",
-      "Coverage: read, write, copy, rename, delete",
-      "Output: alert + block for classified files",
-    ],
-    detection: "Example: classified file copied to USB → blocked + alert",
+    description: "Surveillance filesystem watchdog + scan keywords + popup tkinter.",
+    specs: ["Librairie: watchdog, tkinter", "Méthode: FS Monitoring"],
+    detection: "BLOCK: Suppression fichier + popup tkinter",
   },
-  process: {
-    name: "Process Execution Tracking",
-    role: "ETW Kernel-Level Tracing",
+  clipboardmonitor: {
+    name: "clipboardmonitor.py",
+    role: "Vecteur CLIPBOARD",
     color: "#a855f7",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
-    description:
-      "Tracks suspicious process activity around sensitive data access.",
-    specs: [
-      "Source: ETW kernel process events",
-      "Tracked: process create/stop and command line",
-      "Output: blocked tool + risk alert",
-    ],
-    detection: "Example: archive tool on sensitive folder → blocked + alert",
+    description: "Polling pyperclip + hashlib déduplication.",
+    specs: ["Librairie: pyperclip, hashlib", "Méthode: Polling Clipboard"],
+    detection: "AUDIT: Log + popup warning utilisateur",
   },
-  network: {
-    name: "Network Connection Monitoring",
-    role: "Outbound Traffic Capture",
+  usbmonitor: {
+    name: "usbmonitor.py",
+    role: "Vecteur USB",
     color: "#06b6d4",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9" />
       </svg>
     ),
-    description:
-      "Observes outbound connections and flags exfiltration behavior.",
-    specs: [
-      "Engine: Windows Filtering Platform",
-      "Coverage: TCP/UDP/DNS/HTTP(S)",
-      "Output: network alert to central correlation",
-    ],
-    detection: "Example: large outbound transfer → alert + correlation",
+    description: "psutil détection lecteurs amovibles + watchdog.",
+    specs: ["Librairie: psutil, watchdog, ctypes", "Méthode: Removable Drives"],
+    detection: "ALERT: Log silencieux uniquement",
   },
-  content: {
-    name: "Content Pattern Detection",
-    role: "Inline Regex & Fingerprint Engine",
+  emailmonitor: {
+    name: "emailmonitor.py",
+    role: "Vecteur EMAIL",
     color: "#f59e0b",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
-    description:
-      "Scans content patterns and fingerprints before data leaves the endpoint.",
-    specs: [
-      "Rules: regex + keywords + fingerprints",
-      "Channels: clipboard, file, email, print",
-      "Output: immediate DLP policy decision",
-    ],
-    detection: "Example: sensitive pattern in webmail → blocked + critical alert",
+    description: "Serveur SMTP local aiosmtpd + parsing MIME.",
+    specs: ["Librairie: aiosmtpd, email", "Méthode: SMTP Proxying"],
+    detection: "ALLOW: Aucune action",
+  },
+  networkmonitor: {
+    name: "networkmonitor.py",
+    role: "Vecteur CLOUD/NETWORK",
+    color: "#ef4444",
+    icon: (
+      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+      </svg>
+    ),
+    description: "psutil connexions actives + reverse DNS cloud + corrélation fichiers.",
+    specs: ["Librairie: psutil, socket", "Méthode: Active TCP connections"],
+    detection: "BLOCK: Interruption transfert",
+  },
+  alertsender: {
+    name: "alertsender.py",
+    role: "TRANSPORT",
+    color: "#10b981",
+    icon: (
+      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+      </svg>
+    ),
+    description: "HTTP POST vers 192.168.100.10:5000/alert + retry queue locale.",
+    specs: ["Librairie: requests, threading", "File: agent/alertsqueue.json"],
+    detection: "POST Payload JSON",
   },
 };
 
-const LAYER_IDS = ["file", "process", "network", "content"];
+const LAYER_IDS = ["filescanner", "clipboardmonitor", "usbmonitor", "emailmonitor", "networkmonitor", "alertsender"];
 
 export default function DlpAgent() {
   const [activeTool, setActiveTool] = useState(null);
@@ -243,12 +250,12 @@ export default function DlpAgent() {
             </h3>
             <div className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
               {[
-                { key: "Platform", value: "Windows 10 Enterprise LTSC" },
-                { key: "Service", value: "dlp-agent.exe + wazuh-agent (auto-start)" },
-                { key: "Deployment", value: "GPO / SCCM / Intune" },
-                { key: "Footprint", value: "< 50 MB RAM, < 2% CPU" },
-                { key: "Reporting", value: "Syslog TCP 514 → UBUNTU-DLP-SERVER" },
-                { key: "Endpoints", value: "AXA GO (56.21), AXA AMS (56.22)" },
+                { key: "Platform", value: "Windows 11 LTSC" },
+                { key: "Endpoints", value: "AXA-AMS (192.168.100.20), AXA-GO (192.168.100.30)" },
+                { key: "Config", value: "agentconfig.json" },
+                { key: "Cible", value: "POST http://192.168.100.10:5000/alert" },
+                { key: "Actions", value: "Secret: BLOCK, Confidential: AUDIT, Internal: ALERT, Public: ALLOW" },
+                { key: "Payload", value: "JSON (timestamp, classification, vector, hostname, ruleid...)" },
               ].map((s) => (
                 <div key={s.key} className="flex items-baseline gap-2 text-sm">
                   <span className="font-mono text-[11px] text-gray-500">{s.key}:</span>

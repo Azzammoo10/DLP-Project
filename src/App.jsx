@@ -1,3 +1,4 @@
+// Updated: Sprint 1 & Sprint 2 — v2.0
 import { lazy, Suspense, useState, useCallback, Component } from "react";
 import SplashScreen from "./components/SplashScreen";
 import ConfidentialityBanner from "./components/ConfidentialityBanner";
@@ -18,7 +19,6 @@ const GovernanceWorkflow = lazy(() => import("./components/GovernanceWorkflow"))
 const RiskScenario = lazy(() => import("./components/RiskScenario"));
 const OffensiveValidation = lazy(() => import("./components/OffensiveValidation"));
 const SocPlaybooks = lazy(() => import("./components/SocPlaybooks"));
-const ZeroTrust = lazy(() => import("./components/ZeroTrust"));
 const EvolutionRoadmap = lazy(() => import("./components/EvolutionRoadmap"));
 const Footer = lazy(() => import("./components/Footer"));
 
@@ -94,7 +94,6 @@ function App() {
           <OffensiveValidation />
           <SocPlaybooks />
           {/* 6. Remediate + future */}
-          <ZeroTrust />
           <EvolutionRoadmap />
         </Suspense>
         </ChunkErrorBoundary>

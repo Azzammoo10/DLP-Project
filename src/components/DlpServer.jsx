@@ -1,3 +1,4 @@
+// Updated: Sprint 1 & Sprint 2 — v2.0
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import SectionHeading from "./SectionHeading";
@@ -6,61 +7,69 @@ import ServerAnimation from "./ServerAnimation";
 
 /* ── Detailed tool descriptions shown on hover/click ── */
 const TOOL_DETAILS = {
-  wazuh: {
-    name: "Wazuh Manager",
-    role: "SIEM & Log Correlation",
+  manager: {
+    name: "Flask REST API",
+    role: "manager.py",
     color: "#3b82f6",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 12h14M12 5l7 7-7 7" />
       </svg>
     ),
-    description: "Central SIEM service for collecting logs and generating security alerts.",
-    specs: ["Ingestion: Syslog + Wazuh API", "Role: Central alerting", "Output: Correlated security events"],
+    description: "API REST (port 5000) for ingestion alertes & règles DLP.",
+    specs: ["Endpoints: /alert, /health, /stats, /labeled, /alerts", "Reload: /reload hot reload", "Dépendances: flask, requests, threading"],
   },
-  dlpscripts: {
-    name: "DLP Custom Scripts",
-    role: "Custom DLP Policy & Enforcement Engine",
-    color: "#e11d48",
+  alertlogger: {
+    name: "Alert Logger",
+    role: "alertlogger.py",
+    color: "#10b981",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
       </svg>
     ),
-    description: "Custom logic for DLP parsing, policy checks, and local response actions.",
-    specs: [
-      "dlp_parser.py: normalize agent events",
-      "classify_enforce.py: apply DLP policy",
-      "dlp_response.sh: block/quarantine actions",
-    ],
+    description: "Thread-safe normalization and persistence into JSONL format.",
+    specs: ["Log: /var/log/dlp/dlp.json", "Log: /var/log/dlp/labeledfiles.json", "Log: /var/log/dlp/alerts.log"],
   },
-  snort: {
-    name: "Snort IDS Engine",
-    role: "Network Intrusion Detection",
+  dlpaddon: {
+    name: "Mitmproxy Addon",
+    role: "dlpaddon.py",
+    color: "#f59e0b",
+    icon: (
+      <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" />
+      </svg>
+    ),
+    description: "Mitmproxy addon for HTTPS and Dropbox cloud inspection.",
+    specs: ["Role: HTTPS Decryption", "Vector: CLOUD", "Dependencies: mitmproxy"],
+  },
+  rules: {
+    name: "DLP Policy Catalog",
+    role: "rules.json",
     color: "#ef4444",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 9v2m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
       </svg>
     ),
-    description: "Network intrusion detection service for suspicious traffic and attack patterns.",
-    specs: ["Mode: IDS", "Input: mirrored/SPAN traffic", "Output: alerts to Wazuh"],
+    description: "Catalogue of DLP policies for Public, Internal, Confidential, and Secret.",
+    specs: ["Classifications: 4 levels", "Format: JSON", "Dependencies: json"],
   },
-  correlation: {
-    name: "Correlation Engine",
-    role: "Cross-Source Event Linking",
+  dlpemailsender: {
+    name: "Email Simulator",
+    role: "dlpemailsender.py",
     color: "#a855f7",
     icon: (
       <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101M10.172 13.828a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.102 1.101" />
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
       </svg>
     ),
-    description: "Links Wazuh, Snort, and DLP events into one incident timeline.",
-    specs: ["Keys: IP, user, asset", "Window: short time-based matching", "Output: single correlated incident"],
+    description: "Relai and simulation for outbound email interception testing.",
+    specs: ["Vector: EMAIL", "Role: Outbound Email Simulation", "Dependencies: datetime"],
   },
 };
 
-const TOOL_IDS = ["wazuh", "snort", "dlpscripts", "correlation"];
+const TOOL_IDS = ["manager", "alertlogger", "dlpaddon", "rules", "dlpemailsender"];
 
 export default function DlpServer() {
   const [activeTool, setActiveTool] = useState(null);
@@ -73,7 +82,7 @@ export default function DlpServer() {
           <SectionHeading
             label="Server Architecture"
             title="DLP Server Technical Architecture"
-            subtitle="Ubuntu central server with 4 core components: Wazuh, Snort, DLP Custom, and Correlation Engine."
+            subtitle="Serveur central Ubuntu hébergeant l'API Flask, la journalisation DLP, et l'inspection réseau."
           />
         </ScrollReveal>
 
@@ -212,11 +221,11 @@ export default function DlpServer() {
             <div className="grid gap-x-8 gap-y-2 sm:grid-cols-2 lg:grid-cols-3">
               {[
                 { key: "OS", value: "Ubuntu Server 22.04 LTS" },
-                { key: "Hostname", value: "UBUNTU-DLP-SERVER (192.168.100.10)" },
-                { key: "Role", value: "SOC Platform — DLP + SIEM + IDS" },
-                { key: "Ingestion", value: "Syslog TCP/UDP 514 + Wazuh API" },
-                { key: "Services", value: "DLP Manager, Wazuh, Snort, Correlation" },
-                { key: "Network", value: "Host-Only — 192.168.100.0/24" },
+                { key: "Hostname", value: "DLPSOC" },
+                { key: "IP", value: "192.168.100.10" },
+                { key: "Réseau", value: "VMware Host-Only 192.168.100.0/24" },
+                { key: "Dépendances", value: "flask, requests, mitmproxy, json, logging..." },
+                { key: "Logs", value: "/var/log/dlp/dlp.json & alerts.log" },
               ].map((s) => (
                 <div key={s.key} className="flex items-baseline gap-2 text-sm">
                   <span className="font-mono text-[11px] text-gray-500">{s.key}:</span>

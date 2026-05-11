@@ -1,13 +1,16 @@
+// Updated: Sprint 1 & Sprint 2 — v2.0
 /**
  * Animated SVG of a Windows endpoint workstation with 4 monitoring
  * layers. Uses CSS animations for infinite loops (GPU performance).
  */
 
 const LAYERS = [
-  { id: "file",    y: 78,  label: "FILE ACCESS MONITOR",       color: "#3b82f6", icon: "M5 4h4l2 2h4a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z" },
-  { id: "process", y: 122, label: "PROCESS EXECUTION TRACKER",  color: "#a855f7", icon: "M9 3v2m6-2v2M5 9h14M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" },
-  { id: "network", y: 166, label: "NETWORK CONNECTION MONITOR", color: "#06b6d4", icon: "M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9" },
-  { id: "content", y: 210, label: "CONTENT PATTERN DETECTOR",   color: "#f59e0b", icon: "M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" },
+  { id: "filescanner",    y: 70,  label: "FILESCANNER",       color: "#3b82f6", icon: "M5 4h4l2 2h4a1 1 0 011 1v8a1 1 0 01-1 1H5a1 1 0 01-1-1V5a1 1 0 011-1z" },
+  { id: "clipboardmonitor", y: 106, label: "CLIPBOARDMONITOR",  color: "#a855f7", icon: "M9 3v2m6-2v2M5 9h14M7 19h10a2 2 0 002-2V7a2 2 0 00-2-2H7a2 2 0 00-2 2v10a2 2 0 002 2z" },
+  { id: "usbmonitor", y: 142, label: "USBMONITOR", color: "#06b6d4", icon: "M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9" },
+  { id: "emailmonitor", y: 178, label: "EMAILMONITOR",   color: "#f59e0b", icon: "M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" },
+  { id: "networkmonitor", y: 214, label: "NETWORKMONITOR", color: "#ef4444", icon: "M12 11c0 3.517-1.009 6.799-2.753 9.571m-3.44-2.04l.054-.09A13.916 13.916 0 008 11a4 4 0 118 0c0 1.017-.07 2.019-.203 3m-2.118 6.844A21.88 21.88 0 0015.171 17m3.839 1.132c.645-2.266.99-4.659.99-7.132A8 8 0 008 4.07M3 15.364c.64-1.319 1-2.8 1-4.364 0-1.457.39-2.823 1.07-4" },
+  { id: "alertsender", y: 250, label: "ALERTSENDER", color: "#10b981", icon: "M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" },
 ];
 
 export default function AgentAnimation({ activeTool, onToolHover }) {
@@ -46,8 +49,8 @@ export default function AgentAnimation({ activeTool, onToolHover }) {
         <rect x="0" y="12" width="10" height="10" rx="1" fill="#3b82f6" opacity="0.4" />
         <rect x="12" y="12" width="10" height="10" rx="1" fill="#3b82f6" opacity="0.3" />
       </g>
-      <text x="120" y="110" textAnchor="middle" className="text-[7px]" fill="#475569" fontFamily="monospace">WIN 10 ENT LTSC</text>
-      <text x="120" y="120" textAnchor="middle" className="text-[6px]" fill="#334155" fontFamily="monospace">DLP + WAZUH AGENT</text>
+      <text x="120" y="110" textAnchor="middle" className="text-[7px]" fill="#475569" fontFamily="monospace">WIN 11 LTSC</text>
+      <text x="120" y="120" textAnchor="middle" className="text-[6px]" fill="#334155" fontFamily="monospace">AXA-AMS / AXA-GO</text>
 
       {/* ── Laptop keyboard/base ── */}
       <path d="M30,160 L45,145 L195,145 L210,160 Z" fill="#1e293b" stroke="#334155" strokeWidth="1" />
@@ -128,10 +131,12 @@ export default function AgentAnimation({ activeTool, onToolHover }) {
               fill={isActive ? layer.color : "#334155"}
               fontFamily="monospace"
             >
-              {layer.id === "file" && "FS API HOOKS — REAL-TIME"}
-              {layer.id === "process" && "ETW TRACING — KERNEL LEVEL"}
-              {layer.id === "network" && "OUTBOUND CAPTURE — TCP/UDP"}
-              {layer.id === "content" && "REGEX + FINGERPRINT — INLINE"}
+              {layer.id === "filescanner" && "WATCHDOG + TKINTER"}
+              {layer.id === "clipboardmonitor" && "PYPERCLIP + HASHLIB"}
+              {layer.id === "usbmonitor" && "PSUTIL + WATCHDOG"}
+              {layer.id === "emailmonitor" && "AIOSMTPD + MIME"}
+              {layer.id === "networkmonitor" && "PSUTIL + REVERSE DNS"}
+              {layer.id === "alertsender" && "HTTP POST + QUEUE"}
             </text>
 
             <line
@@ -163,7 +168,7 @@ export default function AgentAnimation({ activeTool, onToolHover }) {
 
         <rect x="60" y="308" width="120" height="18" rx="4" fill="#0f172a" stroke="#1e293b" strokeWidth="0.8" />
         <text x="120" y="320" textAnchor="middle" className="text-[6.5px]" fill="#64748b" fontFamily="monospace">
-          SYSLOG → UBUNTU-DLP-SERVER
+          POST → 192.168.100.10:5000/alert
         </text>
 
         <g className="anim-pulse">

@@ -100,6 +100,8 @@ export default function GovernanceDiagram() {
               {/* Animated pulse */}
               {isInView && (
                 <motion.circle
+                  cx={x1}
+                  cy={cy}
                   r="3"
                   fill={STEPS[i].color}
                   initial={{ opacity: 0 }}
@@ -113,7 +115,6 @@ export default function GovernanceDiagram() {
                     repeat: Infinity,
                     repeatDelay: STEPS.length * 0.5,
                   }}
-                  cy={cy}
                 />
               )}
             </motion.g>

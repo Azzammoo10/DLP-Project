@@ -1,11 +1,8 @@
-import { motion } from "framer-motion";
+import { motion as Motion } from "framer-motion";
 import AnimatedBackground from "./AnimatedBackground";
+import axaLogo from "../assets/axa.png";
 
 const PORTFOLIO_URL = "https://azzammo.com";
-
-
-
-import axaLogo from "../assets/axa.png";
 
 /**
  * Hero Section — Animated particle background, title, CTA buttons.
@@ -28,7 +25,7 @@ export default function Hero() {
       <div className="section-container relative z-10 pt-24 pb-16">
         <div className="max-w-4xl">
           {/* Badge */}
-          <motion.div
+          <Motion.div
             className="mb-8"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -37,10 +34,10 @@ export default function Hero() {
             <span className="font-mono text-xs tracking-widest text-gray-500 uppercase">
               Final Year Internship Project
             </span>
-          </motion.div>
+          </Motion.div>
 
           {/* Title */}
-          <motion.h1
+          <Motion.h1
             className="text-4xl leading-[1.1] font-extrabold tracking-tight text-white sm:text-5xl md:text-6xl"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -48,10 +45,10 @@ export default function Hero() {
           >
             Hybrid Enterprise{" "}
             <span className="gradient-text">DLP Architecture</span>
-          </motion.h1>
+          </Motion.h1>
 
           {/* AXA context badge */}
-          <motion.div
+          <Motion.div
             className="mt-3 inline-flex items-center gap-2 rounded-full border border-blue-500/20 bg-blue-500/5 px-4 py-1.5"
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -59,20 +56,20 @@ export default function Hero() {
           >
             <img src={axaLogo} alt="AXA" className="h-4 w-auto object-contain" />
             <span className="text-xs font-medium text-blue-400/80">GBS Morocco — Final Year Internship</span>
-          </motion.div>
+          </Motion.div>
 
           {/* Subtitle */}
-          <motion.p
+          <Motion.p
             className="mt-3 text-xl font-medium text-accent-light/80 sm:text-2xl"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.6 }}
           >
-            DLP &bull; SOC &bull; IDS &bull; Zero Trust
-          </motion.p>
+            DLP &bull; SOC &bull; IDS
+          </Motion.p>
 
           {/* Description */}
-          <motion.p
+          <Motion.p
             className="mt-6 max-w-2xl text-lg leading-relaxed text-gray-400"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -82,9 +79,9 @@ export default function Hero() {
             Prevention, Security Operations, Intrusion Detection, and
             Identity-centric controls — designed for enterprise-grade data
             protection and regulatory alignment.
-          </motion.p>
+          </Motion.p>
 
-          <motion.div
+          <Motion.div
             className="mt-8 flex items-center gap-4 rounded-lg border border-navy-700/60 bg-navy-900/40 px-5 py-3"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -97,10 +94,10 @@ export default function Hero() {
               <p className="text-sm font-semibold text-white">Mohamed Azzam</p>
               <p className="text-xs text-gray-500">DLP Analyst Intern · AXA GBS Morocco · Security Architecture & Offensive Validation</p>
             </div>
-          </motion.div>
+          </Motion.div>
 
           {/* CTA Buttons */}
-          <motion.div
+          <Motion.div
             className="mt-10 flex flex-wrap gap-4"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -136,10 +133,10 @@ export default function Hero() {
               </svg>
               Download Report
             </a>
-          </motion.div>
+          </Motion.div>
 
           {/* Animated stats strip */}
-          <motion.div
+          <Motion.div
             className="mt-14 flex flex-wrap justify-center gap-4 sm:gap-8 border-t border-navy-700/50 pt-8"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -155,11 +152,11 @@ export default function Hero() {
                 <div className="text-xs text-gray-500">{stat.label}</div>
               </div>
             ))}
-          </motion.div>
+          </Motion.div>
         </div>
 
         {/* Scroll indicator */}
-        <motion.div
+        <Motion.div
           className="absolute bottom-8 left-1/2 -translate-x-1/2"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -167,13 +164,13 @@ export default function Hero() {
         >
           <div className="flex flex-col items-center gap-2 text-gray-600">
             <span className="text-xs tracking-widest uppercase">Scroll</span>
-            <motion.div
+            <Motion.div
               className="h-8 w-px bg-gradient-to-b from-accent/60 to-transparent"
               animate={{ scaleY: [1, 1.5, 1], opacity: [0.6, 1, 0.6] }}
               transition={{ duration: 2, repeat: Infinity }}
             />
           </div>
-        </motion.div>
+        </Motion.div>
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion as Motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState } from "react";
 import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
@@ -50,7 +50,7 @@ function PolicyDiagram() {
       {/* Toggle tabs */}
       <div className="mb-6 flex flex-wrap justify-center gap-2 sm:gap-3">
         {CATEGORIES.map((c) => (
-          <motion.button key={c.id}
+          <Motion.button key={c.id}
             onClick={() => setActiveCat(c.id)}
             className="relative rounded-full px-3 sm:px-5 py-1.5 sm:py-2 text-[10px] sm:text-xs font-semibold transition-colors"
             style={{
@@ -63,13 +63,13 @@ function PolicyDiagram() {
             whileTap={{ scale: 0.97 }}
           >
             {c.label} Policies
-          </motion.button>
+          </Motion.button>
         ))}
       </div>
 
       {/* Animated flow: Event → Detection → Action */}
       <svg viewBox="0 0 700 50" className="w-full mb-4">
-        <motion.g
+        <Motion.g
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ delay: 0.2 }}
@@ -88,7 +88,7 @@ function PolicyDiagram() {
                   <>
                     <line x1={x + 14} y1={25} x2={x + 156} y2={25} stroke={`${cat.color}30`} strokeWidth={0.8}
                       strokeDasharray="4 3" />
-                    <motion.circle r={2.5} cy={25} fill={cat.color}
+                    <Motion.circle cx={x + 20} cy={25} r={2.5} fill={cat.color}
                       animate={{ cx: [x + 20, x + 150], opacity: [0, 1, 0] }}
                       transition={{ duration: 1.2, repeat: Infinity, repeatDelay: 0.6, delay: i * 0.3 }}
                       style={{ filter: `drop-shadow(0 0 4px ${cat.color})` }} />
@@ -97,12 +97,12 @@ function PolicyDiagram() {
               </g>
             );
           })}
-        </motion.g>
+        </Motion.g>
       </svg>
 
       {/* Rule cards */}
       <AnimatePresence mode="wait">
-        <motion.div
+        <Motion.div
           key={activeCat}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
@@ -113,7 +113,7 @@ function PolicyDiagram() {
           {cat.rules.map((rule, i) => {
             const actionStyle = ACTION_COLORS[rule.action];
             return (
-              <motion.div key={rule.id}
+              <Motion.div key={rule.id}
                 className="group relative rounded-xl border bg-navy-900/30 p-4 cursor-default"
                 style={{ borderColor: `${cat.color}20` }}
                 initial={{ opacity: 0, y: 10 }}
@@ -144,10 +144,10 @@ function PolicyDiagram() {
 
                 {/* Condition */}
                 <p className="text-[11px] leading-relaxed text-gray-300">{rule.condition}</p>
-              </motion.div>
+              </Motion.div>
             );
           })}
-        </motion.div>
+        </Motion.div>
       </AnimatePresence>
 
       {/* Legend */}

@@ -1,4 +1,4 @@
-import { motion, useInView } from "framer-motion";
+import { motion as Motion, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
@@ -41,7 +41,7 @@ function HybridDiagram() {
     <div ref={ref} className="rounded-2xl border border-navy-700/60 bg-[#060a14] p-3 sm:p-5 md:p-8 overflow-x-auto">
       <svg viewBox="0 0 700 340" className="w-full" style={{ minWidth: 500, minHeight: 220 }}>
         {/* ── Cloud side (Purview) ── */}
-        <motion.g {...fade(0.1)}>
+        <Motion.g {...fade(0.1)}>
           {/* Cloud box */}
           <rect x={30} y={30} width={280} height={220} rx={16}
             fill={hoveredSide === "cloud" ? "#3b82f610" : "#3b82f608"}
@@ -58,7 +58,7 @@ function HybridDiagram() {
             const x = 60 + (i % 2) * 130;
             const y = 94 + Math.floor(i / 2) * 72;
             return (
-              <motion.g key={ch.name}
+              <Motion.g key={ch.name}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ delay: 0.2 + i * 0.1 }}
@@ -77,20 +77,20 @@ function HybridDiagram() {
                   fontFamily="Inter, system-ui">{ch.name}</text>
                 <text x={x + 55} y={y + 46} fill="#64748b" fontSize="6.5" textAnchor="middle"
                   fontFamily="JetBrains Mono, monospace">Protected</text>
-              </motion.g>
+              </Motion.g>
             );
           })}
 
           {/* Policy template */}
-          <motion.g {...fade(0.6)}>
+          <Motion.g {...fade(0.6)}>
             <rect x={60} y={225} width={220} height={18} rx={4} fill="#3b82f608" stroke="#3b82f620" strokeWidth={0.5} />
             <text x={170} y={237} fill="#3b82f680" fontSize="6" textAnchor="middle"
               fontFamily="JetBrains Mono, monospace">IF sensitive + external → Block + Log SOC</text>
-          </motion.g>
-        </motion.g>
+          </Motion.g>
+        </Motion.g>
 
         {/* ── On-Prem side (Linux) ── */}
-        <motion.g {...fade(0.15)}>
+        <Motion.g {...fade(0.15)}>
           <rect x={390} y={30} width={280} height={220} rx={16}
             fill={hoveredSide === "onprem" ? "#06b6d410" : "#06b6d408"}
             stroke="#06b6d4" strokeWidth={1.2} />
@@ -104,7 +104,7 @@ function HybridDiagram() {
             const x = 420 + (i % 2) * 130;
             const y = 94 + Math.floor(i / 2) * 72;
             return (
-              <motion.g key={ch.name}
+              <Motion.g key={ch.name}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={isInView ? { opacity: 1, scale: 1 } : {}}
                 transition={{ delay: 0.25 + i * 0.1 }}
@@ -123,28 +123,28 @@ function HybridDiagram() {
                   fontFamily="Inter, system-ui">{ch.name}</text>
                 <text x={x + 55} y={y + 46} fill="#64748b" fontSize="6.5" textAnchor="middle"
                   fontFamily="JetBrains Mono, monospace">Monitored</text>
-              </motion.g>
+              </Motion.g>
             );
           })}
 
-          <motion.g {...fade(0.65)}>
+          <Motion.g {...fade(0.65)}>
             <rect x={420} y={225} width={220} height={18} rx={4} fill="#06b6d408" stroke="#06b6d420" strokeWidth={0.5} />
             <text x={530} y={237} fill="#06b6d480" fontSize="6" textAnchor="middle"
               fontFamily="JetBrains Mono, monospace">Detect + Correlate + Score + Escalate</text>
-          </motion.g>
-        </motion.g>
+          </Motion.g>
+        </Motion.g>
 
         {/* ── Central bridge — Governance ── */}
-        <motion.g {...fade(0.5)}>
+        <Motion.g {...fade(0.5)}>
           {/* Connecting arrows with animated packets */}
           <line x1={310} y1={140} x2={390} y2={140} stroke="#10b981" strokeWidth={1.2} strokeDasharray="4 3" />
-          <motion.circle r={3} fill="#10b981"
+          <Motion.circle cx={315} cy={140} r={3} fill="#10b981"
             animate={{ cx: [315, 385], opacity: [0, 1, 1, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1 }}
             style={{ filter: "drop-shadow(0 0 4px #10b981)" }} />
 
           <line x1={310} y1={170} x2={390} y2={170} stroke="#10b981" strokeWidth={1.2} strokeDasharray="4 3" />
-          <motion.circle r={3} fill="#10b981"
+          <Motion.circle cx={385} cy={170} r={3} fill="#10b981"
             animate={{ cx: [385, 315], opacity: [0, 1, 1, 0] }}
             transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 1, delay: 0.5 }}
             style={{ filter: "drop-shadow(0 0 4px #10b981)" }} />
@@ -166,13 +166,13 @@ function HybridDiagram() {
           <line x1={530} y1={250} x2={370} y2={290} stroke="#06b6d430" strokeWidth={0.8} strokeDasharray="4 3" />
 
           {/* Animated data flowing to governance */}
-          <motion.circle r={2.5} fill="#3b82f6"
+          <Motion.circle cx={170} cy={250} r={2.5} fill="#3b82f6"
             animate={{ cx: [170, 330], cy: [250, 290], opacity: [0, 1, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 1 }} />
-          <motion.circle r={2.5} fill="#06b6d4"
+          <Motion.circle cx={530} cy={250} r={2.5} fill="#06b6d4"
             animate={{ cx: [530, 370], cy: [250, 290], opacity: [0, 1, 0] }}
             transition={{ duration: 2, repeat: Infinity, repeatDelay: 1, delay: 0.7 }} />
-        </motion.g>
+        </Motion.g>
       </svg>
     </div>
   );
@@ -194,7 +194,7 @@ export default function HybridDlp() {
         <ScrollReveal delay={0.06}>
           <div className="mb-8 flex flex-wrap justify-center gap-3">
             {REASONS.map((r, i) => (
-              <motion.div key={i}
+              <Motion.div key={i}
                 className="flex items-center gap-2 rounded-full border border-navy-700/60 bg-navy-900/30 px-4 py-2"
                 initial={{ opacity: 0, x: -10 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -203,7 +203,7 @@ export default function HybridDlp() {
               >
                 <span className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: r.color }} />
                 <span className="text-[11px] text-gray-400">{r.text}</span>
-              </motion.div>
+              </Motion.div>
             ))}
           </div>
         </ScrollReveal>

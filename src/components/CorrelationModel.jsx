@@ -1,3 +1,4 @@
+// Updated: Sprint 1 & Sprint 2 — v2.0
 import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
 import FlowDiagram from "./FlowDiagram";

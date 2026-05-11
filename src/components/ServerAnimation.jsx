@@ -1,13 +1,15 @@
+// Updated: Sprint 1 & Sprint 2 — v2.0
 /**
  * 3D-style animated server rack SVG.
  * Focused on 4 core services: Wazuh, Snort, DLP Custom, Correlation.
  */
 
 const TOOLS = [
-  { id: "wazuh", y: 94, label: "Wazuh Manager", color: "#3b82f6", version: "4.7", script: "/etc/wazuh/ossec.conf" },
-  { id: "snort", y: 130, label: "Snort IDS Engine", color: "#ef4444", version: "3.1", script: "/etc/snort/snort.lua" },
-  { id: "dlpscripts", y: 166, label: "DLP Custom Scripts", color: "#e11d48", version: "v3.2", script: "/opt/dlp/scripts/" },
-  { id: "correlation", y: 202, label: "Correlation Engine", color: "#a855f7", version: "Custom", script: "/opt/dlp/correlate.py" },
+  { id: "manager", y: 94, label: "Flask REST API", color: "#3b82f6", version: "PORT 5000", script: "/manager/manager.py" },
+  { id: "alertlogger", y: 128, label: "Log Normalization", color: "#10b981", version: "JSONL", script: "/manager/alertlogger.py" },
+  { id: "dlpaddon", y: 162, label: "mitmproxy Addon", color: "#f59e0b", version: "HTTPS", script: "/manager/dlpaddon.py" },
+  { id: "rules", y: 196, label: "DLP Policy Rules", color: "#ef4444", version: "JSON", script: "/manager/rules.json" },
+  { id: "dlpemailsender", y: 230, label: "Email Simulator", color: "#a855f7", version: "SMTP", script: "/manager/dlpemailsender.py" },
 ];
 
 export default function ServerAnimation({ activeTool, onToolHover }) {
@@ -195,15 +197,17 @@ export default function ServerAnimation({ activeTool, onToolHover }) {
         </g>
       </g>
 
-      <line x1="28" y1="106" x2="118" y2="106" stroke="#3b82f6" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
-      <line x1="28" y1="142" x2="118" y2="142" stroke="#ef4444" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
-      <line x1="28" y1="178" x2="118" y2="178" stroke="#e11d48" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
-      <line x1="28" y1="214" x2="118" y2="214" stroke="#a855f7" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
+      <line x1="28" y1="109" x2="118" y2="109" stroke="#3b82f6" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
+      <line x1="28" y1="143" x2="118" y2="143" stroke="#10b981" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
+      <line x1="28" y1="177" x2="118" y2="177" stroke="#f59e0b" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
+      <line x1="28" y1="211" x2="118" y2="211" stroke="#ef4444" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
+      <line x1="28" y1="245" x2="118" y2="245" stroke="#a855f7" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
 
-      <text x="24" y="103" fill="#3b82f6" fontSize="6.6" fontFamily="monospace" textAnchor="end">SYSLOG</text>
-      <text x="24" y="139" fill="#ef4444" fontSize="6.6" fontFamily="monospace" textAnchor="end">SNORT</text>
-      <text x="24" y="175" fill="#e11d48" fontSize="6.6" fontFamily="monospace" textAnchor="end">DLP-AGENT</text>
-      <text x="24" y="211" fill="#a855f7" fontSize="6.6" fontFamily="monospace" textAnchor="end">IDENTITY</text>
+      <text x="24" y="112" fill="#3b82f6" fontSize="6.6" fontFamily="monospace" textAnchor="end">MANAGER</text>
+      <text x="24" y="146" fill="#10b981" fontSize="6.6" fontFamily="monospace" textAnchor="end">LOGGER</text>
+      <text x="24" y="180" fill="#f59e0b" fontSize="6.6" fontFamily="monospace" textAnchor="end">ADDON</text>
+      <text x="24" y="214" fill="#ef4444" fontSize="6.6" fontFamily="monospace" textAnchor="end">RULES</text>
+      <text x="24" y="248" fill="#a855f7" fontSize="6.6" fontFamily="monospace" textAnchor="end">SENDER</text>
 
       <line x1="310" y1="214" x2="430" y2="214" stroke="#a855f7" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
       <line x1="310" y1="250" x2="430" y2="250" stroke="#3b82f6" strokeWidth="1" strokeDasharray="4 4" className="anim-dash" markerEnd="url(#flowArrow)" />
@@ -212,7 +216,7 @@ export default function ServerAnimation({ activeTool, onToolHover }) {
       <text x="434" y="247" fill="#3b82f6" fontSize="6.6" fontFamily="monospace">ALERTS</text>
 
       <text x="235" y="352" textAnchor="middle" fill="#475569" fontSize="7" fontFamily="monospace">
-        3D Security Server Node • Wazuh + Snort + DLP Custom + Correlation
+        DLP Server Node • API + Logging + Rules
       </text>
     </svg>
   );

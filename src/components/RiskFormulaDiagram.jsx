@@ -1,4 +1,5 @@
-import { motion, useInView } from "framer-motion";
+// Updated: Sprint 1 & Sprint 2 — v2.0
+import { motion as Motion, useInView } from "framer-motion";
 import { useRef } from "react";
 
 /**
@@ -6,11 +7,11 @@ import { useRef } from "react";
  */
 
 const FACTORS = [
-  { label: "Content", weight: 25, color: "#3b82f6", desc: "Data sensitivity" },
-  { label: "Context", weight: 20, color: "#06b6d4", desc: "Operational context" },
-  { label: "Behavior", weight: 25, color: "#f59e0b", desc: "User activity" },
-  { label: "Network", weight: 15, color: "#10b981", desc: "Traffic anomalies" },
-  { label: "Identity", weight: 15, color: "#a855f7", desc: "Trust level" },
+  { label: "Content", weight: 25, color: "#3b82f6", desc: "Classification (0 à 3)" },
+  { label: "Context", weight: 20, color: "#06b6d4", desc: "Vecteur de sortie" },
+  { label: "Behavior", weight: 25, color: "#f59e0b", desc: "Fréquence alertes" },
+  { label: "Network", weight: 15, color: "#10b981", desc: "Dest. externe/interne" },
+  { label: "Identity", weight: 15, color: "#a855f7", desc: "User & heure atypique" },
 ];
 
 export default function RiskFormulaDiagram() {
@@ -21,13 +22,12 @@ export default function RiskFormulaDiagram() {
   const barW = 500;
   const svgW = 600;
   const svgH = 200;
-  let cumX = (svgW - barW) / 2;
 
   return (
     <div ref={ref} className="mx-auto w-full max-w-2xl">
       <svg viewBox={`0 0 ${svgW} ${svgH}`} className="w-full">
         {/* Formula text */}
-        <motion.text
+        <Motion.text
           x={svgW / 2}
           y={24}
           fill="#9ca3af"
@@ -39,15 +39,15 @@ export default function RiskFormulaDiagram() {
           transition={{ delay: 0.2 }}
         >
           Risk = Content + Context + Behavior + Network + Identity
-        </motion.text>
+        </Motion.text>
 
         {/* Stacked bar */}
         {FACTORS.map((f, i) => {
+          const prevWeights = FACTORS.slice(0, i).reduce((sum, item) => sum + item.weight, 0);
+          const x = ((svgW - barW) / 2) + ((prevWeights / totalWeight) * barW);
           const w = (f.weight / totalWeight) * barW;
-          const x = cumX;
-          cumX += w;
           return (
-            <motion.g
+            <Motion.g
               key={f.label}
               initial={{ opacity: 0, scaleX: 0 }}
               animate={isInView ? { opacity: 1, scaleX: 1 } : {}}
@@ -100,12 +100,12 @@ export default function RiskFormulaDiagram() {
               >
                 {f.desc}
               </text>
-            </motion.g>
+            </Motion.g>
           );
         })}
 
         {/* Arrow to result */}
-        <motion.g
+        <Motion.g
           initial={{ opacity: 0, y: 10 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ delay: 1.2 }}
@@ -145,7 +145,7 @@ export default function RiskFormulaDiagram() {
           >
             RISK SCORE
           </text>
-        </motion.g>
+        </Motion.g>
       </svg>
     </div>
   );

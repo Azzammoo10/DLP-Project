@@ -1,3 +1,4 @@
+// Updated: Sprint 1 & Sprint 2 — v2.0
 import { useState, useEffect } from "react";
 import axaLogo from "../assets/axa.png";
 
@@ -6,7 +7,6 @@ const NAV_LINKS = [
   { label: "Governance", href: "#governance" },
   { label: "Scenario", href: "#scenario" },
   { label: "Validation", href: "#validation" },
-  { label: "Zero Trust", href: "#zerotrust" },
   { label: "Roadmap", href: "#roadmap" },
 ];
 

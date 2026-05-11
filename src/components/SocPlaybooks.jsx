@@ -1,4 +1,4 @@
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion as Motion, useInView, AnimatePresence } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 import SectionHeading from "./SectionHeading";
 import ScrollReveal from "./ScrollReveal";
@@ -55,7 +55,7 @@ const LEVELS = [
 /* ── Animated Level Card ── */
 function LevelCard({ level, isActive, onClick, idx }) {
   return (
-    <motion.button
+    <Motion.button
       onClick={onClick}
       className="relative w-full rounded-xl border p-4 text-left transition-all"
       style={{
@@ -81,13 +81,13 @@ function LevelCard({ level, isActive, onClick, idx }) {
 
       {/* Active indicator */}
       {isActive && (
-        <motion.div
+        <Motion.div
           layoutId="active-level"
           className="absolute -right-px top-3 bottom-3 w-[3px] rounded-full"
           style={{ backgroundColor: level.color }}
         />
       )}
-    </motion.button>
+    </Motion.button>
   );
 }
 
@@ -96,7 +96,6 @@ function Checklist({ level }) {
   const [revealed, setRevealed] = useState(0);
 
   useEffect(() => {
-    setRevealed(0);
     const timer = setInterval(() => {
       setRevealed((p) => {
         if (p >= level.checks.length) {
@@ -112,7 +111,7 @@ function Checklist({ level }) {
   return (
     <div className="space-y-2">
       {level.checks.map((check, i) => (
-        <motion.div
+        <Motion.div
           key={`${level.id}-${i}`}
           className="flex items-center gap-3 rounded-lg border px-4 py-2.5"
           style={{
@@ -124,7 +123,7 @@ function Checklist({ level }) {
           transition={{ duration: 0.25 }}
         >
           {/* Checkbox */}
-          <motion.div
+          <Motion.div
             className="flex h-4 w-4 shrink-0 items-center justify-center rounded border"
             style={{
               borderColor: i < revealed ? level.color : "#334155",
@@ -132,7 +131,7 @@ function Checklist({ level }) {
             }}
           >
             {i < revealed && (
-              <motion.svg
+              <Motion.svg
                 viewBox="0 0 14 14"
                 className="h-2.5 w-2.5"
                 initial={{ scale: 0, opacity: 0 }}
@@ -141,21 +140,21 @@ function Checklist({ level }) {
               >
                 <path d="M3 7l3 3 5-6" stroke={level.color} strokeWidth={2.2}
                   strokeLinecap="round" strokeLinejoin="round" fill="none" />
-              </motion.svg>
+              </Motion.svg>
             )}
-          </motion.div>
+          </Motion.div>
 
           <span className="text-xs text-gray-300">{check}</span>
 
           {/* Step number */}
           <span className="ml-auto text-[9px] font-mono text-gray-600">{i + 1}/{level.checks.length}</span>
-        </motion.div>
+        </Motion.div>
       ))}
 
       {/* Result banner */}
       <AnimatePresence>
         {revealed >= level.checks.length && (
-          <motion.div
+          <Motion.div
             className="mt-3 flex items-center gap-2 rounded-lg border px-4 py-2"
             style={{ borderColor: level.color, backgroundColor: `${level.color}10` }}
             initial={{ opacity: 0, y: 8 }}
@@ -169,7 +168,7 @@ function Checklist({ level }) {
             <span className="text-[11px] font-semibold" style={{ color: level.color }}>
               {level.output}
             </span>
-          </motion.div>
+          </Motion.div>
         )}
       </AnimatePresence>
     </div>
@@ -187,7 +186,7 @@ function FlowStrip() {
         {LEVELS.map((lvl, i) => {
           const x = 80 + i * 250;
           return (
-            <motion.g key={lvl.id}
+            <Motion.g key={lvl.id}
               initial={{ opacity: 0, y: 10 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: 0.15 + i * 0.12 }}
@@ -204,7 +203,7 @@ function FlowStrip() {
                 <>
                   <line x1={x + 20} y1={30} x2={x + 230} y2={30}
                     stroke={`${lvl.color}30`} strokeWidth={1} strokeDasharray="5 4" />
-                  <motion.circle r={3} cy={30} fill={lvl.color}
+                  <Motion.circle cx={x + 26} cy={30} r={3} fill={lvl.color}
                     animate={{ cx: [x + 26, x + 224], opacity: [0, 1, 1, 0] }}
                     transition={{ duration: 1.4, repeat: Infinity, repeatDelay: 0.8, delay: i * 0.3 }}
                     style={{ filter: `drop-shadow(0 0 4px ${lvl.color})` }} />
@@ -214,25 +213,25 @@ function FlowStrip() {
                   />
                 </>
               )}
-            </motion.g>
+            </Motion.g>
           );
         })}
 
         {/* Incident input */}
-        <motion.g initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.1 }}>
+        <Motion.g initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.1 }}>
           <text x={22} y={34} fill="#475569" fontSize="7" textAnchor="middle"
             fontFamily="JetBrains Mono, monospace">Alert</text>
           <line x1={40} y1={30} x2={64} y2={30} stroke="#47556940" strokeWidth={0.8} />
           <polygon points="63,30 58,27 58,33" fill="#47556960" />
-        </motion.g>
+        </Motion.g>
 
         {/* Resolved output */}
-        <motion.g initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.6 }}>
+        <Motion.g initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : {}} transition={{ delay: 0.6 }}>
           <line x1={597} y1={30} x2={640} y2={30} stroke="#10b98140" strokeWidth={0.8} />
           <polygon points="639,30 634,27 634,33" fill="#10b98160" />
           <text x={670} y={34} fill="#10b981" fontSize="7" textAnchor="middle"
             fontFamily="JetBrains Mono, monospace">Closed</text>
-        </motion.g>
+        </Motion.g>
       </svg>
     </div>
   );
@@ -285,7 +284,7 @@ export default function SocPlaybooks() {
                 </span>
               </div>
               <AnimatePresence mode="wait">
-                <motion.div
+                <Motion.div
                   key={activeLevel}
                   initial={{ opacity: 0, y: 8 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -293,7 +292,7 @@ export default function SocPlaybooks() {
                   transition={{ duration: 0.2 }}
                 >
                   <Checklist level={LEVELS[activeLevel]} />
-                </motion.div>
+                </Motion.div>
               </AnimatePresence>
             </div>
           </div>
